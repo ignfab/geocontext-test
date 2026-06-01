@@ -5,7 +5,7 @@ from langchain.chat_models import init_chat_model
 from langchain_core.callbacks.base import BaseCallbackHandler
 from config import MODEL_NAME, SYSTEM_PROMPT, get_mcp_client
 
-USER_INPUT = "Quelles sont les règles d'urbanisme applicables à la parcelle 94067000AI0042?"
+USER_INPUT = "Quelles sont les règles d'urbanisme applicables au 73 avenue de Paris, Saint-Mandé?"
 
 
 class ToolCallTracker(BaseCallbackHandler):
@@ -40,6 +40,6 @@ async def test_urbanisme():
     last_message = result["messages"][-1]
     message_text = str(last_message)
 
-    keywords = ["94067000ai0042", "urbanisme", "zone", "plu", "règle", "regle"]
+    keywords = ["saint-mandé", "saint mandé", "saint mande", "urbanisme", "zone", "plu", "règle", "regle"]
     assert any(k in message_text.lower() for k in keywords), \
         f"None of {keywords} found in response"
