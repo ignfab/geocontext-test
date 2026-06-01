@@ -28,7 +28,6 @@ jobs:
       
       - name: Install dependencies
         run: |
-          cd geocontext-test
           python -m pip install --upgrade pip
           pip install -e .
       
@@ -37,7 +36,6 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MODEL_NAME: anthropic:claude-haiku-4-5
         run: |
-          cd geocontext-test
           pytest -v --tb=short
       
       - name: Upload test results
@@ -45,4 +43,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: pytest-results
-          path: geocontext-test/.pytest_cache
+          path: .pytest_cache
