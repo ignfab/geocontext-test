@@ -46,7 +46,7 @@ jobs:
         env:
           MODEL_NAME: anthropic:claude-haiku-4-5
         run: |
-          python3 - << 'PYEOF'
+          python3 << 'PYEOF'
           import xml.etree.ElementTree as ET
           import re
           from datetime import date
@@ -70,14 +70,13 @@ jobs:
               fail = tc.find('failure') or tc.find('error')
               if fail is not None:
                   msg = (fail.get('message') or '').split('\n')[0][:80]
-                  rows.append(f'| {name} | ❌ FAILED | {msg} |')
+                  rows.append(f'| {name} | FAILED | {msg} |')
               else:
-                  rows.append(f'| {name} | ✅ PASSED | |')
+                  rows.append(f'| {name} | PASSED | |')
 
           table = '\n'.join(rows)
           today = date.today().strftime('%-d %B %Y')
           model = os.environ.get('MODEL_NAME', 'anthropic:claude-haiku-4-5')
-          icon = '✅' if passed == total else '⚠️'
 
           section = f"""## Derniers résultats de tests
 
@@ -94,8 +93,8 @@ jobs:
 
 ### Observations
 
-- **{passed} tests sur {total} sont passés** {icon}
-- Les 10 outils MCP (`adminexpress`, `altitude`, `assiette_sup`, `cadastre`, `geocode`, `gpf_wfs_describe_type`, `gpf_wfs_get_feature_by_id`, `gpf_wfs_get_features`, `gpf_wfs_search_types`, `urbanisme`) sont tous couverts."""
+- **{passed} tests sur {total} sont passés**
+- Les 10 outils MCP sont tous couverts."""
 
           with open('README.md', 'r') as f:
               content = f.read()
