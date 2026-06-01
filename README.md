@@ -64,14 +64,14 @@ uv run pytest
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 13
 
-### Run — 11/13 passed (2 min 36 s)
+### Run — 13/13 passed (2 min 17 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
 | test_adminexpress | ✅ PASSED | |
 | test_cadastre | ✅ PASSED | |
 | test_chaining_cadastre_urbanisme | ✅ PASSED | |
-| test_chaining_discovery | ❌ FAILED | Timeout upstream (504) — `gpf_wfs_get_features` sur `BDTOPO_V3:cours_d_eau` n'a pas répondu dans le délai de 15 s |
+| test_chaining_discovery | ✅ PASSED | |
 | test_chaining_geocode_altitude | ✅ PASSED | |
 | test_chaining_geocode_adminexpress | ✅ PASSED | |
 | test_chaining_geocode_assiette_sup | ✅ PASSED | |
@@ -80,13 +80,12 @@ uv run pytest
 | test_get_features | ✅ PASSED | |
 | test_search_batiment | ✅ PASSED | |
 | test_search_ecoles | ✅ PASSED | |
-| test_urbanisme | ❌ FAILED | Feature `parcelle.94067000AI0042` introuvable dans `CADASTRALPARCELS.PARCELLAIRE_EXPRESS:parcelle` (erreur service amont) |
+| test_urbanisme | ✅ PASSED | |
 
 ### Observations
 
-- **11 tests sur 13 sont passés**.
-- **`test_chaining_discovery`** a échoué à cause d'un timeout 504 du service distant (`BDTOPO_V3:cours_d_eau` près de Toulouse). Erreur transitoire, non liée au code.
-- **`test_urbanisme`** a échoué car la parcelle `94067000AI0042` n'est plus trouvable dans le service cadastral. L'identifiant de parcelle utilisé dans le test est peut-être obsolète.
+- **13 tests sur 13 sont passés** ✅
+- `test_urbanisme` utilisait un identifiant de parcelle codé en dur (`94067000AI0042`) devenu obsolète. Il a été corrigé pour utiliser une adresse ("73 avenue de Paris, Saint-Mandé"), aligné avec les autres tests de chaînage.
 - Les 10 outils MCP (`adminexpress`, `altitude`, `assiette_sup`, `cadastre`, `geocode`, `gpf_wfs_describe_type`, `gpf_wfs_get_feature_by_id`, `gpf_wfs_get_features`, `gpf_wfs_search_types`, `urbanisme`) sont tous couverts.
 
 ## Couverture des outils MCP
@@ -97,7 +96,7 @@ uv run pytest
 | `altitude` | — | `test_chaining_geocode` | ✅ |
 | `adminexpress` | `test_adminexpress` | `test_chaining_geocode_adminexpress` | ✅ |
 | `cadastre` | `test_cadastre` | `test_chaining_cadastre_urbanisme` | ✅ |
-| `urbanisme` | `test_urbanisme` | `test_chaining_cadastre_urbanisme` | ✅ (flaky) |
+| `urbanisme` | `test_urbanisme` | `test_chaining_cadastre_urbanisme` | ✅ |
 | `assiette_sup` | — | `test_chaining_geocode_assiette_sup` | ✅ |
 | `gpf_wfs_search_types` | `test_search_batiment`, `test_search_ecoles` | `test_chaining_discovery` | ✅ |
 | `gpf_wfs_describe_type` | `test_describe_type` | `test_chaining_discovery` | ✅ |
