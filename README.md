@@ -59,19 +59,19 @@ uv run pytest
 
 ## Derniers résultats de tests
 
-**Date** : 12 mai 2026
+**Date** : 1 juin 2026
 **Modèle** : `anthropic:claude-haiku-4-5`
-**Serveur MCP** : `geocontext@0.9.7`
+**Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 13
 
-### Run — 12/13 passed (2 min 31 s)
+### Run — 11/13 passed (2 min 36 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
 | test_adminexpress | ✅ PASSED | |
 | test_cadastre | ✅ PASSED | |
 | test_chaining_cadastre_urbanisme | ✅ PASSED | |
-| test_chaining_discovery | ✅ PASSED | |
+| test_chaining_discovery | ❌ FAILED | Timeout upstream (504) — `gpf_wfs_get_features` sur `BDTOPO_V3:cours_d_eau` n'a pas répondu dans le délai de 15 s |
 | test_chaining_geocode_altitude | ✅ PASSED | |
 | test_chaining_geocode_adminexpress | ✅ PASSED | |
 | test_chaining_geocode_assiette_sup | ✅ PASSED | |
@@ -80,12 +80,13 @@ uv run pytest
 | test_get_features | ✅ PASSED | |
 | test_search_batiment | ✅ PASSED | |
 | test_search_ecoles | ✅ PASSED | |
-| test_urbanisme | ❌ FAILED | Flaky LLM — l'outil urbanisme n'a pas été appelé |
+| test_urbanisme | ❌ FAILED | Feature `parcelle.94067000AI0042` introuvable dans `CADASTRALPARCELS.PARCELLAIRE_EXPRESS:parcelle` (erreur service amont) |
 
 ### Observations
 
-- **12 tests sur 13 sont stables** à 100%.
-- **`test_urbanisme`** est sujet à de la flakiness LLM : le modèle `claude-haiku-4-5` ne chaîne pas toujours correctement les appels d'outils (outil non appelé, propriétés inventées, mauvais identifiants). Il passe environ 1 fois sur 2.
+- **11 tests sur 13 sont passés**.
+- **`test_chaining_discovery`** a échoué à cause d'un timeout 504 du service distant (`BDTOPO_V3:cours_d_eau` près de Toulouse). Erreur transitoire, non liée au code.
+- **`test_urbanisme`** a échoué car la parcelle `94067000AI0042` n'est plus trouvable dans le service cadastral. L'identifiant de parcelle utilisé dans le test est peut-être obsolète.
 - Les 10 outils MCP (`adminexpress`, `altitude`, `assiette_sup`, `cadastre`, `geocode`, `gpf_wfs_describe_type`, `gpf_wfs_get_feature_by_id`, `gpf_wfs_get_features`, `gpf_wfs_search_types`, `urbanisme`) sont tous couverts.
 
 ## Couverture des outils MCP

@@ -40,6 +40,6 @@ async def test_cadastre():
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()
 
-    keywords = ["saint-mandé", "saint mandé", "saint mande", "parcelle", "cadastr"]
+    keywords = ["saint-mandé", "saint mandé", "saint mande", "parcelle", "cadastre"]
     assert any(k in message_text for k in keywords), \
         f"None of {keywords} found in response"
