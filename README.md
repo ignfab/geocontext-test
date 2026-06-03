@@ -64,7 +64,7 @@ uv run pytest
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 14
 
-### Run — 13/14 passed (3 min 23 s)
+### Run — 14/14 passed (3 min 26 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
@@ -85,7 +85,7 @@ uv run pytest
 
 ### Observations
 
-- **13 tests sur 14 sont passés**
+- **14 tests sur 14 sont passés**
 - Les 10 outils MCP sont tous couverts.
 ## Couverture des outils MCP
 
