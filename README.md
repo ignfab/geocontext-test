@@ -59,35 +59,33 @@ uv run pytest
 
 ## Derniers résultats de tests
 
-**Date** : 1 juin 2026
+**Date** : 3 June 2026
 **Modèle** : `anthropic:claude-haiku-4-5`
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 13
 
-### Run — 13/13 passed (2 min 17 s)
+### Run — 13/13 passed (3 min 37 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
-| test_adminexpress | ✅ PASSED | |
-| test_cadastre | ✅ PASSED | |
-| test_chaining_cadastre_urbanisme | ✅ PASSED | |
-| test_chaining_discovery | ✅ PASSED | |
-| test_chaining_geocode_altitude | ✅ PASSED | |
-| test_chaining_geocode_adminexpress | ✅ PASSED | |
-| test_chaining_geocode_assiette_sup | ✅ PASSED | |
-| test_describe_type | ✅ PASSED | |
-| test_france_capital | ✅ PASSED | |
-| test_get_features | ✅ PASSED | |
-| test_search_batiment | ✅ PASSED | |
-| test_search_ecoles | ✅ PASSED | |
-| test_urbanisme | ✅ PASSED | |
+| test_adminexpress | PASSED | |
+| test_cadastre | PASSED | |
+| test_chaining_geocode_cadastre_urbanisme | PASSED | |
+| test_chaining_discovery | PASSED | |
+| test_chaining_geocode_altitude | PASSED | |
+| test_chaining_geocode_adminexpress | PASSED | |
+| test_chaining_geocode_assiette_sup | PASSED | |
+| test_describe_type | PASSED | |
+| test_agent_creation_call_and_paris_in_response | PASSED | |
+| test_get_features | PASSED | |
+| test_chaining_geocode_altitude | PASSED | |
+| test_search_ecoles | PASSED | |
+| test_urbanisme | PASSED | |
 
 ### Observations
 
-- **13 tests sur 13 sont passés** ✅
-- `test_urbanisme` utilisait un identifiant de parcelle codé en dur (`94067000AI0042`) devenu obsolète. Il a été corrigé pour utiliser une adresse ("73 avenue de Paris, Saint-Mandé"), aligné avec les autres tests de chaînage.
-- Les 10 outils MCP (`adminexpress`, `altitude`, `assiette_sup`, `cadastre`, `geocode`, `gpf_wfs_describe_type`, `gpf_wfs_get_feature_by_id`, `gpf_wfs_get_features`, `gpf_wfs_search_types`, `urbanisme`) sont tous couverts.
-
+- **13 tests sur 13 sont passés**
+- Les 10 outils MCP sont tous couverts.
 ## Couverture des outils MCP
 
 | Outil | Test direct | Test en chaînage | Couvert |
