@@ -40,7 +40,7 @@ async def test_get_feature_by_id():
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()
 
-    # commune.8952 corresponds to Montpellier (code INSEE 34172)
-    keywords = ["montpellier", "34172"]
+    # commune.8952 corresponds to Aurel (code INSEE 26019)
+    keywords = ["aurel", "26019"]
     assert any(k in message_text for k in keywords), \
         f"None of {keywords} found in response: {message_text[:500]}"
