@@ -64,7 +64,7 @@ uv run pytest
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 13
 
-### Run — 13/13 passed (3 min 37 s)
+### Run — 13/13 passed (3 min 31 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
