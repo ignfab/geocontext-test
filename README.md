@@ -62,9 +62,9 @@ uv run pytest
 **Date** : 3 June 2026
 **Modèle** : `anthropic:claude-haiku-4-5`
 **Serveur MCP** : `geocontext@0.9.8`
-**Nombre de tests** : 13
+**Nombre de tests** : 14
 
-### Run — 13/13 passed (3 min 31 s)
+### Run — 13/14 passed (3 min 23 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
@@ -77,6 +77,7 @@ uv run pytest
 | test_chaining_geocode_assiette_sup | PASSED | |
 | test_describe_type | PASSED | |
 | test_agent_creation_call_and_paris_in_response | PASSED | |
+| test_get_feature_by_id | PASSED | |
 | test_get_features | PASSED | |
 | test_chaining_geocode_altitude | PASSED | |
 | test_search_ecoles | PASSED | |
@@ -84,7 +85,7 @@ uv run pytest
 
 ### Observations
 
-- **13 tests sur 13 sont passés**
+- **13 tests sur 14 sont passés**
 - Les 10 outils MCP sont tous couverts.
 ## Couverture des outils MCP
 
