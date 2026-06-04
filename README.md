@@ -59,12 +59,12 @@ uv run pytest
 
 ## Derniers résultats de tests
 
-**Date** : 3 June 2026
+**Date** : 4 June 2026
 **Modèle** : `anthropic:claude-haiku-4-5`
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 14
 
-### Run — 14/14 passed (3 min 24 s)
+### Run — 14/14 passed (3 min 51 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
