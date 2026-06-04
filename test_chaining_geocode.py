@@ -1,11 +1,8 @@
 import pytest
 import re
-from unittest.mock import AsyncMock
 
-from langchain.chat_models import init_chat_model
 from langchain.agents import create_agent
 from langchain_core.callbacks.base import BaseCallbackHandler
-from config import MODEL_NAME, get_mcp_client
 
 USER_INPUT = "Quelle est l'altitude de la mairie de Chamonix?"
 
@@ -31,20 +28,16 @@ class ToolCallTracker(BaseCallbackHandler):
         print(f"[TOOL RESULT] Tool output: {output}")
 
 @pytest.mark.asyncio
-async def test_chaining_geocode_altitude():
-    client = get_mcp_client()
-    tools = await client.get_tools()
-
-    geocode_tool = next((t for t in tools if t.name == "geocode"), None)
+async def test_chaining_geocode_altitude(mcp_tools, model):
+    geocode_tool = next((t for t in mcp_tools if t.name == "geocode"), None)
     assert geocode_tool is not None, "Tool 'geocode' not found"
 
-    altitude_tool = next((t for t in tools if t.name == "altitude"), None)
+    altitude_tool = next((t for t in mcp_tools if t.name == "altitude"), None)
     assert altitude_tool is not None, "Tool 'altitude' not found"
 
-    model = init_chat_model(MODEL_NAME,temperature=0.0)
     agent = create_agent(
         model=model,
-        tools=tools, 
+        tools=mcp_tools, 
         system_prompt="You are a helpful assistant for geospatial data. You can use the following tools to answer questions about geospatial data: {tools}. Always use these tools when relevant to answer the user's question."
     )
     assert agent is not None

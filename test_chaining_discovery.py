@@ -1,23 +1,13 @@
 import pytest
 
 from langchain.agents import create_agent
-from langchain.chat_models import init_chat_model
-from langchain_core.callbacks.base import BaseCallbackHandler
-from config import MODEL_NAME, SYSTEM_PROMPT, get_mcp_client
+from config import SYSTEM_PROMPT
 
 USER_INPUT = "Trouve une table contenant des cours d'eau, décris ses attributs, et donne-moi les cours d'eau proches du point longitude 1.44, latitude 43.6 (Toulouse)."
 
 
-class ToolCallTracker(BaseCallbackHandler):
-    def __init__(self):
-        self.tool_calls = []
-
-    def on_tool_start(self, serialized, input_str, **kwargs):
-        self.tool_calls.append({"name": serialized.get("name", "unknown"), "type": "start"})
-
-
 @pytest.mark.asyncio
-async def test_chaining_discovery():
+async def test_chaining_discovery(mcp_tools, model, tracker):
     """Test full discovery workflow: search_types -> describe_type -> get_features.
 
     The agent should:
@@ -25,14 +15,9 @@ async def test_chaining_discovery():
     2. Describe the schema of the found type
     3. Query features near Toulouse
     """
-    client = get_mcp_client()
-    tools = await client.get_tools()
-
-    model = init_chat_model(MODEL_NAME, temperature=0.0)
-    agent = create_agent(model=model, tools=tools, system_prompt=SYSTEM_PROMPT)
+    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
     assert agent is not None
 
-    tracker = ToolCallTracker()
     result = await agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker]},

@@ -1,36 +1,21 @@
 import pytest
 
 from langchain.agents import create_agent
-from langchain.chat_models import init_chat_model
-from langchain_core.callbacks.base import BaseCallbackHandler
-from config import MODEL_NAME, SYSTEM_PROMPT, get_mcp_client
+from config import SYSTEM_PROMPT
 
 USER_INPUT = "Dans quelle commune et quel département se trouve le 1 rue de Rivoli, Paris?"
 
 
-class ToolCallTracker(BaseCallbackHandler):
-    def __init__(self):
-        self.tool_calls = []
-
-    def on_tool_start(self, serialized, input_str, **kwargs):
-        self.tool_calls.append({"name": serialized.get("name", "unknown"), "type": "start"})
-
-
 @pytest.mark.asyncio
-async def test_chaining_geocode_adminexpress():
+async def test_chaining_geocode_adminexpress(mcp_tools, model, tracker):
     """Test chaining: geocode -> adminexpress.
 
     The agent should geocode the address first, then use adminexpress
     to find the commune and département from the coordinates.
     """
-    client = get_mcp_client()
-    tools = await client.get_tools()
-
-    model = init_chat_model(MODEL_NAME, temperature=0.0)
-    agent = create_agent(model=model, tools=tools, system_prompt=SYSTEM_PROMPT)
+    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
     assert agent is not None
 
-    tracker = ToolCallTracker()
     result = await agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker]},

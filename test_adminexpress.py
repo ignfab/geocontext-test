@@ -1,34 +1,19 @@
 import pytest
 
 from langchain.agents import create_agent
-from langchain.chat_models import init_chat_model
-from langchain_core.callbacks.base import BaseCallbackHandler
-from config import MODEL_NAME, SYSTEM_PROMPT, get_mcp_client
+from config import SYSTEM_PROMPT
 
 USER_INPUT = "Dans quelle commune et quel département se trouve le point de coordonnées longitude 2.35, latitude 48.85?"
 
 
-class ToolCallTracker(BaseCallbackHandler):
-    def __init__(self):
-        self.tool_calls = []
-
-    def on_tool_start(self, serialized, input_str, **kwargs):
-        self.tool_calls.append({"name": serialized.get("name", "unknown"), "type": "start"})
-
-
 @pytest.mark.asyncio
-async def test_adminexpress():
-    client = get_mcp_client()
-    tools = await client.get_tools()
-
-    admin_tool = next((t for t in tools if t.name == "adminexpress"), None)
+async def test_adminexpress(mcp_tools, model, tracker):
+    admin_tool = next((t for t in mcp_tools if t.name == "adminexpress"), None)
     assert admin_tool is not None, "Tool 'adminexpress' not found"
 
-    model = init_chat_model(MODEL_NAME, temperature=0.0)
-    agent = create_agent(model=model, tools=tools, system_prompt=SYSTEM_PROMPT)
+    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
     assert agent is not None
 
-    tracker = ToolCallTracker()
     result = await agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker]},
