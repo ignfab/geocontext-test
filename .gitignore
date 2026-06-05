@@ -9,5 +9,11 @@ wheels/
 # Virtual environments
 .venv
 
+# Environment
+.env
+
+# Test results
+results.xml
+
 # Node
 node_modules/
