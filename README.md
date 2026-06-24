@@ -64,31 +64,31 @@ uv run pytest
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 17
 
-### Run — 15/17 passed (2 min 45 s)
+### Run — 17/17 passed (2 min 44 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
 | test_adminexpress | PASSED | |
-| test_assiette_sup | PASSED | |
 | test_altitude | PASSED | |
+| test_assiette_sup | PASSED | |
 | test_chaining_geocode_cadastre_urbanisme | PASSED | |
 | test_cadastre | PASSED | |
+| test_chaining_discovery | PASSED | |
 | test_chaining_geocode_altitude | PASSED | |
 | test_chaining_geocode_adminexpress | PASSED | |
-| test_chaining_discovery | PASSED | |
-| test_chaining_geocode_assiette_sup | PASSED | |
 | test_describe_type | PASSED | |
 | test_geocode | PASSED | |
+| test_chaining_geocode_assiette_sup | PASSED | |
 | test_get_feature_by_id | PASSED | |
 | test_agent_creation_call_and_paris_in_response | PASSED | |
-| test_search_ecoles | PASSED | |
 | test_get_features | PASSED | |
+| test_search_ecoles | PASSED | |
 | test_chaining_geocode_altitude | PASSED | |
 | test_urbanisme | PASSED | |
 
 ### Observations
 
-- **15 tests sur 17 sont passés**
+- **17 tests sur 17 sont passés**
 - Les 10 outils MCP sont tous couverts.
 ## Couverture des outils MCP
 
