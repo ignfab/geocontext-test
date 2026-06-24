@@ -71,15 +71,15 @@ uv run pytest
 | test_adminexpress | PASSED | |
 | test_chaining_geocode_cadastre_urbanisme | PASSED | |
 | test_cadastre | PASSED | |
-| test_chaining_geocode_altitude | PASSED | |
 | test_chaining_discovery | PASSED | |
+| test_chaining_geocode_altitude | PASSED | |
 | test_chaining_geocode_adminexpress | PASSED | |
-| test_agent_creation_call_and_paris_in_response | PASSED | |
-| test_get_feature_by_id | PASSED | |
+| test_describe_type | PASSED | |
 | test_chaining_geocode_assiette_sup | PASSED | |
+| test_get_feature_by_id | PASSED | |
+| test_agent_creation_call_and_paris_in_response | PASSED | |
 | test_get_features | PASSED | |
 | test_chaining_geocode_altitude | PASSED | |
-| test_describe_type | PASSED | |
 | test_search_ecoles | PASSED | |
 | test_urbanisme | PASSED | |
 
