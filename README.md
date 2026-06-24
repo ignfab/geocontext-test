@@ -41,21 +41,39 @@ uv run pytest
 
 ## Tests
 
-| Test | Fichier | Outil(s) attendu(s) | Description |
-|------|---------|---------------------|-------------|
+### Tests directs (un seul outil)
+
+| Test | Fichier | Outil | Description |
+|------|---------|-------|-------------|
 | `test_france_capital` | [test_france_capital.py](test_france_capital.py) | aucun (LLM seul) | Test basique sans MCP — vérifie que le LLM répond "Paris" |
-| `test_adminexpress` | [test_adminexpress.py](test_adminexpress.py) | `adminexpress` | Commune/département à partir de coordonnées (2.35, 48.85) |
+| `test_geocode` | [test_geocode.py](test_geocode.py) | `geocode` | Coordonnées du 1 rue de Rivoli, Paris |
+| `test_altitude` | [test_altitude.py](test_altitude.py) | `altitude` | Altitude au point (6.87, 45.92) — zone de Chamonix (~1000m) |
+| `test_adminexpress` | [test_adminexpress.py](test_adminexpress.py) | `adminexpress` | Commune/département à partir de coordonnées (2.35, 48.85) → Paris, 75 |
 | `test_cadastre` | [test_cadastre.py](test_cadastre.py) | `cadastre` | Parcelle cadastrale au 73 av. de Paris, Saint-Mandé |
+| `test_urbanisme` | [test_urbanisme.py](test_urbanisme.py) | `urbanisme` | Règles d'urbanisme pour la parcelle 94067000AI0042 |
+| `test_assiette_sup` | [test_assiette_sup.py](test_assiette_sup.py) | `assiette_sup` | Servitudes d'utilité publique aux coordonnées (4.83, 45.76) — Lyon |
 | `test_describe_type` | [test_describe_type.py](test_describe_type.py) | `gpf_wfs_describe_type` | Attributs de la table BDTOPO_V3:batiment |
 | `test_get_features` | [test_get_features.py](test_get_features.py) | `gpf_wfs_get_features` | Bâtiments BDTOPO proches de Chamonix |
+| `test_get_feature_by_id` | [test_get_feature_by_id.py](test_get_feature_by_id.py) | `gpf_wfs_get_feature_by_id` | Objet commune.8952 → Aurel (INSEE 26019) |
 | `test_search_batiment` | [test_search_batiment.py](test_search_batiment.py) | `gpf_wfs_search_types` | Recherche de tables contenant des bâtiments |
 | `test_search_ecoles` | [test_search_ecoles.py](test_search_ecoles.py) | `gpf_wfs_search_types` | Recherche de tables contenant des écoles |
-| `test_chaining_geocode` | [test_chaining_geocode.py](test_chaining_geocode.py) | `geocode` → `altitude` | Chaînage géocodage + altitude (mairie de Chamonix ≈ 1036m) |
-| `test_chaining_cadastre_urbanisme` | [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py) | `geocode` → `cadastre` → `urbanisme` | Chaînage géocodage, cadastre et urbanisme |
-| `test_urbanisme` | [test_urbanisme.py](test_urbanisme.py) | `urbanisme` | Règles d'urbanisme pour la parcelle 94067000AI0042 |
-| `test_chaining_geocode_adminexpress` | [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py) | `geocode` → `adminexpress` | Chaînage géocodage + commune/département (1 rue de Rivoli) |
-| `test_chaining_geocode_assiette_sup` | [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py) | `geocode` → `assiette_sup` | Chaînage géocodage + servitudes d'utilité publique (Lyon) |
-| `test_chaining_discovery` | [test_chaining_discovery.py](test_chaining_discovery.py) | `gpf_wfs_search_types` → `gpf_wfs_describe_type` → `gpf_wfs_get_features` | Découverte complète : recherche, description et interrogation (cours d'eau à Toulouse) |
+
+### Tests de chaînage (multi-outils)
+
+| Test | Fichier | Chaîne d'outils | Description |
+|------|---------|----------------|-------------|
+| `test_chaining_geocode` | [test_chaining_geocode.py](test_chaining_geocode.py) | `geocode` → `altitude` | Altitude de la mairie de Chamonix (~1036m) |
+| `test_chaining_geocode_adminexpress` | [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py) | `geocode` → `adminexpress` | 1 rue de Rivoli → commune/département |
+| `test_chaining_geocode_assiette_sup` | [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py) | `geocode` → `assiette_sup` | 10 place Bellecour, Lyon → servitudes |
+| `test_chaining_cadastre_urbanisme` | [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py) | `geocode` → `cadastre` → `urbanisme` | Adresse → parcelle → règles PLU |
+| `test_chaining_discovery` | [test_chaining_discovery.py](test_chaining_discovery.py) | `gpf_wfs_search_types` → `gpf_wfs_describe_type` → `gpf_wfs_get_features` | Découverte complète : cours d'eau à Toulouse |
+
+### Tests négatifs
+
+| Test | Fichier | Description |
+|------|---------|-------------|
+| `test_coords_hors_france` | [test_coords_hors_france.py](test_coords_hors_france.py) | Coordonnées en Norvège (10.0, 60.0) — vérifie que l'agent signale le hors périmètre |
+| `test_adresse_inexistante` | [test_adresse_inexistante.py](test_adresse_inexistante.py) | Adresse fictive — vérifie que l'agent signale l'absence de résultat |
 
 ## Derniers résultats de tests
 
