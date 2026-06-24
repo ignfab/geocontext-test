@@ -82,29 +82,29 @@ uv run pytest
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 19
 
-### Run — 19/19 passed (2 min 38 s)
+### Run — 19/19 passed (2 min 21 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
-| test_adminexpress | ✅ PASSED | |
 | test_altitude | ✅ PASSED | |
+| test_adminexpress | ✅ PASSED | |
 | test_adresse_inexistante | ✅ PASSED | |
 | test_assiette_sup | ✅ PASSED | |
-| test_chaining_discovery | ✅ PASSED | |
 | test_cadastre | ✅ PASSED | |
+| test_chaining_discovery | ✅ PASSED | |
+| test_chaining_geocode_cadastre_urbanisme | ✅ PASSED | |
 | test_chaining_geocode_altitude | ✅ PASSED | |
 | test_chaining_geocode_adminexpress | ✅ PASSED | |
-| test_chaining_geocode_cadastre_urbanisme | ✅ PASSED | |
+| test_chaining_geocode_assiette_sup | ✅ PASSED | |
 | test_coords_hors_france | ✅ PASSED | |
 | test_describe_type | ✅ PASSED | |
-| test_chaining_geocode_assiette_sup | ✅ PASSED | |
-| test_geocode | ✅ PASSED | |
 | test_agent_creation_call_and_paris_in_response | ✅ PASSED | |
+| test_geocode | ✅ PASSED | |
 | test_get_feature_by_id | ✅ PASSED | |
 | test_chaining_geocode_altitude | ✅ PASSED | |
 | test_get_features | ✅ PASSED | |
-| test_search_ecoles | ✅ PASSED | |
 | test_urbanisme | ✅ PASSED | |
+| test_search_ecoles | ✅ PASSED | |
 
 ### Observations
 
