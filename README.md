@@ -114,24 +114,24 @@ uv run pytest
 
 | Outil | Test direct | Test en chaînage | Couvert |
 |-------|------------|-----------------|---------|
-| `geocode` | — | 5 tests de chaînage | ✅ |
-| `altitude` | — | `test_chaining_geocode` | ✅ |
+| `geocode` | `test_geocode` | 5 tests de chaînage | ✅ |
+| `altitude` | `test_altitude` | `test_chaining_geocode` | ✅ |
 | `adminexpress` | `test_adminexpress` | `test_chaining_geocode_adminexpress` | ✅ |
 | `cadastre` | `test_cadastre` | `test_chaining_cadastre_urbanisme` | ✅ |
 | `urbanisme` | `test_urbanisme` | `test_chaining_cadastre_urbanisme` | ✅ |
-| `assiette_sup` | — | `test_chaining_geocode_assiette_sup` | ✅ |
+| `assiette_sup` | `test_assiette_sup` | `test_chaining_geocode_assiette_sup` | ✅ |
 | `gpf_wfs_search_types` | `test_search_batiment`, `test_search_ecoles` | `test_chaining_discovery` | ✅ |
 | `gpf_wfs_describe_type` | `test_describe_type` | `test_chaining_discovery` | ✅ |
 | `gpf_wfs_get_features` | `test_get_features` | `test_chaining_discovery` | ✅ |
-| `gpf_wfs_get_feature_by_id` | — | — | ❌ Non couvert |
+| `gpf_wfs_get_feature_by_id` | `test_get_feature_by_id` | — | ✅ |
 
 ## Cas critiques non couverts
 
 | Cas | Criticité | Description |
 |-----|-----------|-------------|
-| `gpf_wfs_get_feature_by_id` direct | **Haute** | Seul outil sans test dédié — utilisé indirectement par le LLM dans `test_urbanisme` mais jamais validé explicitement |
-| Erreur réseau / tool error recovery | Moyenne | Pas de test sur la capacité de l'agent à retenter après une erreur d'outil |
-| Coordonnées hors France / input invalide | Moyenne | Aucun test négatif — comportement inconnu avec des entrées invalides |
+| Adresse ambiguë | Moyenne | Pas de test avec une adresse qui matche plusieurs résultats (ex: "rue de la République" sans ville) |
+| DOM-TOM / Outre-mer | Moyenne | Pas de test sur les territoires ultramarins (Réunion, Guadeloupe) |
+| Erreur réseau / tool error recovery | Basse | Pas de test sur la capacité de l'agent à retenter après une erreur d'outil |
 
 ## License
 
