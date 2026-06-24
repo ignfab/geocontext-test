@@ -22,9 +22,9 @@ for tc in suite.findall('testcase'):
     fail = tc.find('failure') or tc.find('error')
     if fail is not None:
         msg = (fail.get('message') or '').split('\n')[0][:80]
-        rows.append(f'| {name} | FAILED | {msg} |')
+        rows.append(f'| {name} | ❌ FAILED | {msg} |')
     else:
-        rows.append(f'| {name} | PASSED | |')
+        rows.append(f'| {name} | ✅ PASSED | |')
 
 table = '\n'.join(rows)
 today = date.today().strftime('%-d %B %Y')
