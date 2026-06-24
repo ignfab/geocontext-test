@@ -1,6 +1,7 @@
 name: Tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
@@ -31,9 +32,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install uv
-        run: pip install uv
+        uses: astral-sh/setup-uv@v4
 
       - name: Install dependencies
         run: uv sync
@@ -43,7 +45,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MODEL_NAME: anthropic:claude-haiku-4-5
-        run: uv run pytest -v --tb=short --junitxml=results.xml
+        run: uv run pytest -v --tb=short --junitxml=results.xml -n auto
 
       - name: Update README
         env:
