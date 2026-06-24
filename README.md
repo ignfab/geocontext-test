@@ -64,22 +64,22 @@ uv run pytest
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 14
 
-### Run — 14/14 passed (2 min 08 s)
+### Run — 14/14 passed (2 min 04 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
 | test_adminexpress | PASSED | |
 | test_chaining_geocode_cadastre_urbanisme | PASSED | |
 | test_cadastre | PASSED | |
-| test_chaining_discovery | PASSED | |
 | test_chaining_geocode_altitude | PASSED | |
+| test_chaining_discovery | PASSED | |
 | test_chaining_geocode_adminexpress | PASSED | |
-| test_describe_type | PASSED | |
+| test_agent_creation_call_and_paris_in_response | PASSED | |
 | test_get_feature_by_id | PASSED | |
 | test_chaining_geocode_assiette_sup | PASSED | |
 | test_get_features | PASSED | |
-| test_agent_creation_call_and_paris_in_response | PASSED | |
 | test_chaining_geocode_altitude | PASSED | |
+| test_describe_type | PASSED | |
 | test_search_ecoles | PASSED | |
 | test_urbanisme | PASSED | |
 
