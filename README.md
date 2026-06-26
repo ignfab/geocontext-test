@@ -77,12 +77,12 @@ uv run pytest
 
 ## Derniers résultats de tests
 
-**Date** : 25 June 2026
+**Date** : 26 June 2026
 **Modèle** : `anthropic:claude-haiku-4-5`
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 20
 
-### Run — 20/20 passed (2 min 31 s)
+### Run — 20/20 passed (2 min 11 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
@@ -102,9 +102,9 @@ uv run pytest
 | test_chaining_discovery | ✅ PASSED | |
 | test_geocode | ✅ PASSED | |
 | test_get_features | ✅ PASSED | |
+| test_chaining_geocode_altitude | ✅ PASSED | |
 | test_search_ecoles | ✅ PASSED | |
 | test_all_tools_exposed | ✅ PASSED | |
-| test_chaining_geocode_altitude | ✅ PASSED | |
 | test_urbanisme | ✅ PASSED | |
 
 ### Observations
