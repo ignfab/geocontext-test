@@ -77,12 +77,12 @@ uv run pytest
 
 ## Derniers résultats de tests
 
-**Date** : 26 June 2026
+**Date** : 27 June 2026
 **Modèle** : `anthropic:claude-haiku-4-5`
 **Serveur MCP** : `geocontext@0.9.8`
 **Nombre de tests** : 20
 
-### Run — 20/20 passed (2 min 11 s)
+### Run — 20/20 passed (2 min 06 s)
 
 | Test | Résultat | Détail |
 |------|----------|--------|
@@ -90,22 +90,22 @@ uv run pytest
 | test_adminexpress | ✅ PASSED | |
 | test_adresse_inexistante | ✅ PASSED | |
 | test_assiette_sup | ✅ PASSED | |
-| test_chaining_geocode_altitude | ✅ PASSED | |
-| test_chaining_geocode_adminexpress | ✅ PASSED | |
 | test_cadastre | ✅ PASSED | |
-| test_chaining_geocode_assiette_sup | ✅ PASSED | |
-| test_coords_hors_france | ✅ PASSED | |
-| test_chaining_geocode_cadastre_urbanisme | ✅ PASSED | |
-| test_describe_type | ✅ PASSED | |
-| test_agent_creation_call_and_paris_in_response | ✅ PASSED | |
-| test_get_feature_by_id | ✅ PASSED | |
-| test_chaining_discovery | ✅ PASSED | |
-| test_geocode | ✅ PASSED | |
-| test_get_features | ✅ PASSED | |
 | test_chaining_geocode_altitude | ✅ PASSED | |
-| test_search_ecoles | ✅ PASSED | |
+| test_chaining_geocode_cadastre_urbanisme | ✅ PASSED | |
+| test_chaining_geocode_adminexpress | ✅ PASSED | |
+| test_chaining_geocode_assiette_sup | ✅ PASSED | |
+| test_chaining_discovery | ✅ PASSED | |
+| test_describe_type | ✅ PASSED | |
+| test_coords_hors_france | ✅ PASSED | |
+| test_agent_creation_call_and_paris_in_response | ✅ PASSED | |
+| test_geocode | ✅ PASSED | |
+| test_get_feature_by_id | ✅ PASSED | |
+| test_chaining_geocode_altitude | ✅ PASSED | |
 | test_all_tools_exposed | ✅ PASSED | |
+| test_get_features | ✅ PASSED | |
 | test_urbanisme | ✅ PASSED | |
+| test_search_ecoles | ✅ PASSED | |
 
 ### Observations
 
