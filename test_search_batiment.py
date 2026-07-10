@@ -13,7 +13,7 @@ async def test_chaining_geocode_altitude(mcp_tools, model, tracker):
 
     result = await agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     search_calls = [c for c in tracker.tool_calls if c.get("name") == "gpf_wfs_search_types"]

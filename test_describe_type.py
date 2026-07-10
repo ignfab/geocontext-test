@@ -16,7 +16,7 @@ async def test_describe_type(mcp_tools, model, tracker):
 
     result = await agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     describe_calls = [c for c in tracker.tool_calls if c.get("name") == "gpf_wfs_describe_type"]

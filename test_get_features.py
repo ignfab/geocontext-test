@@ -16,7 +16,7 @@ async def test_get_features(mcp_tools, model, tracker):
 
     result = await agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     wfs_calls = [c for c in tracker.tool_calls if c.get("name") in ("gpf_wfs_get_features", "gpf_wfs_search_types")]

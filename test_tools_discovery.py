@@ -13,7 +13,6 @@ EXPECTED_TOOLS = [
     "gpf_wfs_get_feature_by_id",
 ]
 
-
 @pytest.mark.asyncio
 async def test_all_tools_exposed(mcp_tools):
     """Vérifie que les 10 outils MCP sont bien exposés par le serveur."""

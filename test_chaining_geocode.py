@@ -28,27 +28,17 @@ class ToolCallTracker(BaseCallbackHandler):
         print(f"[TOOL RESULT] Tool output: {output}")
 
 @pytest.mark.asyncio
-async def test_chaining_geocode_altitude(mcp_tools, model):
+async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
     geocode_tool = next((t for t in mcp_tools if t.name == "geocode"), None)
     assert geocode_tool is not None, "Tool 'geocode' not found"
 
     altitude_tool = next((t for t in mcp_tools if t.name == "altitude"), None)
     assert altitude_tool is not None, "Tool 'altitude' not found"
-
-    agent = create_agent(
-        model=model,
-        tools=mcp_tools, 
-        system_prompt="You are a helpful assistant for geospatial data. You can use the following tools to answer questions about geospatial data: {tools}. Always use these tools when relevant to answer the user's question."
-    )
-    assert agent is not None
-
-    # Create tool call tracker
-    tracker = ToolCallTracker()
     
     # Invoke agent with callback handler to track tool calls
-    result = await agent.ainvoke(
+    result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]}
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     # Verify that geocode tool was called

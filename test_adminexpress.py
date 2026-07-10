@@ -1,22 +1,15 @@
 import pytest
 
-from langchain.agents import create_agent
-from config import SYSTEM_PROMPT
-
 USER_INPUT = "Dans quelle commune et quel département se trouve le point de coordonnées longitude 2.35, latitude 48.85?"
 
-
 @pytest.mark.asyncio
-async def test_adminexpress(mcp_tools, model, tracker):
+async def test_adminexpress(mcp_agent, mcp_tools, tracker):
     admin_tool = next((t for t in mcp_tools if t.name == "adminexpress"), None)
     assert admin_tool is not None, "Tool 'adminexpress' not found"
 
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
-    assert agent is not None
-
-    result = await agent.ainvoke(
+    result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     admin_calls = [c for c in tracker.tool_calls if c.get("name") == "adminexpress"]

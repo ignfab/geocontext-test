@@ -1,22 +1,15 @@
 import pytest
 
-from langchain.agents import create_agent
-from config import SYSTEM_PROMPT
-
 USER_INPUT = "Quelles sont les servitudes d'utilité publique aux coordonnées longitude 4.83, latitude 45.76?"
 
-
 @pytest.mark.asyncio
-async def test_assiette_sup(mcp_tools, model, tracker):
+async def test_assiette_sup(mcp_agent, mcp_tools, tracker):
     assiette_sup_tool = next((t for t in mcp_tools if t.name == "assiette_sup"), None)
     assert assiette_sup_tool is not None, "Tool 'assiette_sup' not found"
 
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
-    assert agent is not None
-
-    result = await agent.ainvoke(
+    result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     assiette_calls = [c for c in tracker.tool_calls if c.get("name") == "assiette_sup"]

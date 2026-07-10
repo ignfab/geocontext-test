@@ -23,11 +23,7 @@ def get_mcp_client():
         proxy_env["NO_PROXY"] = proxy_env["no_proxy"]
     log_level = env.get("GEOCONTEXT_LOG_LEVEL", "error")
 
-    # Preload script to configure undici ProxyAgent for Node.js fetch
-    bootstrap_path = os.path.join(os.path.dirname(__file__), "proxy-bootstrap.js")
-    node_options = f"--require {bootstrap_path}"
-
-    mcp_env = {**proxy_env, "LOG_LEVEL": log_level, "NODE_OPTIONS": node_options}
+    mcp_env = {**proxy_env, "LOG_LEVEL": log_level}
 
     client = MultiServerMCPClient(
         {
