@@ -1,0 +1,17 @@
+# Models availables with https://llm.lab.sspcloud.fr/
+# key: short name used on the command line
+#   model:  MODEL_NAME passed to pytest (provider:model)
+#   report: report file name written under reports/
+gemma4-26b-moe:
+  model: onyxia:gemma4-26b-moe
+  report: gemma4-26b-moe.md
+
+qwen3-6-35b-moe:
+  model: onyxia:qwen3-6-35b-moe
+  report: qwen3-6-35b-moe.md
+
+# TODO fix : "auto" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set
+# qwen3-vl:
+#  model: onyxia:qwen3-vl
+#  report: qwen3-vl.md
+

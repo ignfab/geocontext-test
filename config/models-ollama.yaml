@@ -5,3 +5,4 @@
 qwen3.5:4b:
   model: ollama:qwen3.5:4b
   report: qwen3.5-4b.md
+
