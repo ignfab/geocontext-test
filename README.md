@@ -22,6 +22,13 @@ Generated with geocontext v0.9.8 :
 
 ## Usage
 
+### Testing with a list of models
+
+```bash
+# export ANTHROPIC_API_KEY=YourKey
+uv run scripts/run_tests.py config/models-anthropic.yaml
+```
+
 ### Testing with anthropic models
 
 ```bash
@@ -34,7 +41,7 @@ uv run pytest
 ### Testing with google models
 
 ```bash
-export MODEL_NAME="google_genai:gemini-2.5-flash"
+export MODEL_NAME="google_genai:gemini-3.5-flash"
 export GOOGLE_API_KEY=YourKey
 
 uv run pytest

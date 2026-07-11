@@ -21,5 +21,10 @@ dependencies = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+# Les fixtures MCP (mcp_tools, mcp_agent) et le client HTTP du modèle sont
+# scope="session". Sans partager un unique event loop, le client httpx async
+# reste lié au loop du premier test, fermé ensuite -> "Event loop is closed".
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"
 reruns = 0
 timeout = 90
