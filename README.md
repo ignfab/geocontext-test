@@ -17,7 +17,9 @@ The main goal is to ensure that end-to-end interactions with `ignfab/geocontext`
 Generated with geocontext v0.9.8 :
 
 - [reports/claude-haiku-4-5.md](reports/claude-haiku-4-5.md) : 20/20 tests OK
-- [reports/claude-haiku-4-6.md](reports/claude-sonnet-4-6.md) : 20/20 tests OK
+- [reports/claude-sonnet-4-6.md](reports/claude-sonnet-4-6.md) : 20/20 tests OK
+- [reports/gemini-3.5-flash.md](reports/gemini-3.5-flash.md) : 20/20 tests OK
+- [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : 20/20 tests OK
 
 
 ## Usage
