@@ -20,6 +20,5 @@ dependencies = [
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-reruns = 1
-reruns_delay = 2
+reruns = 0
 timeout = 90
