@@ -1,0 +1,11 @@
+# Models exercised by scripts/run_multimodel.py
+# key: short name used on the command line
+#   model:  MODEL_NAME passed to pytest (provider:model)
+#   report: report file name written under reports/
+gemini-3.1-flash-lite:
+  model: google_genai:gemini-3.1-flash-lite
+  report: gemini-3.1-flash-lite-preview.md
+
+qwen3.5:4b:
+  model: ollama:qwen3.5:4b
+  report: qwen3.5-4b.md
