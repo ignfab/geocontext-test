@@ -1,24 +1,18 @@
 import pytest
 
-from langchain.agents import create_agent
-from config import SYSTEM_PROMPT
-
 USER_INPUT = "Dans quelle commune se trouve le point de coordonnées longitude 10.0, latitude 60.0?"
 
-
 @pytest.mark.asyncio
-async def test_coords_hors_france(mcp_tools, model, tracker):
+async def test_coords_hors_france(mcp_agent, mcp_tools, tracker):
     """Test négatif : coordonnées hors France (Norvège).
 
     L'agent doit indiquer qu'il ne peut pas répondre ou que les coordonnées
     sont hors du périmètre couvert, sans crasher.
     """
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
-    assert agent is not None
 
-    result = await agent.ainvoke(
+    result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     last_message = result["messages"][-1]

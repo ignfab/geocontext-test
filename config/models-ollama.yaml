@@ -1,0 +1,7 @@
+# Models exercised by scripts/run_multimodel.py
+# key: short name used on the command line
+#   model:  MODEL_NAME passed to pytest (provider:model)
+#   report: report file name written under reports/
+qwen3.5:4b:
+  model: ollama:qwen3.5:4b
+  report: qwen3.5-4b.md

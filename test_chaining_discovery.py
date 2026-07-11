@@ -1,26 +1,20 @@
 import pytest
 
-from langchain.agents import create_agent
-from config import SYSTEM_PROMPT
-
-USER_INPUT = "Trouve une table contenant des cours d'eau, décris ses attributs, et donne-moi les cours d'eau proches du point longitude 1.44, latitude 43.6 (Toulouse)."
-
+USER_INPUT = "Trouve une table contenant des cours d'eau, décris ses attributs, et donne-moi le nom du cours d'eau proche de la Tour Eiffel (longitude 2.2945, latitude 48.8584)."
 
 @pytest.mark.asyncio
-async def test_chaining_discovery(mcp_tools, model, tracker):
+async def test_chaining_discovery(mcp_agent, tracker):
     """Test full discovery workflow: search_types -> describe_type -> get_features.
 
     The agent should:
     1. Search for WFS types related to waterways
     2. Describe the schema of the found type
-    3. Query features near Toulouse
+    3. Query features near the Eiffel Tower and return the waterway name (La Seine)
     """
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
-    assert agent is not None
 
-    result = await agent.ainvoke(
+    result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
@@ -33,6 +27,5 @@ async def test_chaining_discovery(mcp_tools, model, tracker):
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()
 
-    keywords = ["cours d'eau", "cours d'eau", "rivière", "riviere", "fleuve", "hydrographi", "toulouse", "garonne"]
-    assert any(k in message_text for k in keywords), \
-        f"None of {keywords} found in response"
+    assert "seine" in message_text, \
+        f"Expected 'La Seine' in response, got: {message_text}"

@@ -1,19 +1,12 @@
 import pytest
 
-from langchain.agents import create_agent
-from config import SYSTEM_PROMPT
-
 USER_INPUT = "Dans quelle table peut-on trouver des informations sur les bâtiments?"
 
-
 @pytest.mark.asyncio
-async def test_chaining_geocode_altitude(mcp_tools, model, tracker):
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT)
-    assert agent is not None
-
-    result = await agent.ainvoke(
+async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
+    result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
-        config={"callbacks": [tracker]},
+        config={"callbacks": [tracker], "thread_id": __name__},
     )
 
     search_calls = [c for c in tracker.tool_calls if c.get("name") == "gpf_wfs_search_types"]

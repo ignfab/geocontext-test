@@ -1,0 +1,12 @@
+# Models exercised by scripts/run_multimodel.py
+# key: short name used on the command line
+#   model:  MODEL_NAME passed to pytest (provider:model)
+#   report: report file name written under reports/
+claude-haiku-4-5:
+  model: anthropic:claude-haiku-4-5
+  report: claude-haiku-4-5.md
+
+claude-sonnet-4-6:
+  model: anthropic:claude-sonnet-4-6
+  report: claude-sonnet-4-6.md
+
