@@ -61,7 +61,14 @@ def _create_model_onyxia(model_name) -> ChatOpenAI:
     return ChatOpenAI(
         base_url="https://llm.lab.sspcloud.fr/api/v1",
         api_key=ONYXIA_API_KEY,
-        model=model_name.replace("onyxia:", "")
+        model=model_name.replace("onyxia:", ""),
+        temperature=0.0,
+        model_kwargs={
+            "extra_headers": {
+                "enable-auto-tool-choice": "true",
+                "tool-call-parser": "true"
+            }
+        }
     )
 
 @pytest.fixture(scope="session")

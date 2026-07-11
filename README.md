@@ -20,15 +20,21 @@ Generated with geocontext v0.9.8 :
 - [reports/claude-sonnet-4-6.md](reports/claude-sonnet-4-6.md) : 20/20 tests OK
 - [reports/gemini-3.5-flash.md](reports/gemini-3.5-flash.md) : 20/20 tests OK
 - [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : 20/20 tests OK
+- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md)
+- [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md)
 
 
 ## Usage
 
-### Testing with a list of models
+### Testing with reports
 
 ```bash
-# export ANTHROPIC_API_KEY=YourKey
+export ANTHROPIC_API_KEY=YourKey
+
+# to run with some anthropic model
 uv run scripts/run_tests.py config/models-anthropic.yaml
+# to rerun with a single model
+uv run scripts/run_tests.py config/models-anthropic.yaml --model=claude-haiku-4-5
 ```
 
 ### Testing with anthropic models
