@@ -7,6 +7,7 @@ from langchain_core.callbacks.base import BaseCallbackHandler
 from langchain.agents import create_agent
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_openai import ChatOpenAI
 
 # The model name can be set via the MODEL_NAME environment variable.
 # If not set, it defaults to "anthropic:claude-haiku-4-5".
@@ -51,9 +52,23 @@ class ToolCallTracker(BaseCallbackHandler):
         self.tool_calls.append({"name": serialized.get("name", "unknown"), "type": "start"})
 
 
+def _create_model_onyxia(model_name) -> ChatOpenAI:
+    ONYXIA_API_KEY = os.getenv("ONYXIA_API_KEY")
+    
+    if not ONYXIA_API_KEY:
+        raise ValueError("ONYXIA_API_KEY is not set")
+    
+    return ChatOpenAI(
+        base_url="https://llm.lab.sspcloud.fr/api/v1",
+        api_key=ONYXIA_API_KEY,
+        model=model_name.replace("onyxia:", "")
+    )
+
 @pytest.fixture(scope="session")
 def model():
-    """Session-scoped model instance."""
+    if MODEL_NAME.startswith("onyxia:"):
+        return _create_model_onyxia(MODEL_NAME)
+
     return init_chat_model(MODEL_NAME, temperature=0.0)
 
 @pytest_asyncio.fixture(scope="session")
