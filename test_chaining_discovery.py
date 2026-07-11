@@ -1,9 +1,6 @@
 import pytest
 
-from config import SYSTEM_PROMPT
-
 USER_INPUT = "Trouve une table contenant des cours d'eau, décris ses attributs, et donne-moi le nom du cours d'eau proche de la Tour Eiffel (longitude 2.2945, latitude 48.8584)."
-
 
 @pytest.mark.asyncio
 async def test_chaining_discovery(mcp_agent, tracker):

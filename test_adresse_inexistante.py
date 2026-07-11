@@ -1,10 +1,6 @@
 import pytest
 
-from langchain.agents import create_agent
-from config import SYSTEM_PROMPT
-
 USER_INPUT = "Donne-moi les coordonnées géographiques de l'adresse '99999 rue inexistante, Villeimaginaire'."
-
 
 @pytest.mark.asyncio
 async def test_adresse_inexistante(mcp_agent, tracker):
