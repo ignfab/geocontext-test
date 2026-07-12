@@ -81,7 +81,29 @@ uv run scripts/run_tests.py config/models-anthropic.yaml -- -k geocode -x
 
 ## Testing a Local Version of geocontext
 
-### Setup
+### Testing the Development Version with HTTP Transport
+
+For testing the latest development version with HTTP transport:
+
+**Terminal 1** (in geocontext repository):
+
+```bash
+TRANSPORT_TYPE=http npm run start
+```
+
+**Terminal 2** (in geocontext-test repository):
+
+```bash
+GEOCONTEXT_DEV=1 MCP_SERVERS_PATH=config/mcp-servers-dev.json uv run pytest test_tools_discovery.py
+```
+
+Or run all tests:
+
+```bash
+GEOCONTEXT_DEV=1 MCP_SERVERS_PATH=config/mcp-servers-dev.json uv run pytest
+```
+
+### Alternative: Local Build Setup
 
 If you're developing `@ignfab/geocontext` locally or need to test a custom build, you can configure the test suite to use your local version instead of the published npm package.
 
