@@ -1,5 +1,6 @@
 import pytest
 
+from config.constants import TOOL_ALTITUDE, TOOL_GEOCODE
 from helpers import extract_numbers
 
 USER_INPUT = (
@@ -17,8 +18,8 @@ async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
 
     tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
 
-    assert "geocode" in tool_names_called, "geocode tool was not called"
-    assert "altitude" in tool_names_called, "altitude tool was not called"
+    assert TOOL_GEOCODE in tool_names_called, f"{TOOL_GEOCODE} tool was not called"
+    assert TOOL_ALTITUDE in tool_names_called, f"{TOOL_ALTITUDE} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message)

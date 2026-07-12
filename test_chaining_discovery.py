@@ -1,5 +1,11 @@
 import pytest
 
+from config.constants import (
+    TOOL_GPF_DESCRIBE_TYPE,
+    TOOL_GPF_GET_FEATURES,
+    TOOL_GPF_SEARCH_TYPES,
+)
+
 USER_INPUT = "Trouve une table contenant des cours d'eau, décris ses attributs, et donne-moi le nom du cours d'eau proche de la Tour Eiffel (longitude 2.2945, latitude 48.8584)."
 
 @pytest.mark.asyncio
@@ -19,9 +25,9 @@ async def test_chaining_discovery(mcp_agent, tracker):
 
     tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
 
-    assert "gpf_wfs_search_types" in tool_names_called, "gpf_wfs_search_types tool was not called"
-    assert "gpf_wfs_describe_type" in tool_names_called, "gpf_wfs_describe_type tool was not called"
-    assert "gpf_wfs_get_features" in tool_names_called, "gpf_wfs_get_features tool was not called"
+    assert TOOL_GPF_SEARCH_TYPES in tool_names_called, f"{TOOL_GPF_SEARCH_TYPES} tool was not called"
+    assert TOOL_GPF_DESCRIBE_TYPE in tool_names_called, f"{TOOL_GPF_DESCRIBE_TYPE} tool was not called"
+    assert TOOL_GPF_GET_FEATURES in tool_names_called, f"{TOOL_GPF_GET_FEATURES} tool was not called"
     assert len(tool_names_called) >= 3, f"Expected at least 3 tools chained, got: {tool_names_called}"
 
     last_message = result["messages"][-1]

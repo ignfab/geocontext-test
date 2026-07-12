@@ -1,19 +1,21 @@
 import pytest
 
+from config.constants import TOOL_ADMINEXPRESS
+
 USER_INPUT = "Dans quelle commune et quel département se trouve le point de coordonnées longitude 2.35, latitude 48.85?"
 
 @pytest.mark.asyncio
 async def test_adminexpress(mcp_agent, mcp_tools, tracker):
-    admin_tool = next((t for t in mcp_tools if t.name == "adminexpress"), None)
-    assert admin_tool is not None, "Tool 'adminexpress' not found"
+    admin_tool = next((t for t in mcp_tools if t.name == TOOL_ADMINEXPRESS), None)
+    assert admin_tool is not None, f"Tool '{TOOL_ADMINEXPRESS}' not found"
 
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    admin_calls = [c for c in tracker.tool_calls if c.get("name") == "adminexpress"]
-    assert len(admin_calls) > 0, "adminexpress tool was not called"
+    admin_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_ADMINEXPRESS]
+    assert len(admin_calls) > 0, f"{TOOL_ADMINEXPRESS} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

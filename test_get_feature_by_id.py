@@ -1,6 +1,8 @@
 import pytest
 import httpx
 
+from config.constants import TOOL_GPF_GET_FEATURE_BY_ID
+
 WFS_URL = (
     "https://data.geopf.fr/wfs"
     "?service=WFS&request=GetFeature"
@@ -31,8 +33,8 @@ def fetch_sample_commune():
 
 @pytest.mark.asyncio
 async def test_get_feature_by_id(mcp_agent, mcp_tools, tracker):
-    tool = next((t for t in mcp_tools if t.name == "gpf_wfs_get_feature_by_id"), None)
-    assert tool is not None, "Tool 'gpf_wfs_get_feature_by_id' not found"
+    tool = next((t for t in mcp_tools if t.name == TOOL_GPF_GET_FEATURE_BY_ID), None)
+    assert tool is not None, f"Tool '{TOOL_GPF_GET_FEATURE_BY_ID}' not found"
 
     feature_id, code_insee = fetch_sample_commune()
 
@@ -43,8 +45,8 @@ async def test_get_feature_by_id(mcp_agent, mcp_tools, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    get_by_id_calls = [c for c in tracker.tool_calls if c.get("name") == "gpf_wfs_get_feature_by_id"]
-    assert len(get_by_id_calls) > 0, "gpf_wfs_get_feature_by_id tool was not called"
+    get_by_id_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_GPF_GET_FEATURE_BY_ID]
+    assert len(get_by_id_calls) > 0, f"{TOOL_GPF_GET_FEATURE_BY_ID} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

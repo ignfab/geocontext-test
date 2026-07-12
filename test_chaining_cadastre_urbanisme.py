@@ -1,5 +1,7 @@
 import pytest
 
+from config.constants import TOOL_GEOCODE
+
 USER_INPUT = "Quelles sont les règles d'urbanisme applicables au 73 avenue de Paris, Saint-Mandé?"
 
 @pytest.mark.asyncio
@@ -17,7 +19,7 @@ async def test_chaining_geocode_cadastre_urbanisme(mcp_agent, mcp_tools, tracker
 
     tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
 
-    assert "geocode" in tool_names_called, "geocode tool was not called"
+    assert TOOL_GEOCODE in tool_names_called, f"{TOOL_GEOCODE} tool was not called"
     assert len(tool_names_called) >= 2, f"Expected at least 2 tools chained, got: {tool_names_called}"
 
     last_message = result["messages"][-1]

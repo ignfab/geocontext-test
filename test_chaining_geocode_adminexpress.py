@@ -1,5 +1,7 @@
 import pytest
 
+from config.constants import TOOL_ADMINEXPRESS, TOOL_GEOCODE
+
 USER_INPUT = "Dans quelle commune et quel département se trouve le 1 rue de Rivoli, Paris?"
 
 @pytest.mark.asyncio
@@ -17,8 +19,8 @@ async def test_chaining_geocode_adminexpress(mcp_agent, tracker):
 
     tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
 
-    assert "geocode" in tool_names_called, "geocode tool was not called"
-    assert "adminexpress" in tool_names_called, "adminexpress tool was not called"
+    assert TOOL_GEOCODE in tool_names_called, f"{TOOL_GEOCODE} tool was not called"
+    assert TOOL_ADMINEXPRESS in tool_names_called, f"{TOOL_ADMINEXPRESS} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

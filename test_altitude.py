@@ -1,5 +1,6 @@
 import pytest
 
+from config.constants import TOOL_ALTITUDE
 from helpers import extract_numbers
 
 USER_INPUT = (
@@ -9,16 +10,16 @@ USER_INPUT = (
 
 @pytest.mark.asyncio
 async def test_altitude(mcp_agent, mcp_tools, tracker):
-    altitude_tool = next((t for t in mcp_tools if t.name == "altitude"), None)
-    assert altitude_tool is not None, "Tool 'altitude' not found"
+    altitude_tool = next((t for t in mcp_tools if t.name == TOOL_ALTITUDE), None)
+    assert altitude_tool is not None, f"Tool '{TOOL_ALTITUDE}' not found"
 
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    altitude_calls = [c for c in tracker.tool_calls if c.get("name") == "altitude"]
-    assert len(altitude_calls) > 0, "altitude tool was not called"
+    altitude_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_ALTITUDE]
+    assert len(altitude_calls) > 0, f"{TOOL_ALTITUDE} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message)
