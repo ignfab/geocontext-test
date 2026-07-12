@@ -127,8 +127,23 @@ class TestLoadMcpServers:
         config = load_mcp_servers(str(path))
         
         assert "geocontext" in config
-        assert "command" in config["geocontext"]
-        assert config["geocontext"]["command"] == "npx"
+        geocontext = config["geocontext"]
+        assert geocontext["transport"] in ["stdio", "http"]
+        if geocontext["transport"] == "stdio":
+            assert geocontext["command"] == "npx"
+        else:
+            assert geocontext["url"].startswith("http")
+
+    def test_load_http_transport_config(self):
+        """Test loading an HTTP transport config with URL."""
+        path = Path(__file__).resolve().parent / "config" / "mcp-servers-http.json"
+        config = load_mcp_servers(str(path))
+
+        assert "geocontext" in config
+        geocontext = config["geocontext"]
+        assert geocontext["transport"] == "http"
+        assert geocontext["url"] == "https://geollm.beta.ign.fr/geocontext/mcp"
+        assert "env" not in geocontext
 
     def test_file_not_found(self):
         """Test that FileNotFoundError is raised for non-existent file."""
@@ -173,6 +188,50 @@ class TestLoadMcpServers:
         config_file.write_text(json.dumps({"servers": {"test": "not a dict"}}))
         
         with pytest.raises(ValueError, match="config must be a dict"):
+            load_mcp_servers(str(config_file))
+
+    def test_http_transport_requires_url(self, tmp_path):
+        """Test that HTTP transport rejects missing URL."""
+        config_file = tmp_path / "http-missing-url.json"
+        config_file.write_text(json.dumps({
+            "servers": {
+                "geocontext": {
+                    "transport": "http"
+                }
+            }
+        }))
+
+        with pytest.raises(ValueError, match="requires a non-empty 'url'"):
+            load_mcp_servers(str(config_file))
+
+    def test_stdio_transport_requires_command(self, tmp_path):
+        """Test that stdio transport rejects missing command."""
+        config_file = tmp_path / "stdio-missing-command.json"
+        config_file.write_text(json.dumps({
+            "servers": {
+                "geocontext": {
+                    "transport": "stdio",
+                    "args": ["-y", "@ignfab/geocontext"]
+                }
+            }
+        }))
+
+        with pytest.raises(ValueError, match="requires a non-empty 'command'"):
+            load_mcp_servers(str(config_file))
+
+    def test_invalid_transport(self, tmp_path):
+        """Test that invalid transport values are rejected."""
+        config_file = tmp_path / "invalid-transport.json"
+        config_file.write_text(json.dumps({
+            "servers": {
+                "geocontext": {
+                    "transport": "ws",
+                    "url": "https://example.com/mcp"
+                }
+            }
+        }))
+
+        with pytest.raises(ValueError, match="transport must be one of"):
             load_mcp_servers(str(config_file))
 
     def test_proxy_variables_injected(self, tmp_path):

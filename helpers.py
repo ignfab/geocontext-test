@@ -88,17 +88,41 @@ def load_mcp_servers(path: str) -> dict:
     server_env = proxy_env
     
     result = {}
+    allowed_transports = {"stdio", "http"}
+
     for server_name, server_config in servers.items():
         if not isinstance(server_config, dict):
             raise ValueError(f"Server '{server_name}' config must be a dict")
-        
-        # Copy server config and merge env
+
+        transport = server_config.get("transport")
+        if not isinstance(transport, str) or transport not in allowed_transports:
+            raise ValueError(
+                f"Server '{server_name}' transport must be one of {sorted(allowed_transports)}"
+            )
+
+        if transport == "stdio":
+            command = server_config.get("command")
+            if not isinstance(command, str) or not command.strip():
+                raise ValueError(f"Server '{server_name}' with transport 'stdio' requires a non-empty 'command'")
+        elif transport == "http":
+            url = server_config.get("url")
+            if not isinstance(url, str) or not url.strip():
+                raise ValueError(f"Server '{server_name}' with transport 'http' requires a non-empty 'url'")
+
+        # Copy server config and merge env only for stdio transport.
+        # HTTP transport does not accept an `env` field in langchain_mcp_adapters.
         merged = server_config.copy()
-        if "env" in merged and isinstance(merged["env"], dict):
-            # Merge: runtime env overrides JSON env
-            merged["env"] = {**merged["env"], **server_env}
+        if transport == "stdio":
+            if "env" in merged and not isinstance(merged["env"], dict):
+                raise ValueError(f"Server '{server_name}' env must be a dict when provided")
+            if "env" in merged and isinstance(merged["env"], dict):
+                # Merge: runtime env overrides JSON env
+                merged["env"] = {**merged["env"], **server_env}
+            else:
+                merged["env"] = server_env
         else:
-            merged["env"] = server_env
+            # Drop env for HTTP transport to avoid unsupported kwarg errors.
+            merged.pop("env", None)
         
         result[server_name] = merged
     

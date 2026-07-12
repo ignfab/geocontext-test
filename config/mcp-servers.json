@@ -1,9 +1,9 @@
 {
   "servers": {
     "geocontext": {
+      "transport": "stdio",
       "command": "npx",
       "args": ["-y", "@ignfab/geocontext"],
-      "transport": "stdio",
       "env": {
         "LOG_LEVEL": "error"
       }
