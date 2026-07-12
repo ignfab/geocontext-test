@@ -7,11 +7,13 @@ Usage:
     python scripts/run_tests.py config/models-anthropic.yaml                          # run every model in the file
     python scripts/run_tests.py config/models-ollama.yaml --list                      # show the models in the file
     python scripts/run_tests.py config/models-anthropic.yaml --model claude-haiku-4-5  # run a single model
+    python scripts/run_tests.py config/models-anthropic.yaml --mcp-servers-path config/mcp-servers.json  # with explicit MCP config
 
 Extra arguments after "--" are forwarded to pytest, e.g.:
     python scripts/run_tests.py config/models-anthropic.yaml -- -k geocode -x
 
 The models to run are defined in the YAML file given as MODELS_PATH.
+MCP servers can be configured via config/mcp-servers.json (default) or --mcp-servers-path option.
 """
 import argparse
 import os
@@ -49,15 +51,19 @@ def load_models(config_path: Path) -> dict[str, dict]:
     return data
 
 
-def run_model(key: str, entry: dict, pytest_extra: list[str]) -> int:
+def run_model(key: str, entry: dict, pytest_extra: list[str], mcp_servers_path: str | None = None) -> int:
     model_name = entry["model"]
     report_path = REPORTS_DIR / entry["report"]
 
     env = os.environ.copy()
     env["MODEL_NAME"] = model_name
+    if mcp_servers_path is not None:
+        env["MCP_SERVERS_PATH"] = mcp_servers_path
 
     cmd = ["uv", "run", "pytest", "-v", "--tb=short", "--md", str(report_path), *pytest_extra]
     print(f"\n=== {key}  (MODEL_NAME={model_name}) ===", flush=True)
+    if mcp_servers_path is not None:
+        print(f"MCP_SERVERS_PATH={mcp_servers_path}", flush=True)
     print(f"$ {' '.join(cmd)}", flush=True)
 
     # shell=True on Windows so the "uv" launcher (uv.exe / uv.cmd) is resolved.
@@ -72,6 +78,8 @@ def main() -> int:
     parser.add_argument("--list", action="store_true", help="List available models and exit.")
     parser.add_argument("--model", metavar="KEY",
                         help="Run only this model (key from the YAML file) instead of all of them.")
+    parser.add_argument("--mcp-servers-path", metavar="MCP_CONFIG",
+                        help="Path to MCP servers configuration JSON file (default: config/mcp-servers.json).")
     args, pytest_extra = parser.parse_known_args()
 
     models = load_models(args.models_path)
@@ -93,7 +101,7 @@ def main() -> int:
 
     failures: dict[str, int] = {}
     for key in selected:
-        code = run_model(key, models[key], pytest_extra)
+        code = run_model(key, models[key], pytest_extra, args.mcp_servers_path)
         if code != 0:
             failures[key] = code
 
