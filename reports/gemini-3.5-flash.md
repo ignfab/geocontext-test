@@ -1,88 +1,138 @@
 # Test Report
 
-*Report generated on 11-Jul-2026 at 09:55:30 by [pytest-md]*
+*Report generated on 12-Jul-2026 at 16:05:41 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-20 tests ran in 154.42 seconds
+45 tests ran in 162.27 seconds
 
-- 20 passed
+- 45 passed
 
-## 20 passed
+## 45 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 4.02s
-
-### test_geocode_address_not_found.py
-
-`test_geocode_address_not_found` 3.58s
+`test_adminexpress` 4.33s
 
 ### test_altitude.py
 
-`test_altitude` 3.38s
+`test_altitude` 4.41s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 13.11s
+`test_assiette_sup` 12.54s
 
 ### test_cadastre.py
 
-`test_cadastre` 6.45s
+`test_cadastre` 7.30s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 10.85s
+`test_chaining_geocode_cadastre_urbanisme` 10.98s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 10.96s
-
-### test_chaining_geocode_altitude.py
-
-`test_chaining_geocode_altitude` 6.65s
+`test_chaining_discovery` 11.77s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 7.78s
+`test_chaining_geocode_adminexpress` 6.62s
+
+### test_chaining_geocode_altitude.py
+
+`test_chaining_geocode_altitude` 6.79s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 14.23s
-
-### test_coords_hors_france.py
-
-`test_coords_hors_france` 5.01s
+`test_chaining_geocode_assiette_sup` 16.20s
 
 ### test_describe_type.py
 
-`test_describe_type` 7.99s
+`test_describe_type` 6.94s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 1.53s
+`test_agent_creation_call_and_paris_in_response` 1.60s
 
 ### test_geocode.py
 
-`test_geocode` 4.20s
+`test_geocode` 3.81s
+
+### test_geocode_address_not_found.py
+
+`test_geocode_address_not_found` 6.26s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 7.47s
+`test_get_feature_by_id` 6.04s
 
 ### test_get_features.py
 
-`test_get_features` 17.33s
+`test_get_features` 15.56s
+
+### test_helpers.py
+
+`TestExtractNumbers.test_extract_integers` 0.00s
+
+`TestExtractNumbers.test_extract_floats` 0.00s
+
+`TestExtractNumbers.test_extract_mixed_numbers` 0.00s
+
+`TestExtractNumbers.test_no_numbers` 0.00s
+
+`TestExtractNumbers.test_empty_string` 0.00s
+
+`TestGetMcpServersPath.test_explicit_path` 0.00s
+
+`TestGetMcpServersPath.test_env_var_path` 0.00s
+
+`TestGetMcpServersPath.test_default_path` 0.00s
+
+`TestGetMcpServersPath.test_explicit_overrides_env` 0.00s
+
+`TestGetMcpServersPath.test_env_overrides_default` 0.00s
+
+`TestLoadMcpServers.test_load_valid_config` 0.00s
+
+`TestLoadMcpServers.test_load_default_config` 0.00s
+
+`TestLoadMcpServers.test_load_http_transport_config` 0.00s
+
+`TestLoadMcpServers.test_file_not_found` 0.00s
+
+`TestLoadMcpServers.test_invalid_json` 0.00s
+
+`TestLoadMcpServers.test_missing_servers_key` 0.00s
+
+`TestLoadMcpServers.test_servers_not_dict` 0.00s
+
+`TestLoadMcpServers.test_empty_servers` 0.00s
+
+`TestLoadMcpServers.test_server_config_not_dict` 0.00s
+
+`TestLoadMcpServers.test_http_transport_requires_url` 0.00s
+
+`TestLoadMcpServers.test_stdio_transport_requires_command` 0.00s
+
+`TestLoadMcpServers.test_invalid_transport` 0.00s
+
+`TestLoadMcpServers.test_proxy_variables_injected` 0.00s
+
+`TestLoadMcpServers.test_existing_env_is_preserved` 0.00s
+
+`TestLoadMcpServers.test_runtime_env_overrides_json_env` 0.00s
+
+`TestLoadMcpServers.test_multiple_servers` 0.00s
 
 ### test_search_batiment.py
 
-`test_chaining_geocode_altitude` 5.40s
+`test_chaining_geocode_altitude` 10.10s
 
 ### test_search_ecoles.py
 
-`test_search_ecoles` 9.22s
+`test_search_ecoles` 16.93s
 
 ### test_tools_discovery.py
 
@@ -90,4 +140,4 @@
 
 ### test_urbanisme.py
 
-`test_urbanisme` 12.90s
+`test_urbanisme` 11.84s

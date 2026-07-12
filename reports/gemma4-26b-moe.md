@@ -1,107 +1,138 @@
 # Test Report
 
-*Report generated on 12-Jul-2026 at 11:59:50 by [pytest-md]*
+*Report generated on 12-Jul-2026 at 15:58:05 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-20 tests ran in 112.32 seconds
+45 tests ran in 116.46 seconds
 
-- 2 failed
-- 18 passed
+- 45 passed
 
-## 2 failed
-
-### test_geocode_address_not_found.py
-
-`test_geocode_address_not_found` 2.66s
-
-```
-test_geocode_address_not_found.py:28: in test_geocode_address_not_found
-    assert any(k in message_text for k in indicateurs), \
-E   AssertionError: L'agent n'a pas signalé que l'adresse est introuvable: content='je n\'ai pas pu trouver de coordonnées géographiques pour l\'adresse "99999 rue inexistante, villeimaginaire". il est probable que cette adresse n\'existe pas dans la base de données.' additional_kwargs={'refusal': none} response_metadata={'token_usage': {'completion_tokens': 50, 'prompt_to
-E   assert False
-E    +  where False = any(<generator object test_geocode_address_not_found.<locals>.<genexpr> at 0x78509f415970>)
-```
-
-### test_coords_hors_france.py
-
-`test_coords_hors_france` 3.07s
-
-```
-test_coords_hors_france.py:32: in test_coords_hors_france
-    assert any(k in message_text for k in indicateurs), \
-E   AssertionError: L'agent n'a pas signalé que les coordonnées sont hors France: content="le point de coordonnées longitude 10.0, latitude 60.0 ne semble pas se trouver sur le territoire français (les outils de recherche administrative consultés ne retournent aucun résultat pour ces coordonnées). il est situé dans la mer du nord, au large des côtes de l'allemagne et du danemark.
-E   assert False
-E    +  where False = any(<generator object test_coords_hors_france.<locals>.<genexpr> at 0x78509fd67370>)
-```
-
-## 18 passed
+## 45 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 3.23s
+`test_adminexpress` 3.90s
 
 ### test_altitude.py
 
-`test_altitude` 2.56s
+`test_altitude` 2.35s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 18.74s
+`test_assiette_sup` 18.41s
 
 ### test_cadastre.py
 
-`test_cadastre` 4.91s
+`test_cadastre` 4.83s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 8.09s
+`test_chaining_geocode_cadastre_urbanisme` 7.71s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 10.65s
+`test_chaining_discovery` 10.31s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 4.81s
+`test_chaining_geocode_adminexpress` 4.60s
 
 ### test_chaining_geocode_altitude.py
 
-`test_chaining_geocode_altitude` 4.40s
+`test_chaining_geocode_altitude` 13.51s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 11.78s
+`test_chaining_geocode_assiette_sup` 10.19s
 
 ### test_describe_type.py
 
-`test_describe_type` 6.34s
+`test_describe_type` 6.39s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 0.51s
+`test_agent_creation_call_and_paris_in_response` 0.58s
 
 ### test_geocode.py
 
-`test_geocode` 2.76s
+`test_geocode` 2.59s
+
+### test_geocode_address_not_found.py
+
+`test_geocode_address_not_found` 2.45s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 2.87s
+`test_get_feature_by_id` 2.86s
 
 ### test_get_features.py
 
-`test_get_features` 7.50s
+`test_get_features` 7.89s
+
+### test_helpers.py
+
+`TestExtractNumbers.test_extract_integers` 0.00s
+
+`TestExtractNumbers.test_extract_floats` 0.00s
+
+`TestExtractNumbers.test_extract_mixed_numbers` 0.00s
+
+`TestExtractNumbers.test_no_numbers` 0.00s
+
+`TestExtractNumbers.test_empty_string` 0.00s
+
+`TestGetMcpServersPath.test_explicit_path` 0.00s
+
+`TestGetMcpServersPath.test_env_var_path` 0.00s
+
+`TestGetMcpServersPath.test_default_path` 0.00s
+
+`TestGetMcpServersPath.test_explicit_overrides_env` 0.00s
+
+`TestGetMcpServersPath.test_env_overrides_default` 0.00s
+
+`TestLoadMcpServers.test_load_valid_config` 0.00s
+
+`TestLoadMcpServers.test_load_default_config` 0.00s
+
+`TestLoadMcpServers.test_load_http_transport_config` 0.00s
+
+`TestLoadMcpServers.test_file_not_found` 0.00s
+
+`TestLoadMcpServers.test_invalid_json` 0.00s
+
+`TestLoadMcpServers.test_missing_servers_key` 0.00s
+
+`TestLoadMcpServers.test_servers_not_dict` 0.00s
+
+`TestLoadMcpServers.test_empty_servers` 0.00s
+
+`TestLoadMcpServers.test_server_config_not_dict` 0.00s
+
+`TestLoadMcpServers.test_http_transport_requires_url` 0.00s
+
+`TestLoadMcpServers.test_stdio_transport_requires_command` 0.00s
+
+`TestLoadMcpServers.test_invalid_transport` 0.00s
+
+`TestLoadMcpServers.test_proxy_variables_injected` 0.00s
+
+`TestLoadMcpServers.test_existing_env_is_preserved` 0.00s
+
+`TestLoadMcpServers.test_runtime_env_overrides_json_env` 0.00s
+
+`TestLoadMcpServers.test_multiple_servers` 0.00s
 
 ### test_search_batiment.py
 
-`test_chaining_geocode_altitude` 3.14s
+`test_chaining_geocode_altitude` 3.15s
 
 ### test_search_ecoles.py
 
-`test_search_ecoles` 5.12s
+`test_search_ecoles` 4.90s
 
 ### test_tools_discovery.py
 
@@ -109,4 +140,4 @@ E    +  where False = any(<generator object test_coords_hors_france.<locals>.<ge
 
 ### test_urbanisme.py
 
-`test_urbanisme` 7.27s
+`test_urbanisme` 7.53s
