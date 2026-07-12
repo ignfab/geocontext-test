@@ -40,7 +40,7 @@
 
 `test_chaining_discovery` 9.11s
 
-### test_chaining_geocode.py
+### test_chaining_geocode_altitude.py
 
 `test_chaining_geocode_altitude` 4.40s
 

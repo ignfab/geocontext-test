@@ -3,22 +3,22 @@ import pytest
 from helpers import extract_numbers
 
 USER_INPUT = (
-    "Quelle est l'altitude au point de coordonnées longitude 6.87, latitude 45.92? "
+    "Quelle est l'altitude de la mairie de Chamonix? "
     "Exprime le nombre sans séparateur de milliers, avec un point comme séparateur décimal, sans localisation."
 )
 
 @pytest.mark.asyncio
-async def test_altitude(mcp_agent, mcp_tools, tracker):
-    altitude_tool = next((t for t in mcp_tools if t.name == "altitude"), None)
-    assert altitude_tool is not None, "Tool 'altitude' not found"
-
+async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
+    # Invoke agent with callback handler to track tool calls
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    altitude_calls = [c for c in tracker.tool_calls if c.get("name") == "altitude"]
-    assert len(altitude_calls) > 0, "altitude tool was not called"
+    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+
+    assert "geocode" in tool_names_called, "geocode tool was not called"
+    assert "altitude" in tool_names_called, "altitude tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message)
