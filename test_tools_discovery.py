@@ -1,17 +1,6 @@
 import pytest
 
-EXPECTED_TOOLS = [
-    "geocode",
-    "altitude",
-    "adminexpress",
-    "cadastre",
-    "urbanisme",
-    "assiette_sup",
-    "gpf_wfs_search_types",
-    "gpf_wfs_describe_type",
-    "gpf_wfs_get_features",
-    "gpf_wfs_get_feature_by_id",
-]
+from config.constants import EXPECTED_TOOLS
 
 @pytest.mark.asyncio
 async def test_all_tools_exposed(mcp_tools):
