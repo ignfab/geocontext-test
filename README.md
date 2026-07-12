@@ -12,6 +12,14 @@ The main goal is to ensure that end-to-end interactions with `ignfab/geocontext`
 - Real model invocation through integration scenarios
 - Functional response checks for expected outputs
 
+## Quick Start
+
+See [CODING.md](CODING.md) for comprehensive setup instructions including:
+- Environment configuration and API key setup
+- Running tests with different models
+- Testing a local version of geocontext
+- Debugging and troubleshooting
+
 ## Reports
 
 Generated with geocontext v0.9.8 :

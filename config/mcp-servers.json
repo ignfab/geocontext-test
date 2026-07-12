@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "geocontext": {
+      "transport": "stdio",
+      "command": "npx",
+      "args": ["-y", "@ignfab/geocontext"],
+      "env": {
+        "LOG_LEVEL": "error"
+      }
+    }
+  }
+}
