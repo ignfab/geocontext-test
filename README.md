@@ -16,12 +16,12 @@ The main goal is to ensure that end-to-end interactions with `ignfab/geocontext`
 
 Generated with geocontext v0.9.8 :
 
-- [reports/claude-haiku-4-5.md](reports/claude-haiku-4-5.md) : 20/20 tests OK
-- [reports/claude-sonnet-4-6.md](reports/claude-sonnet-4-6.md) : 20/20 tests OK
-- [reports/gemini-3.5-flash.md](reports/gemini-3.5-flash.md) : 20/20 tests OK
-- [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : 20/20 tests OK
-- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md) : 18/20 tests OK (reste 2 tests sensibles à la forme de la réponse)
-- [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md) : 20/20 tests OK
+- [reports/claude-haiku-4-5.md](reports/claude-haiku-4-5.md) : OK
+- [reports/claude-sonnet-4-6.md](reports/claude-sonnet-4-6.md) : OK
+- [reports/gemini-3.5-flash.md](reports/gemini-3.5-flash.md) : OK
+- [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : OK
+- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md) : **1 test en échec**
+- [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md) : OK
 
 
 ## Usage
@@ -95,7 +95,6 @@ uv run pytest
 
 | Test                       | Fichier                                                    | Description                                                                         |
 | -------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `test_coords_hors_france`  | [test_coords_hors_france.py](test_coords_hors_france.py)   | Coordonnées en Norvège (10.0, 60.0) — vérifie que l'agent signale le hors périmètre |
 | `test_adresse_inexistante` | [test_adresse_inexistante.py](test_adresse_inexistante.py) | Adresse fictive — vérifie que l'agent signale l'absence de résultat                 |
 
 ## Cas critiques non couverts
