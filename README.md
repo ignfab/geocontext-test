@@ -20,8 +20,8 @@ Generated with geocontext v0.9.8 :
 - [reports/claude-sonnet-4-6.md](reports/claude-sonnet-4-6.md) : 20/20 tests OK
 - [reports/gemini-3.5-flash.md](reports/gemini-3.5-flash.md) : 20/20 tests OK
 - [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : 20/20 tests OK
-- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md)
-- [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md)
+- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md) : 18/20 tests OK (reste 2 tests sensibles à la forme de la réponse)
+- [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md) : 20/20 tests OK
 
 
 ## Usage
@@ -85,7 +85,7 @@ uv run pytest
 
 | Test                                 | Fichier                                                                        | Chaîne d'outils                                                           | Description                                  |
 | ------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | -------------------------------------------- |
-| `test_chaining_geocode`              | [test_chaining_geocode.py](test_chaining_geocode.py)                           | `geocode` → `altitude`                                                    | Altitude de la mairie de Chamonix (~1036m)   |
+| `test_chaining_geocode`              | [test_chaining_geocode_altitude.py](test_chaining_geocode_altitude.py)                           | `geocode` → `altitude`                                                    | Altitude de la mairie de Chamonix (~1036m)   |
 | `test_chaining_geocode_adminexpress` | [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py) | `geocode` → `adminexpress`                                                | 1 rue de Rivoli → commune/département        |
 | `test_chaining_geocode_assiette_sup` | [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py) | `geocode` → `assiette_sup`                                                | 10 place Bellecour, Lyon → servitudes        |
 | `test_chaining_cadastre_urbanisme`   | [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py)     | `geocode` → `cadastre` → `urbanisme`                                      | Adresse → parcelle → règles PLU              |
