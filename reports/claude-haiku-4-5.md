@@ -16,9 +16,9 @@
 
 `test_adminexpress` 8.76s
 
-### test_adresse_inexistante.py
+### test_geocode_address_not_found.py
 
-`test_adresse_inexistante` 8.30s
+`test_geocode_address_not_found` 8.30s
 
 ### test_altitude.py
 

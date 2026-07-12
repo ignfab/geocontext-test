@@ -13,16 +13,16 @@
 
 ## 2 failed
 
-### test_adresse_inexistante.py
+### test_geocode_address_not_found.py
 
-`test_adresse_inexistante` 2.66s
+`test_geocode_address_not_found` 2.66s
 
 ```
-test_adresse_inexistante.py:28: in test_adresse_inexistante
+test_geocode_address_not_found.py:28: in test_geocode_address_not_found
     assert any(k in message_text for k in indicateurs), \
 E   AssertionError: L'agent n'a pas signalé que l'adresse est introuvable: content='je n\'ai pas pu trouver de coordonnées géographiques pour l\'adresse "99999 rue inexistante, villeimaginaire". il est probable que cette adresse n\'existe pas dans la base de données.' additional_kwargs={'refusal': none} response_metadata={'token_usage': {'completion_tokens': 50, 'prompt_to
 E   assert False
-E    +  where False = any(<generator object test_adresse_inexistante.<locals>.<genexpr> at 0x78509f415970>)
+E    +  where False = any(<generator object test_geocode_address_not_found.<locals>.<genexpr> at 0x78509f415970>)
 ```
 
 ### test_coords_hors_france.py
