@@ -95,7 +95,7 @@ uv run pytest
 
 | Test                       | Fichier                                                    | Description                                                                         |
 | -------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `test_adresse_inexistante` | [test_adresse_inexistante.py](test_adresse_inexistante.py) | Adresse fictive — vérifie que l'agent signale l'absence de résultat                 |
+| `test_geocode_address_not_found` | [test_geocode_address_not_found.py](test_geocode_address_not_found.py) | Adresse fictive — vérifie que l'agent signale l'absence de résultat                 |
 
 ## Cas critiques non couverts
 
