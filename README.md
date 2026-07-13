@@ -28,7 +28,7 @@ Generated with geocontext v0.9.8 :
 - [reports/claude-sonnet-4-6.md](reports/claude-sonnet-4-6.md) : OK
 - [reports/gemini-3.5-flash.md](reports/gemini-3.5-flash.md) : OK
 - [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : OK
-- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md) : **1 test en échec**
+- [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md) : OK
 - [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md) : OK
 
 
