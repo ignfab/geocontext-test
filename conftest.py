@@ -12,12 +12,23 @@ from langchain_openai import ChatOpenAI
 
 from helpers import get_mcp_servers_path, load_mcp_servers
 
+from config.constants import TOOL_GPF_SEARCH_TYPES, TOOL_GPF_DESCRIBE_TYPE,TOOL_GPF_GET_FEATURES,TOOL_GPF_COUNT_FEATURES
+
 # The model name can be set via the MODEL_NAME environment variable.
 # If not set, it defaults to "anthropic:claude-haiku-4-5".
 MODEL_NAME = os.getenv("MODEL_NAME", "anthropic:claude-haiku-4-5")
 
-# required for some small models. For larger models, it doesn't change much.
-SYSTEM_PROMPT = "You are a helpful assistant for geospatial data. You can use the tools to answer questions about geospatial data."
+# The final instructions are required for some small models.
+# For larger models, it doesn't change much.
+SYSTEM_PROMPT = (
+    "Tu es un assistant répondant à des questions qui exploitent des données geospatiales. "
+    "Tu peux utiliser les outils pour répondre aux questions sur les données geospatiales. "
+    "IMPORTANT : "
+    "- Exprime les nombres sans séparateur de milliers, avec un point comme séparateur décimal, sans localisation. "
+    "- N'invente pas de coordonnées : utilise l'outil approprié pour geocoder les lieux. "
+    f"- N'invente pas de noms de tables : utilise {TOOL_GPF_SEARCH_TYPES} pour rechercher les données. "
+    f"- N'invente pas de noms de colonnes : utilise {TOOL_GPF_DESCRIBE_TYPE} pour décrire les tables avant d'appeler {TOOL_GPF_GET_FEATURES} ou {TOOL_GPF_COUNT_FEATURES}."
+)
 
 logger = logging.getLogger(__name__)
 

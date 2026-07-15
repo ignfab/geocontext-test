@@ -1,76 +1,88 @@
 # Test Report
 
-*Report generated on 12-Jul-2026 at 15:50:49 by [pytest-md]*
+*Report generated on 15-Jul-2026 at 10:57:59 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-45 tests ran in 155.31 seconds
+48 tests ran in 260.45 seconds
 
-- 45 passed
+- 48 passed
 
-## 45 passed
+## 48 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 6.50s
+`test_adminexpress` 7.59s
 
 ### test_altitude.py
 
-`test_altitude` 3.27s
+`test_altitude` 4.75s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 9.81s
+`test_assiette_sup` 10.65s
 
 ### test_cadastre.py
 
-`test_cadastre` 7.57s
+`test_cadastre` 7.97s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 12.52s
+`test_chaining_geocode_cadastre_urbanisme` 11.98s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 11.19s
+`test_chaining_discovery` 19.17s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 7.80s
+`test_chaining_geocode_adminexpress` 14.00s
 
 ### test_chaining_geocode_altitude.py
 
-`test_chaining_geocode_altitude` 10.05s
+`test_chaining_geocode_altitude` 12.50s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 10.79s
+`test_chaining_geocode_assiette_sup` 11.79s
+
+### test_count_batiment_30m_angouleme.py
+
+`test_count_batiment_30m_angouleme` 22.29s
+
+### test_count_batiment_saint_mande.py
+
+`test_count_batiment_saint_mande` 18.46s
+
+### test_count_lycees_2km_chateau_vincennes.py
+
+`test_count_lycees_2km_chateau_vincennes` 36.87s
 
 ### test_describe_type.py
 
-`test_describe_type` 13.43s
+`test_describe_type` 9.39s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 2.18s
+`test_agent_creation_call_and_paris_in_response` 8.96s
 
 ### test_geocode.py
 
-`test_geocode` 4.45s
+`test_geocode` 4.03s
 
 ### test_geocode_address_not_found.py
 
-`test_geocode_address_not_found` 4.82s
+`test_geocode_address_not_found` 5.45s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 5.01s
+`test_get_feature_by_id` 4.84s
 
 ### test_get_features.py
 
-`test_get_features` 16.42s
+`test_get_features` 14.94s
 
 ### test_helpers.py
 
@@ -128,11 +140,11 @@
 
 ### test_search_batiment.py
 
-`test_chaining_geocode_altitude` 6.16s
+`test_search_batiment` 6.00s
 
 ### test_search_ecoles.py
 
-`test_search_ecoles` 9.01s
+`test_search_ecoles` 14.67s
 
 ### test_tools_discovery.py
 
@@ -140,4 +152,4 @@
 
 ### test_urbanisme.py
 
-`test_urbanisme` 11.33s
+`test_urbanisme` 11.88s

@@ -3,9 +3,13 @@ import pytest
 from config.constants import TOOL_GPF_SEARCH_TYPES
 
 USER_INPUT = "Dans quelle table peut-on trouver des informations sur les bâtiments?"
+EXPECTED_RESPONSE_FRAGMENTS = [
+    "bdtopo_v3:batiment",
+    "cadastralparcels.parcellaire_express:batiment",
+]
 
 @pytest.mark.asyncio
-async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
+async def test_search_batiment(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},
@@ -17,7 +21,6 @@ async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()
 
-    keywords = ["bdtopo", "batiment", "bâtiment", "parcellaire", "cadastre"]
-    assert any(k in message_text for k in keywords), \
-        f"None of {keywords} found in response"
+    for fragment in EXPECTED_RESPONSE_FRAGMENTS:
+        assert fragment in message_text, f"Expected fragment not found in response: {fragment}"
 

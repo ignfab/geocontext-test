@@ -4,8 +4,7 @@ from config.constants import TOOL_ALTITUDE
 from helpers import extract_numbers
 
 USER_INPUT = (
-    "Quelle est l'altitude au point de coordonnées longitude 6.87, latitude 45.92? "
-    "Exprime le nombre sans séparateur de milliers, avec un point comme séparateur décimal, sans localisation."
+    "Quelle est l'altitude au point de coordonnées longitude 6.87, latitude 45.92?"
 )
 
 @pytest.mark.asyncio

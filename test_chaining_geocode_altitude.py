@@ -5,7 +5,6 @@ from helpers import extract_numbers
 
 USER_INPUT = (
     "Quelle est l'altitude de la mairie de Chamonix? "
-    "Exprime le nombre sans séparateur de milliers, avec un point comme séparateur décimal, sans localisation."
 )
 
 @pytest.mark.asyncio
