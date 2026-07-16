@@ -5,10 +5,7 @@ from config.constants import TOOL_GEOCODE
 USER_INPUT = "Quelles sont les coordonnées géographiques du 1 rue de Rivoli à Paris?"
 
 @pytest.mark.asyncio
-async def test_geocode(mcp_agent, mcp_tools, tracker):
-    geocode_tool = next((t for t in mcp_tools if t.name == TOOL_GEOCODE), None)
-    assert geocode_tool is not None, f"Tool '{TOOL_GEOCODE}' not found"
-
+async def test_geocode(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

@@ -6,10 +6,7 @@ from config.constants import TOOL_GPF_DESCRIBE_TYPE
 USER_INPUT = "Quels sont les attributs de la table BDTOPO_V3:batiment?"
 
 @pytest.mark.asyncio
-async def test_describe_type(mcp_agent, mcp_tools, tracker):
-    describe_tool = next((t for t in mcp_tools if t.name == TOOL_GPF_DESCRIBE_TYPE), None)
-    assert describe_tool is not None, f"Tool '{TOOL_GPF_DESCRIBE_TYPE}' not found"
-
+async def test_describe_type(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

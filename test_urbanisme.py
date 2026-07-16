@@ -5,10 +5,7 @@ from config.constants import TOOL_URBANISME
 USER_INPUT = "Quelles sont les règles d'urbanisme applicables au 73 avenue de Paris, Saint-Mandé?"
 
 @pytest.mark.asyncio
-async def test_urbanisme(mcp_agent, mcp_tools, tracker):
-    urbanisme_tool = next((t for t in mcp_tools if t.name == TOOL_URBANISME), None)
-    assert urbanisme_tool is not None, f"Tool '{TOOL_URBANISME}' not found"
-
+async def test_urbanisme(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

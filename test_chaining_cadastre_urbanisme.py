@@ -5,7 +5,7 @@ from config.constants import TOOL_GEOCODE
 USER_INPUT = "Quelles sont les règles d'urbanisme applicables au 73 avenue de Paris, Saint-Mandé?"
 
 @pytest.mark.asyncio
-async def test_chaining_geocode_cadastre_urbanisme(mcp_agent, mcp_tools, tracker):
+async def test_chaining_geocode_cadastre_urbanisme(mcp_agent, tracker):
     """Test chaining: geocode -> cadastre -> urbanisme.
     
     The agent should geocode the address, find the cadastral parcel,
