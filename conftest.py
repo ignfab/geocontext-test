@@ -78,6 +78,9 @@ def model():
     if MODEL_NAME.startswith("onyxia:"):
         return _create_model_onyxia(MODEL_NAME)
 
+    if MODEL_NAME.startswith("mistralai:") and not os.getenv("MISTRAL_API_KEY"):
+        raise ValueError("MISTRAL_API_KEY is not set")
+
     return init_chat_model(MODEL_NAME, temperature=0.0)
 
 @pytest_asyncio.fixture(scope="session")
