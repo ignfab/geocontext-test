@@ -2,6 +2,13 @@
 # key: short name used on the command line
 #   model:  MODEL_NAME passed to pytest (provider:model)
 #   report: report file name written under reports/
+#
+# Note that MISTRAL_API_KEY is required for this models
+#
+ministral-14b-latest:
+  model: mistralai:ministral-14b-latest
+  report: ministral-14b-latest.md
+
 mistral-small-latest:
   model: mistralai:mistral-small-latest
   report: mistral-small-latest.md
