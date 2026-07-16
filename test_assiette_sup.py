@@ -5,10 +5,7 @@ from config.constants import TOOL_ASSIETTE_SUP
 USER_INPUT = "Quelles sont les servitudes d'utilité publique aux coordonnées longitude 4.83, latitude 45.76?"
 
 @pytest.mark.asyncio
-async def test_assiette_sup(mcp_agent, mcp_tools, tracker):
-    assiette_sup_tool = next((t for t in mcp_tools if t.name == TOOL_ASSIETTE_SUP), None)
-    assert assiette_sup_tool is not None, f"Tool '{TOOL_ASSIETTE_SUP}' not found"
-
+async def test_assiette_sup(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

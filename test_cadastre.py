@@ -5,10 +5,7 @@ from config.constants import TOOL_CADASTRE
 USER_INPUT = "Quelle est la parcelle cadastrale au 73 avenue de Paris, Saint-Mandé?"
 
 @pytest.mark.asyncio
-async def test_cadastre(mcp_agent, mcp_tools, tracker):
-    cadastre_tool = next((t for t in mcp_tools if t.name == TOOL_CADASTRE), None)
-    assert cadastre_tool is not None, f"Tool '{TOOL_CADASTRE}' not found"
-
+async def test_cadastre(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

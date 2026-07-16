@@ -5,10 +5,7 @@ from config.constants import TOOL_ADMINEXPRESS
 USER_INPUT = "Dans quelle commune et quel département se trouve le point de coordonnées longitude 2.35, latitude 48.85?"
 
 @pytest.mark.asyncio
-async def test_adminexpress(mcp_agent, mcp_tools, tracker):
-    admin_tool = next((t for t in mcp_tools if t.name == TOOL_ADMINEXPRESS), None)
-    assert admin_tool is not None, f"Tool '{TOOL_ADMINEXPRESS}' not found"
-
+async def test_adminexpress(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

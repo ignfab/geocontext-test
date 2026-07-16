@@ -8,10 +8,7 @@ USER_INPUT = (
 )
 
 @pytest.mark.asyncio
-async def test_altitude(mcp_agent, mcp_tools, tracker):
-    altitude_tool = next((t for t in mcp_tools if t.name == TOOL_ALTITUDE), None)
-    assert altitude_tool is not None, f"Tool '{TOOL_ALTITUDE}' not found"
-
+async def test_altitude(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},

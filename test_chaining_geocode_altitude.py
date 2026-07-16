@@ -8,7 +8,7 @@ USER_INPUT = (
 )
 
 @pytest.mark.asyncio
-async def test_chaining_geocode_altitude(mcp_agent, mcp_tools, tracker):
+async def test_chaining_geocode_altitude(mcp_agent, tracker):
     # Invoke agent with callback handler to track tool calls
     result = await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},

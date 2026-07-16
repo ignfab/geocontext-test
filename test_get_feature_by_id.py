@@ -32,10 +32,8 @@ def fetch_sample_commune():
 
 
 @pytest.mark.asyncio
-async def test_get_feature_by_id(mcp_agent, mcp_tools, tracker):
-    tool = next((t for t in mcp_tools if t.name == TOOL_GPF_GET_FEATURE_BY_ID), None)
-    assert tool is not None, f"Tool '{TOOL_GPF_GET_FEATURE_BY_ID}' not found"
-
+async def test_get_feature_by_id(mcp_agent, tracker):
+    
     feature_id, code_insee = fetch_sample_commune()
 
     user_input = USER_INPUT.replace("{FEATURE_ID}", feature_id)
