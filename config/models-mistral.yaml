@@ -1,0 +1,11 @@
+# Models exercised by scripts/run_multimodel.py
+# key: short name used on the command line
+#   model:  MODEL_NAME passed to pytest (provider:model)
+#   report: report file name written under reports/
+mistral-small-latest:
+  model: mistralai:mistral-small-latest
+  report: mistral-small-latest.md
+
+mistral-medium-latest:
+  model: mistralai:mistral-medium-latest
+  report: mistral-medium-latest.md

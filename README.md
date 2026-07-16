@@ -30,6 +30,8 @@ Generated with geocontext v0.9.8 :
 - [reports/gemini-3.1-flash-lite.md](reports/gemini-3.1-flash-lite.md) : OK
 - [reports/gemma4-26b-moe.md](reports/gemma4-26b-moe.md) : 2 test KO (ERP)
 - [reports/qwen3-6-35b-moe.md](reports/qwen3-6-35b-moe.md) : 1 test KO (ERP)
+- [reports/mistral-small-latest.md](reports/mistral-small-latest.md) : 2 test KO (ERP et `cadastralparcels.parcellaire_express:batiment` non mentionnée pour [test_search_batiment.py](test_search_batiment.py))
+- [reports/mistral-medium-latest.md](reports/mistral-medium-latest.md) : 1 test KO (ERP)
 
 
 ## Usage
