@@ -2,7 +2,7 @@ import pytest
 
 from config.constants import TOOL_GPF_SEARCH_TYPES
 
-USER_INPUT = "Dans quelle table peut-on trouver des informations sur les bâtiments?"
+USER_INPUT = "Dans quelles tables peut-on trouver des informations sur les bâtiments?"
 EXPECTED_RESPONSE_FRAGMENTS = [
     "bdtopo_v3:batiment",
     "cadastralparcels.parcellaire_express:batiment",
