@@ -1,12 +1,12 @@
 # Test Report
 
-*Report generated on 15-Jul-2026 at 10:13:30 by [pytest-md]*
+*Report generated on 16-Jul-2026 at 13:30:48 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-48 tests ran in 396.39 seconds
+48 tests ran in 401.45 seconds
 
 - 2 failed
 - 46 passed
@@ -15,97 +15,95 @@
 
 ### test_count_lycees_2km_chateau_vincennes.py
 
-`test_count_lycees_2km_chateau_vincennes` 59.28s
+`test_count_lycees_2km_chateau_vincennes` 138.95s
 
 ```
-test_count_lycees_2km_chateau_vincennes.py:35: in test_count_lycees_2km_chateau_vincennes
-    assert fragment.lower() in message_text, f"Expected fragment not found in response: {fragment}"
-E   AssertionError: Expected fragment not found in response: 14
-E   assert '14' in 'content=\'je n\\\'ai pas pu trouver de lycées répertoriés dans la base de données des établissements recevant du public (erp) à moins de 2 km du château de vincennes. \\n\\nil est possible que ces établissements ne soient pas classés sous le type "enseignement" ou "lycée" dans cette base spécifique, ou qu\\\'ils ne soient pas enregistrés comme erp dans les données consultées.\' additional_kwargs={\'refusal\': none} response_metadata={\'token_usage\': {\'completion_tokens\': 91, \'prompt_tokens\': 12583, \'total_tokens\': 12674, \'completion_tokens_details\': none, \'prompt_tokens_details\': none}, \'model_provider\': \'openai\', \'model_name\': \'gemma4-26b-moe\', \'system_fingerprint\': \'vllm-0.23.0-fc919ceb\', \'id\': \'chatcmpl-b0af91a363ad1cef\', \'finish_reason\': \'stop\', \'logprobs\': none} id=\'lc_run--019f64d4-c831-7412-b6f7-0aefe38b7fc0-0\' tool_calls=[] invalid_tool_calls=[] usage_metadata={\'input_tokens\': 12583, \'output_tokens\': 91, \'total_tokens\': 12674, \'input_token_details\': {}, \'output_token_details\': {}}'
-E    +  where '14' = <built-in method lower of str object at 0x73271bbd1bc0>()
-E    +    where <built-in method lower of str object at 0x73271bbd1bc0> = '14'.lower
+test_count_lycees_2km_chateau_vincennes.py:29: in test_count_lycees_2km_chateau_vincennes
+    assert tool_name in tool_names_called, f"{tool_name} tool was not called"
+E   AssertionError: gpf_wfs_describe_type tool was not called
+E   assert 'gpf_wfs_describe_type' in {'geocode', 'gpf_wfs_search_types'}
 ```
 
 ### test_search_ecoles.py
 
-`test_search_ecoles` 14.12s
+`test_search_ecoles` 12.83s
 
 ```
 test_search_ecoles.py:22: in test_search_ecoles
     assert fragment in message_text, f"Expected fragment not found in response: {fragment}"
 E   AssertionError: Expected fragment not found in response: bdtopo_v3:zone_d_activite_ou_d_interet
-E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'d\\\'après les recherches effectuées, il n\\\'existe pas de table nommée explicitement "écoles". cependant, vous pouvez trouver des informations relatives aux écoles dans les tables suivantes :\\n\\n1.  **`bdtopo_v3:erp` (établissements recevant du public)** : les écoles étant des lieux accueillant du public, elles sont classées comme des erp. cette table est la plus susceptible de contenir des données spécifiques sur la nature de l\\\'établissement.\\n2.  **`bdtopo_v3:batiment`** : cette table répertorie les constructions physiques. vous pourriez y trouver les bâtiments scolaires, bien qu\\\'il faille probablement filtrer par usage ou fonction.\\n\\nsi vous avez un lieu précis en tête, je peux explorer ces tables pour vous afin de vérifier si des établissements scolaires y sont répertoriés.\' additional_kwargs={\'refusal\': none} response_metadata={\'token_usage\': {\'completion_tokens\': 187, \'prompt_tokens\': 6260, \'total_tokens\': 6447, \'completion_tokens_details\': none, \'prompt_tokens_details\': none}, \'model_provider\': \'openai\', \'model_name\': \'gemma4-26b-moe\', \'system_fingerprint\': \'vllm-0.23.0-fc919ceb\', \'id\': \'chatcmpl-af8408001a2d7eb5\', \'finish_reason\': \'stop\', \'logprobs\': none} id=\'lc_run--019f64d6-1eaf-7121-a74b-96253d5e7b52-0\' tool_calls=[] invalid_tool_calls=[] usage_metadata={\'input_tokens\': 6260, \'output_tokens\': 187, \'total_tokens\': 6447, \'input_token_details\': {}, \'output_token_details\': {}}'
+E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'d\\\'après les recherches effectuées, il n\\\'existe pas de table nommée explicitement "écoles". cependant, vous pouvez trouver des informations relatives aux écoles dans les tables suivantes selon votre besoin :\\n\\n1.  **`bdtopo_v3:erp` (établissements recevant du public)** : les écoles étant des lieux accueillant du public, elles sont répertoriées dans cette table qui concerne les bâtiments ouverts aux personnes extérieures.\\n2.  **`bdtopo_v3:batiment`** : cette table contient l\\\'ensemble des constructions au-dessus du sol. vous pourriez y trouver les bâtiments scolaires, bien qu\\\'il faille probablement filtrer par usage ou type de bâtiment.\\n\\nsi vous recherchez des informations plus spécifiques (comme le nom de l\\\'établissement ou son type), je vous recommande d\\\'explorer la table **`bdtopo_v3:erp`** en premier.\' additional_kwargs={\'refusal\': none} response_metadata={\'token_usage\': {\'completion_tokens\': 201, \'prompt_tokens\': 6260, \'total_tokens\': 6461, \'completion_tokens_details\': none, \'prompt_tokens_details\': none}, \'model_provider\': \'openai\', \'model_name\': \'gemma4-26b-moe\', \'system_fingerprint\': \'vllm-0.23.0-fc919ceb\', \'id\': \'chatcmpl-8859317b5359628d\', \'finish_reason\': \'stop\', \'logprobs\': none} id=\'lc_run--019f6ab1-33f0-7260-b07b-2df2683f405e-0\' tool_calls=[] invalid_tool_calls=[] usage_metadata={\'input_tokens\': 6260, \'output_tokens\': 201, \'total_tokens\': 6461, \'input_token_details\': {}, \'output_token_details\': {}}'
 ```
 
 ## 46 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 4.88s
+`test_adminexpress` 5.42s
 
 ### test_altitude.py
 
-`test_altitude` 3.90s
+`test_altitude` 3.65s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 54.79s
+`test_assiette_sup` 49.73s
 
 ### test_cadastre.py
 
-`test_cadastre` 7.78s
+`test_cadastre` 8.20s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 18.17s
+`test_chaining_geocode_cadastre_urbanisme` 18.19s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 21.07s
+`test_chaining_discovery` 17.34s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 7.81s
+`test_chaining_geocode_adminexpress` 8.34s
 
 ### test_chaining_geocode_altitude.py
 
-`test_chaining_geocode_altitude` 7.46s
+`test_chaining_geocode_altitude` 6.69s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 28.55s
+`test_chaining_geocode_assiette_sup` 23.62s
 
 ### test_count_batiment_30m_angouleme.py
 
-`test_count_batiment_30m_angouleme` 47.98s
+`test_count_batiment_30m_angouleme` 17.95s
 
 ### test_count_batiment_saint_mande.py
 
-`test_count_batiment_saint_mande` 20.97s
+`test_count_batiment_saint_mande` 20.09s
 
 ### test_describe_type.py
 
-`test_describe_type` 20.80s
+`test_describe_type` 17.52s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 1.41s
+`test_agent_creation_call_and_paris_in_response` 0.65s
 
 ### test_geocode.py
 
-`test_geocode` 5.01s
+`test_geocode` 3.47s
 
 ### test_geocode_address_not_found.py
 
-`test_geocode_address_not_found` 3.74s
+`test_geocode_address_not_found` 3.15s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 4.95s
+`test_get_feature_by_id` 4.65s
 
 ### test_get_features.py
 
-`test_get_features` 29.38s
+`test_get_features` 16.17s
 
 ### test_helpers.py
 
@@ -163,7 +161,7 @@ E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'d\\\'après le
 
 ### test_search_batiment.py
 
-`test_search_batiment` 8.42s
+`test_search_batiment` 5.70s
 
 ### test_tools_discovery.py
 
@@ -171,4 +169,4 @@ E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'d\\\'après le
 
 ### test_urbanisme.py
 
-`test_urbanisme` 23.53s
+`test_urbanisme` 16.81s

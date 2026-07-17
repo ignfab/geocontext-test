@@ -1,28 +1,17 @@
 # Test Report
 
-*Report generated on 16-Jul-2026 at 12:10:06 by [pytest-md]*
+*Report generated on 16-Jul-2026 at 13:53:52 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-48 tests ran in 194.04 seconds
+48 tests ran in 198.67 seconds
 
-- 2 failed
-- 46 passed
+- 1 failed
+- 47 passed
 
-## 2 failed
-
-### test_geocode_address_not_found.py
-
-`test_geocode_address_not_found` 2.98s
-
-```
-test_geocode_address_not_found.py:30: in test_geocode_address_not_found
-    assert "adresse non trouvée" in message_text, \
-E   AssertionError: L'agent n'a pas signalé 'adresse non trouvée': content="les coordonnées géographiques du **15 avenue de paris à loray (25390)** ne sont pas directement disponibles dans les résultats.\n\ncependant, voici les coordonnées des adresses les plus proches trouvées :\n- **15 rue des ages de loray** : longitude `6.503116`, latitude `47.144954`\n- **15 r
-E   assert 'adresse non trouvée' in 'content="les coordonnées géographiques du **15 avenue de paris à loray (25390)** ne sont pas directement disponibles dans les résultats.\\n\\ncependant, voici les coordonnées des adresses les plus proches trouvées :\\n- **15 rue des ages de loray** : longitude `6.503116`, latitude `47.144954`\\n- **15 rue des ages** : longitude `6.50319`, latitude `47.145048`\\n- **15 grande rue** : longitude `6.495587`, latitude `47.153689`\\n\\nsi tu cherches spécifiquement l\'**avenue de paris**, l\'adresse n\'a pas été trouvée. souhaites-tu que je vérifie une autre orthographe ou une autre localisation ?" additional_kwargs={} response_metadata={\'token_usage\': {\'prompt_tokens\': 5156, \'total_tokens\': 5341, \'completion_tokens\': 185, \'prompt_tokens_details\': {\'cached_tokens\': 4864}}, \'model_name\': \'mistral-small-latest\', \'model\': \'mistral-small-latest\', \'finish_reason\': \'stop\', \'model_provider\': \'mistralai\'} id=\'lc_run--019f6a66-db64-77f1-bd74-aa8563994c90-0\' tool_calls=[] invalid_tool_calls=[] usage_metadata={\'input_tokens\': 5156, \'output_tokens\': 185, \'total_tokens\': 5341}'
-```
+## 1 failed
 
 ### test_search_ecoles.py
 
@@ -32,78 +21,82 @@ E   assert 'adresse non trouvée' in 'content="les coordonnées géographiques d
 test_search_ecoles.py:22: in test_search_ecoles
     assert fragment in message_text, f"Expected fragment not found in response: {fragment}"
 E   AssertionError: Expected fragment not found in response: bdtopo_v3:zone_d_activite_ou_d_interet
-E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'on peut trouver des informations sur les **écoles** dans la table **`bdtopo_v3:erp`** (établissements recevant du public).\\n\\ncette table contient des établissements comme les écoles, collèges, lycées, etc., avec des attributs comme :\\n- **`type_principal`** et **`activite_principale`** pour identifier le type d\\\'établissement (ex : "enseignement" pour les écoles).\\n- **`libelle`** pour le nom de l\\\'établissement.\\n- **`capacite_d_accueil_du_public`** pour la capacité d\\\'accueil.\\n- **`adresse_*`** pour l\\\'adresse complète.\\n- **`insee_commune`** pour le code insee de la commune.\\n\\nsi tu veux explorer les données ou faire une recherche spécifique, je peux t\\\'aider à utiliser cette table. par exemple, veux-tu chercher les écoles autour d\\\'une ville ou d\\\'un point précis ?\' additional_kwargs={} response_metadata={\'token_usage\': {\'prompt_tokens\': 8747, \'total_tokens\': 8950, \'completion_tokens\': 203, \'prompt_tokens_details\': {\'cached_tokens\': 4864}}, \'model_name\': \'mistral-small-latest\', \'model\': \'mistral-small-latest\', \'finish_reason\': \'stop\', \'model_provider\': \'mistralai\'} id=\'lc_run--019f6a67-74ca-79e1-843c-a7a3abd10af6-0\' tool_calls=[] invalid_tool_calls=[] usage_metadata={\'input_tokens\': 8747, \'output_tokens\': 203, \'total_tokens\': 8950}'
+E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'on peut trouver des informations sur les **écoles** dans la table **`bdtopo_v3:erp`** (établissements recevant du public).\\n\\ncette table contient des établissements comme les écoles, collèges, lycées, etc., avec des attributs comme :\\n- **`type_principal`** et **`activite_principale`** pour identifier le type d\\\'établissement (ex : "enseignement" pour les écoles).\\n- **`libelle`** pour le nom de l\\\'établissement.\\n- **`capacite_d_accueil_du_public`** pour la capacité d\\\'accueil.\\n- **`adresse_*`** pour l\\\'adresse complète.\\n- **`insee_commune`** pour le code insee de la commune.\\n\\nsi tu veux explorer les données ou faire une recherche spécifique, je peux t\\\'aider à utiliser cette table. par exemple, veux-tu chercher les écoles autour d\\\'une ville ou d\\\'un point précis ?\' additional_kwargs={} response_metadata={\'token_usage\': {\'prompt_tokens\': 8747, \'total_tokens\': 8950, \'completion_tokens\': 203, \'prompt_tokens_details\': {\'cached_tokens\': 4864}}, \'model_name\': \'mistral-small-latest\', \'model\': \'mistral-small-latest\', \'finish_reason\': \'stop\', \'model_provider\': \'mistralai\'} id=\'lc_run--019f6ac6-6bea-7d33-8b08-c92903a66be0-0\' tool_calls=[] invalid_tool_calls=[] usage_metadata={\'input_tokens\': 8747, \'output_tokens\': 203, \'total_tokens\': 8950}'
 ```
 
-## 46 passed
+## 47 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 2.86s
+`test_adminexpress` 2.91s
 
 ### test_altitude.py
 
-`test_altitude` 2.62s
+`test_altitude` 2.85s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 15.48s
+`test_assiette_sup` 14.45s
 
 ### test_cadastre.py
 
-`test_cadastre` 4.66s
+`test_cadastre` 8.52s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 13.11s
+`test_chaining_geocode_cadastre_urbanisme` 14.32s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 11.49s
+`test_chaining_discovery` 10.83s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 4.63s
+`test_chaining_geocode_adminexpress` 5.16s
 
 ### test_chaining_geocode_altitude.py
 
-`test_chaining_geocode_altitude` 4.32s
+`test_chaining_geocode_altitude` 4.44s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 13.90s
+`test_chaining_geocode_assiette_sup` 11.52s
 
 ### test_count_batiment_30m_angouleme.py
 
-`test_count_batiment_30m_angouleme` 11.76s
+`test_count_batiment_30m_angouleme` 14.94s
 
 ### test_count_batiment_saint_mande.py
 
-`test_count_batiment_saint_mande` 10.15s
+`test_count_batiment_saint_mande` 10.98s
 
 ### test_count_lycees_2km_chateau_vincennes.py
 
-`test_count_lycees_2km_chateau_vincennes` 32.71s
+`test_count_lycees_2km_chateau_vincennes` 22.62s
 
 ### test_describe_type.py
 
-`test_describe_type` 7.97s
+`test_describe_type` 8.06s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 0.35s
+`test_agent_creation_call_and_paris_in_response` 0.32s
 
 ### test_geocode.py
 
-`test_geocode` 2.28s
+`test_geocode` 2.32s
+
+### test_geocode_address_not_found.py
+
+`test_geocode_address_not_found` 3.04s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 2.39s
+`test_get_feature_by_id` 2.53s
 
 ### test_get_features.py
 
-`test_get_features` 25.29s
+`test_get_features` 30.98s
 
 ### test_helpers.py
 
@@ -161,7 +154,7 @@ E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'on peut trouve
 
 ### test_search_batiment.py
 
-`test_search_batiment` 3.80s
+`test_search_batiment` 3.84s
 
 ### test_tools_discovery.py
 
@@ -169,4 +162,4 @@ E   assert 'bdtopo_v3:zone_d_activite_ou_d_interet' in 'content=\'on peut trouve
 
 ### test_urbanisme.py
 
-`test_urbanisme` 11.84s
+`test_urbanisme` 14.54s

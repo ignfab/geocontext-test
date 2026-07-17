@@ -1,13 +1,12 @@
 # Contributing and Local Development
 
-## Environment Setup
+## Requirements
 
-### Prerequisites
-
-- **Python** 3.10+
 - **UV** (fast Python package installer): [install UV](https://docs.astral.sh/uv/getting-started/)
 - **Node.js** 18+: Required by the MCP server `@ignfab/geocontext`
 - **API Keys**: Depending on the LLM provider you want to test
+
+## Configuration
 
 ### API Keys
 
@@ -38,11 +37,13 @@ These are automatically injected into the MCP server environment.
 
 ## Running Tests
 
-### Quick Test with Default Config
+### Testing with a Single Model
 
-Run all tests with the default configuration (remote MCP server via `npx @ignfab/geocontext`):
+Run all tests with the default MCP configuration [config/mcp-servers.json](config/mcp-servers.json) :
 
 ```bash
+# Set model name (defaulted to claude-haiku-4-5)
+export MODEL_NAME="anthropic:claude-haiku-4-5"
 # Set your API key
 export ANTHROPIC_API_KEY=your_key
 
@@ -59,7 +60,7 @@ uv run pytest
 
 ### Testing with Multiple Models
 
-Use the provided test runner to run the same test suite against multiple models defined in a YAML config:
+Use the provided test runner ([scripts/run_tests.py](scripts/run_tests.py)) to run the same test suite against multiple models defined in a YAML config:
 
 ```bash
 # Test with all Anthropic models
@@ -73,15 +74,7 @@ uv run scripts/run_tests.py config/models-anthropic.yaml --model=claude-haiku-4-
 uv run scripts/run_tests.py config/models-anthropic.yaml --list
 ```
 
-Pass additional pytest arguments after `--`:
-
-```bash
-uv run scripts/run_tests.py config/models-anthropic.yaml -- -k geocode -x
-```
-
 ## Testing a Local Version of geocontext
-
-### Testing the Development Version with HTTP Transport
 
 For testing the latest development version with HTTP transport:
 
@@ -103,181 +96,6 @@ Or run all tests:
 GEOCONTEXT_DEV=1 MCP_SERVERS_PATH=config/mcp-servers-dev.json uv run pytest
 ```
 
-### Alternative: Local Build Setup
-
-If you're developing `@ignfab/geocontext` locally or need to test a custom build, you can configure the test suite to use your local version instead of the published npm package.
-
-#### 1. Build or Prepare Your Local geocontext
-
-```bash
-# Clone the geocontext repository (if not already done)
-git clone https://github.com/ignfab/geocontext.git /path/to/local/geocontext
-
-# Build it
-cd /path/to/local/geocontext
-npm install
-npm run build
-
-# Or use the development build directly (depending on the project structure)
-```
-
-#### 2. Create a Local MCP Configuration
-
-Create a file `config/mcp-servers-local.json` to point to your local build:
-
-```json
-{
-  "servers": {
-    "geocontext": {
-      "command": "node",
-      "args": ["/path/to/local/geocontext/dist/index.js"],
-      "transport": "stdio",
-      "env": {}
-    }
-  }
-}
-```
-
-**Note:** Replace `/path/to/local/geocontext` with the actual path to your local clone.
-
-Alternatively, if you use `npx` to run a local package:
-
-```json
-{
-  "servers": {
-    "geocontext": {
-      "command": "npx",
-      "args": ["--yes", "/path/to/local/geocontext"],
-      "transport": "stdio",
-      "env": {}
-    }
-  }
-}
-```
-
-#### 3. Set the MCP_SERVERS_PATH Environment Variable
-
-Point the test suite to your custom configuration:
-
-```bash
-export MCP_SERVERS_PATH=/path/to/geocontext-test/config/mcp-servers-local.json
-uv run pytest
-```
-
-Or pass it to the test runner:
-
-```bash
-export ANTHROPIC_API_KEY=your_key
-uv run scripts/run_tests.py config/models-anthropic.yaml --mcp-servers-path config/mcp-servers-local.json
-```
-
-### Environment Variables
-
-- `MCP_SERVERS_PATH`: Path to a JSON file defining MCP server configurations. If not set, defaults to `config/mcp-servers.json`.
-- `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`: Standard proxy variables (automatically injected into the server environment).
-- `MODEL_NAME`: LLM provider and model to use (default: `"anthropic:claude-haiku-4-5"`). Format: `provider:model_id`.
-
-### Understanding the Configuration
-
-The MCP server configuration is stored in JSON files with the following structure:
-
-```json
-{
-  "servers": {
-    "geocontext": {
-      "command": "npx",
-      "args": ["-y", "@ignfab/geocontext"],
-      "transport": "stdio",
-      "env": {
-        "LOG_LEVEL": "error",
-        "CUSTOM_VAR": "value"
-      }
-    }
-  }
-}
-```
-
-**Fields:**
-- `command`: The executable to run (e.g., `npx`, `node`, custom executable path)
-- `args`: Command-line arguments passed to the executable
-- `transport`: Communication protocol with the MCP server (typically `stdio`)
-- `env`: Optional environment variables for the server process
-
-**Auto-injected Environment Variables:**
-The test harness automatically injects proxy variables (`HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY` and lowercase variants).
-
-These override proxy values defined in the JSON `env` section.
-
-## Adding New Tests
-
-### Test Structure
-
-Tests follow this pattern:
-
-```python
-from conftest import mcp_agent, mcp_tools
-
-@pytest.mark.asyncio
-async def test_my_feature(mcp_agent, mcp_tools):
-    """Test description."""
-    # Arrange
-    input_data = {"question": "What is X?"}
-    
-    # Act
-    result = await mcp_agent.invoke({"messages": [{"role": "user", "content": input_data["question"]}]})
-    
-    # Assert
-    assert "expected_value" in result["output"]
-```
-
-**Fixtures provided by `conftest.py`:**
-- `mcp_agent`: LangGraph agent with MCP tools, shared across all tests (session-scoped)
-- `mcp_tools`: List of available MCP tools, shared across all tests (session-scoped)
-- `model`: The LLM model instance (session-scoped)
-- `tracker`: Per-test tool call tracker for inspecting which tools were invoked
-
-### Running a Single Test
-
-```bash
-uv run pytest -k test_my_feature -v -s
-```
-
-The `-s` flag shows print statements and logging output.
-
-## Debugging
-
-### Enable Detailed Logging
-
-```bash
-uv run pytest -k test_name -v -s
-```
-
-### Inspect Tool Calls
-
-```python
-@pytest.mark.asyncio
-async def test_example(mcp_agent, tracker):
-    result = await mcp_agent.invoke({"messages": [{"role": "user", "content": "..."}]})
-    print(f"Tools called: {tracker.tool_calls}")
-    assert len(tracker.tool_calls) > 0
-```
-
-### Check Available MCP Tools
-
-```bash
-python -c "
-import asyncio
-from conftest import get_mcp_client
-
-async def main():
-    client = get_mcp_client()
-    tools = await client.get_tools()
-    for tool in tools:
-        print(f'{tool.name}: {tool.description}')
-
-asyncio.run(main())
-"
-```
 
 ## Further Reading
 
