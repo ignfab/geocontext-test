@@ -125,10 +125,10 @@ TEST_STATUS_KEY = pytest.StashKey[str]()
 @pytest.hookimpl(wrapper=True)
 def pytest_runtest_makereport(item, call):
     """Store the test outcome so that fixtures can report it during teardown."""
-    outcome = yield
-    report = outcome.get_result()
+    report = yield
     if report.when == "call":
         item.stash[TEST_STATUS_KEY] = report.outcome
+    return report
 
 
 @pytest.fixture
