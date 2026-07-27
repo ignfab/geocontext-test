@@ -14,7 +14,7 @@ def slugify(value: str) -> str:
     The provider prefix is dropped, so "anthropic:claude-haiku-4-5" gives
     "claude-haiku-4-5" and "ollama:qwen3.5:4b" gives "qwen3.5-4b".
     """
-    return re.sub(r"[^A-Za-z0-9._-]+", "-", value.split(":", 1)[-1]).strip("-")
+    return re.sub(r"[^A-Za-z0-9._-]+", "-", value.split(":", 1)[-1]).strip("-") or "unknown"
 
 
 def write_agent_trace(
