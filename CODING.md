@@ -58,6 +58,29 @@ uv run pytest -k test_geocode -v
 uv run pytest
 ```
 
+### Inspecting the Agent Conversations
+
+Each test using the `mcp_agent` fixture writes its conversation to
+`reports/<model>/<test name>.txt`, whether the test passed or failed:
+
+```bash
+export MODEL_NAME="anthropic:claude-haiku-4-5"
+uv run pytest -k test_geocode
+
+cat reports/claude-haiku-4-5/test_geocode.txt
+```
+
+```
+# model  : anthropic:claude-haiku-4-5
+# test   : test_geocode
+# status : passed
+================================ Human Message ================================
+...
+```
+
+These traces are not versioned (see [.gitignore](.gitignore)); they are meant to debug what a
+model actually did (tool calls, arguments, answers).
+
 ### Testing with Multiple Models
 
 Use the provided test runner ([scripts/run_tests.py](scripts/run_tests.py)) to run the same test suite against multiple models defined in a YAML config:

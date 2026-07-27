@@ -10,7 +10,7 @@ from langgraph.checkpoint.memory import MemorySaver
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
 
-from helpers import get_mcp_servers_path, load_mcp_servers
+from helpers import get_mcp_servers_path, load_mcp_servers, write_agent_trace
 
 from config.constants import TOOL_GPF_SEARCH_TYPES, TOOL_GPF_DESCRIBE_TYPE,TOOL_GPF_GET_FEATURES,TOOL_GPF_COUNT_FEATURES
 
@@ -97,7 +97,51 @@ def tracker():
     return ToolCallTracker()
 
 @pytest_asyncio.fixture(scope="session")
-async def mcp_agent(model, mcp_tools):
+async def mcp_agent_session(model, mcp_tools):
     """Session-scoped MCP agent - reuses the shared model and MCP tools."""
     agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT, checkpointer=MemorySaver())
     yield agent
+
+
+class RecordingAgent:
+    """Proxy on the agent keeping each ainvoke result, so it can be traced."""
+
+    def __init__(self, agent):
+        self._agent = agent
+        self.results = []
+
+    async def ainvoke(self, *args, **kwargs):
+        result = await self._agent.ainvoke(*args, **kwargs)
+        self.results.append(result)
+        return result
+
+    def __getattr__(self, name):
+        return getattr(self._agent, name)
+
+
+TEST_STATUS_KEY = pytest.StashKey[str]()
+
+
+@pytest.hookimpl(wrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Store the test outcome so that fixtures can report it during teardown."""
+    report = yield
+    if report.when == "call":
+        item.stash[TEST_STATUS_KEY] = report.outcome
+    return report
+
+
+@pytest.fixture
+def mcp_agent(mcp_agent_session, request):
+    """Per-test MCP agent writing the conversation to reports/<model>/<test>.txt.
+
+    The trace is written on teardown, hence whether the test passed or failed.
+    """
+    agent = RecordingAgent(mcp_agent_session)
+    yield agent
+    write_agent_trace(
+        MODEL_NAME,
+        request.node.name,
+        agent.results,
+        status=request.node.stash.get(TEST_STATUS_KEY, "unknown"),
+    )

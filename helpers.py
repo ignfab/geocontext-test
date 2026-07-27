@@ -8,6 +8,57 @@ def extract_numbers(text: str) -> list[float]:
     return [float(match) for match in re.findall(r"\d+(?:\.\d+)?", text)]
 
 
+def slugify(value: str) -> str:
+    """Turn a model or test name into a safe file name.
+
+    The provider prefix is dropped, so "anthropic:claude-haiku-4-5" gives
+    "claude-haiku-4-5" and "ollama:qwen3.5:4b" gives "qwen3.5-4b".
+    """
+    return re.sub(r"[^A-Za-z0-9._-]+", "-", value.split(":", 1)[-1]).strip("-")
+
+
+def write_agent_trace(
+    model_name: str,
+    test_name: str,
+    results: list[dict],
+    status: str | None = None,
+    reports_dir: Path | None = None,
+) -> Path | None:
+    """Write the agent conversations of a single test to reports/<model>/<test>.txt.
+
+    Args:
+        model_name: MODEL_NAME used for the run (used as directory name).
+        test_name: Name of the test (used as file name).
+        results: Agent results (as returned by agent.ainvoke), one per invocation.
+        status: Optional test outcome (passed, failed, ...).
+        reports_dir: Optional reports directory (default: reports/ at repository root).
+
+    Returns:
+        The path of the written file, or None when there is nothing to write.
+    """
+    if not results:
+        return None
+
+    if reports_dir is None:
+        reports_dir = Path(__file__).resolve().parent / "reports"
+
+    output_path = Path(reports_dir) / slugify(model_name) / f"{slugify(test_name)}.txt"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
+    lines = [f"# model  : {model_name}", f"# test   : {test_name}"]
+    if status is not None:
+        lines.append(f"# status : {status}")
+
+    for result in results:
+        for message in result.get("messages", []):
+            # pretty_repr is provided by langchain messages, str is a safe fallback.
+            pretty_repr = getattr(message, "pretty_repr", None)
+            lines.append(pretty_repr() if pretty_repr else str(message))
+
+    output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return output_path
+
+
 def get_mcp_servers_path(path: str | None = None) -> Path:
     """Resolve the path to MCP servers configuration file.
     
