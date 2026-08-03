@@ -36,6 +36,9 @@ Generated with geocontext v0.9.8 :
 
 > About ERP, see [gpf-schema-store#48](https://github.com/ignfab/gpf-schema-store/issues/48) and [gpf-schema-store#56](https://github.com/ignfab/gpf-schema-store/issues/56) 
 
+Running the tests also writes the details of each conversation to `reports/<model>/<test name>.txt`
+(not versioned, see [CODING.md](CODING.md)).
+
 ## Usage
 
 ### Testing with reports

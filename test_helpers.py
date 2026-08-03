@@ -6,7 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from helpers import extract_numbers, get_mcp_servers_path, load_mcp_servers
+from langchain_core.messages import AIMessage, HumanMessage
+
+from helpers import extract_numbers, get_mcp_servers_path, load_mcp_servers, slugify, write_agent_trace
 
 
 class TestExtractNumbers:
@@ -431,3 +433,42 @@ class TestLoadMcpServers:
         assert "server2" in config
         assert config["server1"]["command"] == "cmd1"
         assert config["server2"]["command"] == "cmd2"
+
+
+class TestSlugify:
+    """Test suite for slugify file name helper."""
+
+    def test_drops_provider_prefix(self):
+        """Test that the provider prefix is removed."""
+        assert slugify("anthropic:claude-haiku-4-5") == "claude-haiku-4-5"
+
+    def test_replaces_remaining_separators(self):
+        """Test with a model name containing an extra colon."""
+        assert slugify("ollama:qwen3.5:4b") == "qwen3.5-4b"
+
+    def test_without_prefix(self):
+        """Test that a plain name is left untouched."""
+        assert slugify("test_geocode") == "test_geocode"
+
+
+class TestWriteAgentTrace:
+    """Test suite for write_agent_trace."""
+
+    def test_write_trace(self, tmp_path):
+        """Test that the conversation is written to <reports>/<model>/<test>.txt."""
+        results = [{"messages": [HumanMessage(content="Question"), AIMessage(content="Réponse")]}]
+
+        path = write_agent_trace("anthropic:claude-haiku-4-5", "test_geocode", results,
+                                 status="failed", reports_dir=tmp_path)
+
+        assert path == tmp_path / "claude-haiku-4-5" / "test_geocode.txt"
+        content = path.read_text(encoding="utf-8")
+        assert "# model  : anthropic:claude-haiku-4-5" in content
+        assert "# status : failed" in content
+        assert "Question" in content
+        assert "Réponse" in content
+
+    def test_no_result_writes_nothing(self, tmp_path):
+        """Test that nothing is written when the agent was never invoked."""
+        assert write_agent_trace("anthropic:claude-haiku-4-5", "test_geocode", [], reports_dir=tmp_path) is None
+        assert list(tmp_path.iterdir()) == []

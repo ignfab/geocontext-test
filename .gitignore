@@ -15,5 +15,8 @@ wheels/
 # Test results
 results.xml
 
+# Agent traces written by the mcp_agent fixture (reports/<model>/<test>.txt)
+reports/*/
+
 # Node
 node_modules/
