@@ -7,16 +7,19 @@ TOOL_CADASTRE = "cadastre"
 TOOL_URBANISME = "urbanisme"
 TOOL_ASSIETTE_SUP = "assiette_sup"
 
-# TODO : handle GEOCONTEXT_DEV=1 to switch 
-# to the next version naming
-
+# Allows to test the futur version (main)
 GEOCONTEXT_DEV=os.getenv("GEOCONTEXT_DEV","0") == "1"
 
 TOOL_GPF_SEARCH_TYPES      = "gpf_search_types" if GEOCONTEXT_DEV else "gpf_wfs_search_types"
 TOOL_GPF_DESCRIBE_TYPE     = "gpf_describe_type" if GEOCONTEXT_DEV else "gpf_wfs_describe_type"
 TOOL_GPF_GET_FEATURES      = "gpf_get_features" if GEOCONTEXT_DEV else "gpf_wfs_get_features"
 TOOL_GPF_GET_FEATURE_BY_ID = "gpf_get_feature_by_id" if GEOCONTEXT_DEV else "gpf_wfs_get_feature_by_id"
-TOOL_GPF_COUNT_FEATURES    = "gpf_count_features" # GEOCONTEXT_DEV only
+
+# GEOCONTEXT_DEV (0.10.x) only
+TOOL_GPF_COUNT_FEATURES          = "gpf_count_features"
+TOOL_GPF_GET_FEATURES_LAYER      = "gpf_get_features_layer"
+TOOL_GPF_GET_FEATURE_BY_ID_LAYER = "gpf_get_feature_by_id_layer"
+
 
 EXPECTED_TOOLS = [
     TOOL_GEOCODE,
@@ -31,5 +34,8 @@ EXPECTED_TOOLS = [
     TOOL_GPF_GET_FEATURE_BY_ID,
 ]
 
+# GEOCONTEXT_DEV (0.10.x) only
 if GEOCONTEXT_DEV:
     EXPECTED_TOOLS.append(TOOL_GPF_COUNT_FEATURES)
+    EXPECTED_TOOLS.append(TOOL_GPF_GET_FEATURES_LAYER)
+    EXPECTED_TOOLS.append(TOOL_GPF_GET_FEATURE_BY_ID_LAYER)
