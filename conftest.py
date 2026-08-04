@@ -1,3 +1,4 @@
+import inspect
 import os
 import logging
 import pytest
@@ -6,6 +7,7 @@ import pytest_asyncio
 from langchain.chat_models import init_chat_model
 from langchain_core.callbacks.base import BaseCallbackHandler
 from langchain.agents import create_agent
+from langchain.agents.middleware import AgentMiddleware
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_mcp_adapters.client import MultiServerMCPClient
 from langchain_openai import ChatOpenAI
@@ -45,6 +47,40 @@ def get_mcp_client():
     servers_config = load_mcp_servers(str(path))
     client = MultiServerMCPClient(servers_config)
     return client
+
+def supports_disabling_parallel_tool_calls(model) -> bool:
+    """Tell whether the provider exposes `parallel_tool_calls` in `bind_tools`.
+
+    Only some providers do (Anthropic, OpenAI). Passing the option to the others
+    would forward an unknown argument to their API.
+    """
+    return "parallel_tool_calls" in inspect.signature(model.bind_tools).parameters
+
+
+class DisableParallelToolCalls(AgentMiddleware):
+    """Ask the model for one tool call at a time, when the provider allows it.
+
+    geocontext crosses the responses of concurrent tool calls over HTTP, which
+    makes the suite randomly red (see
+    https://github.com/ignfab/geocontext-test/issues/33). Removing the
+    concurrency avoids the bug, at the price of a less realistic agent
+    behaviour, so this should be dropped once the server is fixed.
+    test_mcp_concurrency.py keeps reproducing the server bug meanwhile.
+    """
+
+    @staticmethod
+    def _disable(request):
+        if supports_disabling_parallel_tool_calls(request.model):
+            request.model_settings["parallel_tool_calls"] = False
+
+    def wrap_model_call(self, request, handler):
+        self._disable(request)
+        return handler(request)
+
+    async def awrap_model_call(self, request, handler):
+        self._disable(request)
+        return await handler(request)
+
 
 class ToolCallTracker(BaseCallbackHandler):
     def __init__(self):
@@ -99,7 +135,13 @@ def tracker():
 @pytest_asyncio.fixture(scope="session")
 async def mcp_agent_session(model, mcp_tools):
     """Session-scoped MCP agent - reuses the shared model and MCP tools."""
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT, checkpointer=MemorySaver())
+    agent = create_agent(
+        model=model,
+        tools=mcp_tools,
+        system_prompt=SYSTEM_PROMPT,
+        middleware=[DisableParallelToolCalls()],
+        checkpointer=MemorySaver(),
+    )
     yield agent
 
 
