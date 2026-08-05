@@ -1,15 +1,17 @@
-import inspect
+import asyncio
 import os
 import logging
 import pytest
 import pytest_asyncio
 
+from contextlib import AsyncExitStack
+
 from langchain.chat_models import init_chat_model
 from langchain_core.callbacks.base import BaseCallbackHandler
 from langchain.agents import create_agent
-from langchain.agents.middleware import AgentMiddleware
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_mcp_adapters.tools import load_mcp_tools
 from langchain_openai import ChatOpenAI
 
 from helpers import get_mcp_servers_path, load_mcp_servers, write_agent_trace
@@ -47,40 +49,6 @@ def get_mcp_client():
     servers_config = load_mcp_servers(str(path))
     client = MultiServerMCPClient(servers_config)
     return client
-
-def supports_disabling_parallel_tool_calls(model) -> bool:
-    """Tell whether the provider exposes `parallel_tool_calls` in `bind_tools`.
-
-    Only some providers do (Anthropic, OpenAI). Passing the option to the others
-    would forward an unknown argument to their API.
-    """
-    return "parallel_tool_calls" in inspect.signature(model.bind_tools).parameters
-
-
-class DisableParallelToolCalls(AgentMiddleware):
-    """Ask the model for one tool call at a time, when the provider allows it.
-
-    geocontext crosses the responses of concurrent tool calls over HTTP, which
-    makes the suite randomly red (see
-    https://github.com/ignfab/geocontext-test/issues/33). Removing the
-    concurrency avoids the bug, at the price of a less realistic agent
-    behaviour, so this should be dropped once the server is fixed.
-    test_mcp_concurrency.py keeps reproducing the server bug meanwhile.
-    """
-
-    @staticmethod
-    def _disable(request):
-        if supports_disabling_parallel_tool_calls(request.model):
-            request.model_settings["parallel_tool_calls"] = False
-
-    def wrap_model_call(self, request, handler):
-        self._disable(request)
-        return handler(request)
-
-    async def awrap_model_call(self, request, handler):
-        self._disable(request)
-        return await handler(request)
-
 
 class ToolCallTracker(BaseCallbackHandler):
     def __init__(self):
@@ -121,10 +89,45 @@ def model():
 
 @pytest_asyncio.fixture(scope="session")
 async def mcp_tools():
-    """Session-scoped MCP tools - spawns the MCP server only once."""
+    """Session-scoped MCP tools, bound to one long-lived session per server.
+
+    `client.get_tools()` would open a *new* MCP session for each tool call. When
+    the model emits several tool calls in the same turn, LangGraph runs them
+    concurrently, and geocontext crosses the responses of these concurrent
+    sessions over HTTP (see
+    https://github.com/ignfab/geocontext-test/issues/33). Reusing a single
+    session per server avoids it, and is also how a real MCP client connects.
+    """
     client = get_mcp_client()
-    tools = await client.get_tools()
-    yield tools
+    loaded: asyncio.Future = asyncio.get_running_loop().create_future()
+    closing = asyncio.Event()
+
+    async def keep_sessions_open():
+        """Own the sessions from a single task, from opening to closing.
+
+        The MCP transports rely on anyio cancel scopes, which must be exited by
+        the task that entered them. pytest-asyncio runs fixture setup and
+        teardown in two different tasks, so the sessions are held by this task
+        instead, and the teardown only signals it.
+        """
+        try:
+            async with AsyncExitStack() as stack:
+                tools = []
+                for server_name in client.connections:
+                    session = await stack.enter_async_context(client.session(server_name))
+                    tools.extend(await load_mcp_tools(session, server_name=server_name))
+                loaded.set_result(tools)
+                await closing.wait()
+        except Exception as exc:
+            if not loaded.done():
+                loaded.set_exception(exc)
+            else:
+                raise
+
+    task = asyncio.create_task(keep_sessions_open())
+    yield await loaded
+    closing.set()
+    await task
 
 # TODO : remove this and instanciate in test cases
 @pytest.fixture
@@ -135,13 +138,7 @@ def tracker():
 @pytest_asyncio.fixture(scope="session")
 async def mcp_agent_session(model, mcp_tools):
     """Session-scoped MCP agent - reuses the shared model and MCP tools."""
-    agent = create_agent(
-        model=model,
-        tools=mcp_tools,
-        system_prompt=SYSTEM_PROMPT,
-        middleware=[DisableParallelToolCalls()],
-        checkpointer=MemorySaver(),
-    )
+    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT, checkpointer=MemorySaver())
     yield agent
 
 

@@ -7,12 +7,17 @@ tool calls in a single turn, and verifies that each call gets *its own* answer.
 Over HTTP, geocontext 0.10.x crosses these answers (see
 https://github.com/ignfab/geocontext-test/issues/33). The stdio transport is
 immune, since each tool call spawns its own server process.
+
+The tools are loaded here with `client.get_tools()`, which opens a new MCP
+session per call: that is the topology the server trips on, and the one the
+`mcp_tools` fixture deliberately avoids while the bug is open.
 """
 import asyncio
 import json
 
 import pytest
 
+from conftest import get_mcp_client
 from config.constants import TOOL_GEOCODE, TOOL_GPF_SEARCH_TYPES
 from helpers import get_mcp_servers_path, load_mcp_servers
 
@@ -42,8 +47,8 @@ def first_result(tool_output) -> dict:
 
 
 @pytest.mark.asyncio
-async def test_concurrent_tool_calls_are_not_crossed(mcp_tools):
-    tools = {tool.name: tool for tool in mcp_tools}
+async def test_concurrent_tool_calls_are_not_crossed():
+    tools = {tool.name: tool for tool in await get_mcp_client().get_tools()}
 
     # Warm up with a sequential call: on the stdio transport, each tool call
     # starts its own server, and two concurrent `npx` would race to populate the
