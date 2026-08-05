@@ -1,10 +1,12 @@
 import pytest
 
 from config.constants import (
-    TOOL_GEOCODE,
-    TOOL_GPF_DESCRIBE_TYPE,
-    TOOL_GPF_GET_FEATURES,
-    TOOL_GPF_SEARCH_TYPES,
+	GEOCONTEXT_DEV,
+	TOOL_GEOCODE,
+	TOOL_GPF_SEARCH_TYPES,
+	TOOL_GPF_DESCRIBE_TYPE,
+	TOOL_GPF_GET_FEATURES,
+	TOOL_GPF_COUNT_FEATURES,
 )
 
 USER_INPUT = "Combien de lycées sont situés à 2km du chateau de vincennes?"
@@ -23,7 +25,7 @@ async def test_count_lycees_2km_chateau_vincennes(mcp_agent, tracker):
         TOOL_GEOCODE,
         TOOL_GPF_SEARCH_TYPES,
         TOOL_GPF_DESCRIBE_TYPE,
-        TOOL_GPF_GET_FEATURES,
+        TOOL_GPF_COUNT_FEATURES if GEOCONTEXT_DEV else TOOL_GPF_GET_FEATURES,
     ]
     for tool_name in required_tools:
         assert tool_name in tool_names_called, f"{tool_name} tool was not called"
