@@ -22,6 +22,13 @@ dependencies = [
 ]
 
 [tool.pytest.ini_options]
+# Les tests s'exécutent séquentiellement. Ils partagent des fixtures
+# scope="session" (client MCP, agent), et distribuer les tests sur plusieurs
+# workers rouvrirait une session MCP par worker : les requêtes concurrentes de
+# ces sessions vers le serveur geocontext en HTTP voient leurs réponses
+# croisées, ce que le fixture mcp_tools évite en partageant une seule session,
+# cf. https://github.com/ignfab/geocontext-test/issues/33
+addopts = "-p no:xdist -p no:xdist.looponfail"
 asyncio_mode = "auto"
 # Les fixtures MCP (mcp_tools, mcp_agent) et le client HTTP du modèle sont
 # scope="session". Sans partager un unique event loop, le client httpx async

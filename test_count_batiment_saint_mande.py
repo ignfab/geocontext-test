@@ -1,10 +1,11 @@
 import pytest
 
 from config.constants import (
+	GEOCONTEXT_DEV,
 	TOOL_GEOCODE,
-	TOOL_GPF_DESCRIBE_TYPE,
-	TOOL_GPF_GET_FEATURES,
 	TOOL_GPF_SEARCH_TYPES,
+	TOOL_GPF_GET_FEATURES,
+	TOOL_GPF_COUNT_FEATURES,
 )
 from helpers import extract_numbers
 
@@ -21,11 +22,12 @@ async def test_count_batiment_saint_mande(mcp_agent, tracker):
 
 	tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
 
+	# note that TOOL_GPF_DESCRIBE_TYPE is not required as
+	# the LLM doesn't have to provide property names
 	required_tools = [
 		TOOL_GEOCODE,
 		TOOL_GPF_SEARCH_TYPES,
-		TOOL_GPF_DESCRIBE_TYPE,
-		TOOL_GPF_GET_FEATURES,
+        TOOL_GPF_COUNT_FEATURES if GEOCONTEXT_DEV else TOOL_GPF_GET_FEATURES,
 	]
 	for tool_name in required_tools:
 		assert tool_name in tool_names_called, f"{tool_name} tool was not called"
