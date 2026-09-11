@@ -33,6 +33,7 @@ Generated with geocontext v0.9.8 :
 - [reports/ministral-14b-latest.md](reports/ministral-14b-latest.md) : 3 tests KO (ERP and prompt ignored for [test_geocode_address_not_found.py](test_geocode_address_not_found.py))
 - [reports/mistral-small-latest.md](reports/mistral-small-latest.md) : 1 test KO (ERP)
 - [reports/mistral-medium-latest.md](reports/mistral-medium-latest.md) : OK
+- [reports/albert-openai-gpt-oss-120b.md](reports/albert-openai-gpt-oss-120b.md) : 2 tests KO (ERP)
 
 > About ERP, see [gpf-schema-store#48](https://github.com/ignfab/gpf-schema-store/issues/48) and [gpf-schema-store#56](https://github.com/ignfab/gpf-schema-store/issues/56) 
 

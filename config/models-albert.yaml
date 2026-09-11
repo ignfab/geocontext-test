@@ -1,0 +1,12 @@
+# Models availables with Albert API
+# 
+# - https://ia.numerique.gouv.fr/outils-ia/albert-api/
+# - 
+#
+# key: short name used on the command line
+#   model:  MODEL_NAME passed to pytest (provider:model)
+#   report: report file name written under reports/
+
+openai-gpt-oss-120b:
+  model: albert:openai/gpt-oss-120b
+  report: albert-openai-gpt-oss-120b.md

@@ -77,10 +77,34 @@ def _create_model_onyxia(model_name) -> ChatOpenAI:
         }
     )
 
+
+def _create_model_albert(model_name) -> ChatOpenAI:
+    ALBERT_API_KEY = os.getenv("ALBERT_API_KEY")
+    
+    if not ALBERT_API_KEY:
+        raise ValueError("ALBERT_API_KEY is not set")
+    
+    return ChatOpenAI(
+        base_url="https://albert.api.etalab.gouv.fr/v1",
+        api_key=ALBERT_API_KEY,
+        model=model_name.replace("albert:", ""),
+        temperature=0.0,
+        model_kwargs={
+            "extra_headers": {
+                "enable-auto-tool-choice": "true",
+                "tool-call-parser": "true"
+            }
+        }
+    )
+
+
 @pytest.fixture(scope="session")
 def model():
     if MODEL_NAME.startswith("onyxia:"):
         return _create_model_onyxia(MODEL_NAME)
+
+    if MODEL_NAME.startswith("albert:"):
+        return _create_model_albert(MODEL_NAME)
 
     if MODEL_NAME.startswith("mistralai:") and not os.getenv("MISTRAL_API_KEY"):
         raise ValueError("MISTRAL_API_KEY is not set")
