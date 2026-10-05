@@ -19,7 +19,7 @@ EXPECTED_MAX = 900_000
 
 @pytest.mark.xfail(
     reason="the GPF WFS ignores the cql_filter of a too large Vendée geometry and returns the count for "
-    "the whole of France (51 450 444), see https://github.com/ignfab/geocontext/issues/130",
+    "the whole of France (51 450 444), see https://github.com/ignfab/geocontext-test/issues/42",
 )
 @pytest.mark.asyncio
 async def test_count_batiment_vendee(mcp_agent, tracker):
