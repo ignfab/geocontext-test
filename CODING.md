@@ -59,6 +59,9 @@ uv run pytest
 
 # Run test_mcp_concurrency.py, skipped by default until #33 is fixed
 SKIP_TEST_MCP_CONCURRENCY=0 uv run pytest test_mcp_concurrency.py -v
+
+# Run test_count_batiment_vendee.py, skipped by default until #42 is fixed
+GEOCONTEXT_DEV=1 SKIP_TEST_COUNT_BATIMENT_VENDEE=0 uv run pytest test_count_batiment_vendee.py -v
 ```
 
 ### Inspecting the Agent Conversations

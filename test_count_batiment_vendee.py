@@ -1,3 +1,5 @@
+import os
+
 import pytest
 
 from config.constants import (
@@ -7,9 +9,17 @@ from config.constants import (
 )
 from helpers import extract_numbers
 
-pytestmark = pytest.mark.skipif(
-    not GEOCONTEXT_DEV, reason="intersects_feature_filter requires geocontext 0.10.x (GEOCONTEXT_DEV=1)"
-)
+pytestmark = [
+    pytest.mark.skipif(
+        not GEOCONTEXT_DEV, reason="intersects_feature_filter requires geocontext 0.10.x (GEOCONTEXT_DEV=1)"
+    ),
+    pytest.mark.skipif(
+        os.getenv("SKIP_TEST_COUNT_BATIMENT_VENDEE", "1") == "1",
+        reason="the GPF WFS ignores the cql_filter of a too large Vendée geometry and returns the count for "
+        "the whole of France, see https://github.com/ignfab/geocontext-test/issues/42 "
+        "(set SKIP_TEST_COUNT_BATIMENT_VENDEE=0 to run it)",
+    ),
+]
 
 # Large administrative unit geometry, see ignfab/demo-geocontext#70 and ignfab/geocontext#130
 USER_INPUT = "Combien y a-t-il de bâtiments dans le département de la Vendée ?"
@@ -17,10 +27,6 @@ USER_INPUT = "Combien y a-t-il de bâtiments dans le département de la Vendée 
 EXPECTED_MIN = 800_000
 EXPECTED_MAX = 900_000
 
-@pytest.mark.xfail(
-    reason="the GPF WFS ignores the cql_filter of a too large Vendée geometry and returns the count for "
-    "the whole of France (51 450 444), see https://github.com/ignfab/geocontext-test/issues/42",
-)
 @pytest.mark.asyncio
 async def test_count_batiment_vendee(mcp_agent, tracker):
     result = await mcp_agent.ainvoke(
