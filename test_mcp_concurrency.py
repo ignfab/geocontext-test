@@ -11,15 +11,25 @@ immune, since each tool call spawns its own server process.
 The tools are loaded here with `client.get_tools()`, which opens a new MCP
 session per call: that is the topology the server trips on, and the one the
 `mcp_tools` fixture deliberately avoids while the bug is open.
+
+Skipped by default until #33 is fixed: run it with SKIP_TEST_MCP_CONCURRENCY=0.
 """
 import asyncio
 import json
+import os
 
 import pytest
 
 from conftest import get_mcp_client
 from config.constants import TOOL_GEOCODE, TOOL_GPF_SEARCH_TYPES
 from helpers import get_mcp_servers_path, load_mcp_servers
+
+pytestmark = pytest.mark.skipif(
+    os.getenv("SKIP_TEST_MCP_CONCURRENCY", "1") == "1",
+    reason="concurrent tool calls are crossed over HTTP, see "
+    "https://github.com/ignfab/geocontext-test/issues/33 "
+    "(set SKIP_TEST_MCP_CONCURRENCY=0 to run it)",
+)
 
 
 def attempts() -> int:

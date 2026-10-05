@@ -1,88 +1,89 @@
 # Test Report
 
-*Report generated on 16-Jul-2026 at 13:24:03 by [pytest-md]*
+*Report generated on 05-Oct-2026 at 23:09:03 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-48 tests ran in 387.48 seconds
+54 tests ran in 306.65 seconds
 
-- 48 passed
+- 53 passed
+- 1 skipped
 
-## 48 passed
+## 53 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 7.76s
+`test_adminexpress` 6.66s
 
 ### test_altitude.py
 
-`test_altitude` 7.65s
+`test_altitude` 4.56s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 27.57s
+`test_assiette_sup` 27.33s
 
 ### test_cadastre.py
 
-`test_cadastre` 11.28s
+`test_cadastre` 7.88s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 26.38s
+`test_chaining_geocode_cadastre_urbanisme` 24.69s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 26.21s
+`test_chaining_discovery` 33.21s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 11.58s
+`test_chaining_geocode_adminexpress` 7.45s
 
 ### test_chaining_geocode_altitude.py
 
-`test_chaining_geocode_altitude` 15.95s
+`test_chaining_geocode_altitude` 6.02s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 26.61s
+`test_chaining_geocode_assiette_sup` 23.70s
 
 ### test_count_batiment_30m_angouleme.py
 
-`test_count_batiment_30m_angouleme` 26.80s
+`test_count_batiment_30m_angouleme` 18.90s
 
 ### test_count_batiment_saint_mande.py
 
-`test_count_batiment_saint_mande` 18.89s
+`test_count_batiment_saint_mande` 12.44s
 
 ### test_count_lycees_2km_chateau_vincennes.py
 
-`test_count_lycees_2km_chateau_vincennes` 46.24s
+`test_count_lycees_2km_chateau_vincennes` 14.99s
 
 ### test_describe_type.py
 
-`test_describe_type` 20.16s
+`test_describe_type` 24.20s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 2.78s
+`test_agent_creation_call_and_paris_in_response` 2.30s
 
 ### test_geocode.py
 
-`test_geocode` 5.78s
+`test_geocode` 4.16s
 
 ### test_geocode_address_not_found.py
 
-`test_geocode_address_not_found` 6.80s
+`test_geocode_address_not_found` 4.45s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 10.84s
+`test_get_feature_by_id` 7.80s
 
 ### test_get_features.py
 
-`test_get_features` 30.32s
+`test_get_features` 32.83s
 
 ### test_helpers.py
 
@@ -138,13 +139,23 @@
 
 `TestLoadMcpServers.test_multiple_servers` 0.00s
 
+`TestSlugify.test_drops_provider_prefix` 0.00s
+
+`TestSlugify.test_replaces_remaining_separators` 0.00s
+
+`TestSlugify.test_without_prefix` 0.00s
+
+`TestWriteAgentTrace.test_write_trace` 0.00s
+
+`TestWriteAgentTrace.test_no_result_writes_nothing` 0.00s
+
 ### test_search_batiment.py
 
-`test_search_batiment` 11.49s
+`test_search_batiment` 13.11s
 
 ### test_search_ecoles.py
 
-`test_search_ecoles` 18.36s
+`test_search_ecoles` 6.86s
 
 ### test_tools_discovery.py
 
@@ -152,4 +163,10 @@
 
 ### test_urbanisme.py
 
-`test_urbanisme` 26.05s
+`test_urbanisme` 22.26s
+
+## 1 skipped
+
+### test_mcp_concurrency.py
+
+`test_concurrent_tool_calls_are_not_crossed` 0.00s

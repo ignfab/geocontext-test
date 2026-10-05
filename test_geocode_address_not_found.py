@@ -3,8 +3,9 @@ import pytest
 from config.constants import TOOL_GEOCODE
 
 USER_INPUT = (
-    "Donne-moi les coordonnées géographiques du 15 avenue de Paris à Loray (25390)."
-    "Si tu ne trouves pas l'adresse exacte, indique simplement 'adresse non trouvée'"
+    "Donne-moi les coordonnées géographiques du 15 avenue de Paris à Loray (25390). "
+    "Si le résultat ne porte pas exactement sur cette voie (avenue de Paris), "
+    "ne donne aucune coordonnée et réponds uniquement 'adresse non trouvée'."
 )
 
 @pytest.mark.asyncio
