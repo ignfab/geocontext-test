@@ -56,6 +56,9 @@ uv run pytest -k test_geocode -v
 # Run with verbose logging
 # edit LOG_LEVEL in your MCP config, then:
 uv run pytest
+
+# Run test_mcp_concurrency.py, skipped by default until #33 is fixed
+SKIP_TEST_MCP_CONCURRENCY=0 uv run pytest test_mcp_concurrency.py -v
 ```
 
 ### Inspecting the Agent Conversations
