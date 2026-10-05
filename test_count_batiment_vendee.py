@@ -1,5 +1,3 @@
-import re
-
 import pytest
 
 from config.constants import (
@@ -45,8 +43,7 @@ async def test_count_batiment_vendee(mcp_agent, tracker):
         f"Expected intersects_feature_filter to be used, got {count_tool_calls}"
 
     last_message = result["messages"][-1]
-    # Remove thousands separators ("857 552", "857,552", "857.552")
-    message_text = re.sub(r"(?<=\d)[\s\u202f\u00a0,.](?=\d{3}\b)", "", str(last_message))
+    message_text = str(last_message)
     numbers = extract_numbers(message_text)
     assert any(EXPECTED_MIN <= n <= EXPECTED_MAX for n in numbers), \
         f"Expected a number of buildings between {EXPECTED_MIN} and {EXPECTED_MAX} in response: {message_text[:300]}"
