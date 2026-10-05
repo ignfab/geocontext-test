@@ -10,10 +10,10 @@ USER_INPUT = (
 
 @pytest.mark.asyncio
 async def test_geocode_address_not_found(mcp_agent, tracker):
-    """Test négatif : adresse qui n'existe pas.
+    """Negative test: the address does not exist.
 
-    L'agent doit signaler qu'il n'a pas trouvé de résultat plutôt que
-    d'inventer des coordonnées.
+    The agent should report that no result was found rather than
+    make up coordinates.
     """
 
     result = await mcp_agent.ainvoke(
@@ -27,6 +27,6 @@ async def test_geocode_address_not_found(mcp_agent, tracker):
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()
 
-    # L'agent doit signaler explicitement que l'adresse est introuvable.
+    # The agent must explicitly report that the address was not found.
     assert "adresse non trouvée" in message_text, \
-        f"L'agent n'a pas signalé 'adresse non trouvée': {message_text[:300]}"
+        f"The agent did not report 'adresse non trouvée': {message_text[:300]}"
