@@ -1,89 +1,89 @@
 # Test Report
 
-*Report generated on 05-Oct-2026 at 23:09:03 by [pytest-md]*
+*Report generated on 06-Oct-2026 at 01:18:40 by [pytest-md]*
 
 [pytest-md]: https://github.com/hackebrot/pytest-md
 
 ## Summary
 
-54 tests ran in 306.65 seconds
+58 tests ran in 312.73 seconds
 
 - 53 passed
-- 1 skipped
+- 5 skipped
 
 ## 53 passed
 
 ### test_adminexpress.py
 
-`test_adminexpress` 6.66s
+`test_adminexpress` 6.17s
 
 ### test_altitude.py
 
-`test_altitude` 4.56s
+`test_altitude` 4.36s
 
 ### test_assiette_sup.py
 
-`test_assiette_sup` 27.33s
+`test_assiette_sup` 26.48s
 
 ### test_cadastre.py
 
-`test_cadastre` 7.88s
+`test_cadastre` 7.22s
 
 ### test_chaining_cadastre_urbanisme.py
 
-`test_chaining_geocode_cadastre_urbanisme` 24.69s
+`test_chaining_geocode_cadastre_urbanisme` 25.41s
 
 ### test_chaining_discovery.py
 
-`test_chaining_discovery` 33.21s
+`test_chaining_discovery` 24.68s
 
 ### test_chaining_geocode_adminexpress.py
 
-`test_chaining_geocode_adminexpress` 7.45s
+`test_chaining_geocode_adminexpress` 7.12s
 
 ### test_chaining_geocode_altitude.py
 
-`test_chaining_geocode_altitude` 6.02s
+`test_chaining_geocode_altitude` 5.70s
 
 ### test_chaining_geocode_assiette_sup.py
 
-`test_chaining_geocode_assiette_sup` 23.70s
+`test_chaining_geocode_assiette_sup` 25.48s
 
 ### test_count_batiment_30m_angouleme.py
 
-`test_count_batiment_30m_angouleme` 18.90s
+`test_count_batiment_30m_angouleme` 15.80s
 
 ### test_count_batiment_saint_mande.py
 
-`test_count_batiment_saint_mande` 12.44s
+`test_count_batiment_saint_mande` 10.62s
 
 ### test_count_lycees_2km_chateau_vincennes.py
 
-`test_count_lycees_2km_chateau_vincennes` 14.99s
+`test_count_lycees_2km_chateau_vincennes` 39.30s
 
 ### test_describe_type.py
 
-`test_describe_type` 24.20s
+`test_describe_type` 18.08s
 
 ### test_france_capital.py
 
-`test_agent_creation_call_and_paris_in_response` 2.30s
+`test_agent_creation_call_and_paris_in_response` 1.98s
 
 ### test_geocode.py
 
-`test_geocode` 4.16s
+`test_geocode` 3.88s
 
 ### test_geocode_address_not_found.py
 
-`test_geocode_address_not_found` 4.45s
+`test_geocode_address_not_found` 3.76s
 
 ### test_get_feature_by_id.py
 
-`test_get_feature_by_id` 7.80s
+`test_get_feature_by_id` 7.53s
 
 ### test_get_features.py
 
-`test_get_features` 32.83s
+`test_get_features` 25.29s
 
 ### test_helpers.py
 
@@ -151,11 +151,11 @@
 
 ### test_search_batiment.py
 
-`test_search_batiment` 13.11s
+`test_search_batiment` 9.59s
 
 ### test_search_ecoles.py
 
-`test_search_ecoles` 6.86s
+`test_search_ecoles` 11.68s
 
 ### test_tools_discovery.py
 
@@ -163,9 +163,25 @@
 
 ### test_urbanisme.py
 
-`test_urbanisme` 22.26s
+`test_urbanisme` 24.00s
 
-## 1 skipped
+## 5 skipped
+
+### test_chaining_distance_piscine_caen.py
+
+`test_chaining_distance_piscine_caen` 0.00s
+
+### test_chaining_geocode_distance.py
+
+`test_chaining_geocode_distance` 0.00s
+
+### test_count_batiment_vendee.py
+
+`test_count_batiment_vendee` 0.00s
+
+### test_count_lycees_15min_mairie_saint_mande.py
+
+`test_count_lycees_15min_mairie_saint_mande` 0.00s
 
 ### test_mcp_concurrency.py
 
