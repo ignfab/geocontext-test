@@ -80,46 +80,58 @@ uv run pytest
 
 ## Tests
 
-### Tests directs (un seul outil)
+> Tool names are given for geocontext 0.9.x. With 0.10.x (`GEOCONTEXT_DEV=1`), `gpf_wfs_*` tools are renamed `gpf_*` (see [config/constants.py](config/constants.py)).
 
-| Test                     | Fichier                                                | Outil                       | Description                                                           |
-| ------------------------ | ------------------------------------------------------ | --------------------------- | --------------------------------------------------------------------- |
-| `test_france_capital`    | [test_france_capital.py](test_france_capital.py)       | aucun (LLM seul)            | Test basique sans MCP — vérifie que le LLM répond "Paris"             |
-| `test_geocode`           | [test_geocode.py](test_geocode.py)                     | `geocode`                   | Coordonnées du 1 rue de Rivoli, Paris                                 |
-| `test_altitude`          | [test_altitude.py](test_altitude.py)                   | `altitude`                  | Altitude au point (6.87, 45.92) — zone de Chamonix (~1000m)           |
-| `test_adminexpress`      | [test_adminexpress.py](test_adminexpress.py)           | `adminexpress`              | Commune/département à partir de coordonnées (2.35, 48.85) → Paris, 75 |
-| `test_cadastre`          | [test_cadastre.py](test_cadastre.py)                   | `cadastre`                  | Parcelle cadastrale au 73 av. de Paris, Saint-Mandé                   |
-| `test_urbanisme`         | [test_urbanisme.py](test_urbanisme.py)                 | `urbanisme`                 | Règles d'urbanisme pour la parcelle 94067000AI0042                    |
-| `test_assiette_sup`      | [test_assiette_sup.py](test_assiette_sup.py)           | `assiette_sup`              | Servitudes d'utilité publique aux coordonnées (4.83, 45.76) — Lyon    |
-| `test_describe_type`     | [test_describe_type.py](test_describe_type.py)         | `gpf_wfs_describe_type`     | Attributs de la table BDTOPO_V3:batiment                              |
-| `test_get_features`      | [test_get_features.py](test_get_features.py)           | `gpf_wfs_get_features`      | Bâtiments BDTOPO proches de Chamonix                                  |
-| `test_get_feature_by_id` | [test_get_feature_by_id.py](test_get_feature_by_id.py) | `gpf_wfs_get_feature_by_id` | Objet commune.8952 → Aurel (INSEE 26019)                              |
-| `test_search_batiment`   | [test_search_batiment.py](test_search_batiment.py)     | `gpf_wfs_search_types`      | Recherche de tables contenant des bâtiments                           |
-| `test_search_ecoles`     | [test_search_ecoles.py](test_search_ecoles.py)         | `gpf_wfs_search_types`      | Recherche de tables contenant des écoles                              |
+### Single tool tests
 
-### Tests de chaînage (multi-outils)
+| Test                     | File                                                   | Tool                        | Description                                                                |
+| ------------------------ | ------------------------------------------------------ | --------------------------- | -------------------------------------------------------------------------- |
+| `test_france_capital`    | [test_france_capital.py](test_france_capital.py)       | none (LLM only)             | Basic test without MCP: checks that the LLM answers "Paris"                |
+| `test_tools_discovery`   | [test_tools_discovery.py](test_tools_discovery.py)     | none (tool listing)         | Checks that all the expected tools are exposed by the MCP server           |
+| `test_geocode`           | [test_geocode.py](test_geocode.py)                     | `geocode`                   | Coordinates of 1 rue de Rivoli, Paris                                      |
+| `test_altitude`          | [test_altitude.py](test_altitude.py)                   | `altitude`                  | Altitude at (6.87, 45.92), Chamonix area (900-1200 m)                      |
+| `test_adminexpress`      | [test_adminexpress.py](test_adminexpress.py)           | `adminexpress`              | Commune and department at (2.35, 48.85): Paris, 75                         |
+| `test_cadastre`          | [test_cadastre.py](test_cadastre.py)                   | `cadastre`                  | Cadastral parcel at 73 avenue de Paris, Saint-Mandé                        |
+| `test_urbanisme`         | [test_urbanisme.py](test_urbanisme.py)                 | `urbanisme`                 | Urban planning rules at 73 avenue de Paris, Saint-Mandé                    |
+| `test_assiette_sup`      | [test_assiette_sup.py](test_assiette_sup.py)           | `assiette_sup`              | Public utility easements at (4.83, 45.76), Lyon                            |
+| `test_describe_type`     | [test_describe_type.py](test_describe_type.py)         | `gpf_wfs_describe_type`     | Attributes of the `BDTOPO_V3:batiment` table                               |
+| `test_get_features`      | [test_get_features.py](test_get_features.py)           | `gpf_wfs_get_features`      | BD TOPO buildings near Chamonix                                            |
+| `test_get_feature_by_id` | [test_get_feature_by_id.py](test_get_feature_by_id.py) | `gpf_wfs_get_feature_by_id` | `code_insee` of a commune given its `feature_id` (first commune of the WFS) |
+| `test_search_batiment`   | [test_search_batiment.py](test_search_batiment.py)     | `gpf_wfs_search_types`      | Search for tables about buildings                                          |
+| `test_search_ecoles`     | [test_search_ecoles.py](test_search_ecoles.py)         | `gpf_wfs_search_types`      | Search for tables about schools                                            |
 
-| Test                                 | Fichier                                                                        | Chaîne d'outils                                                           | Description                                  |
-| ------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------- | -------------------------------------------- |
-| `test_chaining_geocode`              | [test_chaining_geocode_altitude.py](test_chaining_geocode_altitude.py)                           | `geocode` → `altitude`                                                    | Altitude de la mairie de Chamonix (~1036m)   |
-| `test_chaining_geocode_adminexpress` | [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py) | `geocode` → `adminexpress`                                                | 1 rue de Rivoli → commune/département        |
-| `test_chaining_geocode_assiette_sup` | [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py) | `geocode` → `assiette_sup`                                                | 10 place Bellecour, Lyon → servitudes        |
-| `test_chaining_cadastre_urbanisme`   | [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py)     | `geocode` → `cadastre` → `urbanisme`                                      | Adresse → parcelle → règles PLU              |
-| `test_chaining_discovery`            | [test_chaining_discovery.py](test_chaining_discovery.py)                       | `gpf_wfs_search_types` → `gpf_wfs_describe_type` → `gpf_wfs_get_features` | Découverte complète : cours d'eau à Toulouse |
+### Chaining tests (multiple tools)
 
-### Tests négatifs
+| Test                                      | File                                                                                   | Tool chain                                                                                         | Description                                                    |
+| ----------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `test_chaining_geocode_altitude`          | [test_chaining_geocode_altitude.py](test_chaining_geocode_altitude.py)                 | `geocode` → `altitude`                                                                             | Altitude of Chamonix town hall (900-1200 m)                    |
+| `test_chaining_geocode_adminexpress`      | [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py)         | `geocode` → `adminexpress`                                                                         | 1 rue de Rivoli → commune and department                       |
+| `test_chaining_geocode_assiette_sup`      | [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py)         | `geocode` → `assiette_sup`                                                                         | 10 place Bellecour, Lyon → public utility easements            |
+| `test_chaining_cadastre_urbanisme`        | [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py)             | `geocode` → `cadastre` → `urbanisme`                                                               | Address → parcel → urban planning rules                        |
+| `test_chaining_discovery`                 | [test_chaining_discovery.py](test_chaining_discovery.py)                               | `gpf_wfs_search_types` → `gpf_wfs_describe_type` → `gpf_wfs_get_features`                          | Full discovery: watercourse near the Eiffel Tower (Seine)      |
+| `test_count_batiment_saint_mande`         | [test_count_batiment_saint_mande.py](test_count_batiment_saint_mande.py)               | `geocode` → `gpf_wfs_search_types` → `gpf_wfs_get_features` (`gpf_count_features` in 0.10.x)      | Number of buildings in Saint-Mandé (1700-1800)                 |
+| `test_count_batiment_30m_angouleme`       | [test_count_batiment_30m_angouleme.py](test_count_batiment_30m_angouleme.py)           | `geocode` → `gpf_wfs_search_types` → `gpf_wfs_describe_type` → `gpf_wfs_get_features` (`gpf_count_features` in 0.10.x) | Number of buildings higher than 30 m in Angoulême (19)         |
+| `test_count_lycees_2km_chateau_vincennes` | [test_count_lycees_2km_chateau_vincennes.py](test_count_lycees_2km_chateau_vincennes.py) | `geocode` → `gpf_wfs_search_types` → `gpf_wfs_describe_type` → `gpf_wfs_get_features` (`gpf_count_features` in 0.10.x) | Number of high schools within 2 km of the Château de Vincennes (14) |
 
-| Test                       | Fichier                                                    | Description                                                                         |
-| -------------------------- | ---------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `test_geocode_address_not_found` | [test_geocode_address_not_found.py](test_geocode_address_not_found.py) | Adresse fictive — vérifie que l'agent signale l'absence de résultat                 |
+### Negative tests
 
-## Cas critiques non couverts
+| Test                             | File                                                                   | Description                                                                  |
+| -------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `test_geocode_address_not_found` | [test_geocode_address_not_found.py](test_geocode_address_not_found.py) | Non-existent address: checks that the agent reports "adresse non trouvée"    |
 
-| Cas                                 | Criticité | Description                                                                                         |
-| ----------------------------------- | --------- | --------------------------------------------------------------------------------------------------- |
-| Adresse ambiguë                     | Moyenne   | Pas de test avec une adresse qui matche plusieurs résultats (ex: "rue de la République" sans ville) |
-| DOM-TOM / Outre-mer                 | Moyenne   | Pas de test sur les territoires ultramarins (Réunion, Guadeloupe)                                   |
-| Erreur réseau / tool error recovery | Basse     | Pas de test sur la capacité de l'agent à retenter après une erreur d'outil                          |
+### MCP server tests (no model)
+
+| Test                    | File                                               | Description                                                                                                           |
+| ----------------------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `test_mcp_concurrency`  | [test_mcp_concurrency.py](test_mcp_concurrency.py) | Concurrent tool calls must not be crossed. Skipped by default until [#33](https://github.com/ignfab/geocontext-test/issues/33) is fixed (`SKIP_TEST_MCP_CONCURRENCY=0` to run it) |
+
+## Critical cases not covered
+
+| Case                                | Criticality | Description                                                                                       |
+| ----------------------------------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| Ambiguous address                   | Medium      | No test with an address matching several results (e.g. "rue de la République" without a city)    |
+| Overseas territories (DOM-TOM)      | Medium      | No test on overseas territories (Réunion, Guadeloupe)                                             |
+| Network error / tool error recovery | Low         | No test of the agent's ability to retry after a tool error                                        |
 
 ## License
 
