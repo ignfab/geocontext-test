@@ -13,9 +13,12 @@ pytestmark = pytest.mark.skipif(
 
 # Coordinates of the château are given to avoid testing the geocode chaining
 CHATEAU_LON, CHATEAU_LAT = 2.435792, 48.842681
+# The search radius and the limit are given to avoid a truncated result (numberReturned < numberMatched)
+# where the nearest high school is missing (see https://github.com/ignfab/geocontext-test/pull/52)
 USER_INPUT = (
     "Quel est le lycée le plus proche du château de Vincennes "
-    f"(longitude {CHATEAU_LON}, latitude {CHATEAU_LAT}) ?"
+    f"(longitude {CHATEAU_LON}, latitude {CHATEAU_LAT}) ? "
+    "(recherche dans un rayon de 2km avec une limite à 20)"
 )
 # BDTOPO_V3:zone_d_activite_ou_d_interet with nature "Lycée": Lycée Professionnel Jean Moulin
 # at ~480 m, the next one (Lycée Notre-Dame de la Providence) is at ~630 m
