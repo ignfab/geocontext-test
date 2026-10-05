@@ -80,7 +80,7 @@ uv run pytest
 
 ## Tests
 
-> Tool names are given for geocontext 0.10.x (`GEOCONTEXT_DEV=1`). With 0.9.x, `gpf_*` tools are named `gpf_wfs_*` and counts rely on `gpf_wfs_get_features` (see [config/constants.py](config/constants.py)).
+> Tool names are given for geocontext 0.10.x (`GEOCONTEXT_DEV=1`). With 0.9.x, `gpf_*` tools are named `gpf_wfs_*`, counts rely on `gpf_wfs_get_features` and tests using `distance` are skipped (see [config/constants.py](config/constants.py)).
 
 ### Single tool tests
 
@@ -102,16 +102,18 @@ uv run pytest
 
 ### Chaining tests (multiple tools)
 
-| File                                                                                     | Tool chain                                                                  | Description                                                         |
-| ---------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [test_chaining_geocode_altitude.py](test_chaining_geocode_altitude.py)                   | `geocode` → `altitude`                                                      | Altitude of Chamonix town hall (900-1200 m)                         |
-| [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py)           | `geocode` → `adminexpress`                                                  | 1 rue de Rivoli → commune and department                            |
-| [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py)           | `geocode` → `assiette_sup`                                                  | 10 place Bellecour, Lyon → public utility easements                 |
-| [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py)               | `geocode` → `cadastre` → `urbanisme`                                        | Address → parcel → urban planning rules                             |
-| [test_chaining_discovery.py](test_chaining_discovery.py)                                 | `gpf_search_types` → `gpf_describe_type` → `gpf_get_features`               | Full discovery: watercourse near the Eiffel Tower (Seine)           |
-| [test_count_batiment_saint_mande.py](test_count_batiment_saint_mande.py)                 | `geocode` → `gpf_search_types` → `gpf_count_features`                       | Number of buildings in Saint-Mandé (1700-1800)                      |
-| [test_count_batiment_30m_angouleme.py](test_count_batiment_30m_angouleme.py)             | `geocode` → `gpf_search_types` → `gpf_describe_type` → `gpf_count_features` | Number of buildings higher than 30 m in Angoulême (19)              |
-| [test_count_lycees_2km_chateau_vincennes.py](test_count_lycees_2km_chateau_vincennes.py) | `geocode` → `gpf_search_types` → `gpf_describe_type` → `gpf_count_features` | Number of high schools within 2 km of the Château de Vincennes (14) |
+| File                                                                                     | Tool chain                                                                             | Description                                                                                         |
+| ---------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [test_chaining_geocode_altitude.py](test_chaining_geocode_altitude.py)                   | `geocode` → `altitude`                                                                 | Altitude of Chamonix town hall (900-1200 m)                                                         |
+| [test_chaining_geocode_adminexpress.py](test_chaining_geocode_adminexpress.py)           | `geocode` → `adminexpress`                                                             | 1 rue de Rivoli → commune and department                                                            |
+| [test_chaining_geocode_assiette_sup.py](test_chaining_geocode_assiette_sup.py)           | `geocode` → `assiette_sup`                                                             | 10 place Bellecour, Lyon → public utility easements                                                 |
+| [test_chaining_cadastre_urbanisme.py](test_chaining_cadastre_urbanisme.py)               | `geocode` → `cadastre` → `urbanisme`                                                   | Address → parcel → urban planning rules                                                             |
+| [test_chaining_discovery.py](test_chaining_discovery.py)                                 | `gpf_search_types` → `gpf_describe_type` → `gpf_get_features`                          | Full discovery: watercourse near the Eiffel Tower (Seine)                                           |
+| [test_count_batiment_saint_mande.py](test_count_batiment_saint_mande.py)                 | `geocode` → `gpf_search_types` → `gpf_count_features`                                  | Number of buildings in Saint-Mandé (1700-1800)                                                      |
+| [test_count_batiment_30m_angouleme.py](test_count_batiment_30m_angouleme.py)             | `geocode` → `gpf_search_types` → `gpf_describe_type` → `gpf_count_features`            | Number of buildings higher than 30 m in Angoulême (19)                                              |
+| [test_count_lycees_2km_chateau_vincennes.py](test_count_lycees_2km_chateau_vincennes.py) | `geocode` → `gpf_search_types` → `gpf_describe_type` → `gpf_count_features`            | Number of high schools within 2 km of the Château de Vincennes (14)                                 |
+| [test_chaining_geocode_distance.py](test_chaining_geocode_distance.py)                   | `geocode` → `distance`                                                                 | Walking distance between the Gare de Lyon and the Eiffel Tower (5-9 km)                             |
+| [test_chaining_distance_piscine_caen.py](test_chaining_distance_piscine_caen.py)         | `geocode` → `gpf_search_types` → `gpf_describe_type` → `gpf_get_features` → `distance` | Walking time from the cinéma LUX (Caen) to the nearest swimming pool: Sivom, Mondeville (25-35 min) |
 
 ### Negative tests
 

@@ -19,6 +19,7 @@ TOOL_GPF_GET_FEATURE_BY_ID = "gpf_get_feature_by_id" if GEOCONTEXT_DEV else "gpf
 TOOL_GPF_COUNT_FEATURES          = "gpf_count_features"
 TOOL_GPF_GET_FEATURES_LAYER      = "gpf_get_features_layer"
 TOOL_GPF_GET_FEATURE_BY_ID_LAYER = "gpf_get_feature_by_id_layer"
+TOOL_DISTANCE                    = "distance"
 
 
 EXPECTED_TOOLS = [
@@ -39,3 +40,4 @@ if GEOCONTEXT_DEV:
     EXPECTED_TOOLS.append(TOOL_GPF_COUNT_FEATURES)
     EXPECTED_TOOLS.append(TOOL_GPF_GET_FEATURES_LAYER)
     EXPECTED_TOOLS.append(TOOL_GPF_GET_FEATURE_BY_ID_LAYER)
+    EXPECTED_TOOLS.append(TOOL_DISTANCE)
