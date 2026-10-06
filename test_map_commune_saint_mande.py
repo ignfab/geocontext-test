@@ -9,7 +9,6 @@ from config.constants import (
     TOOL_GPF_GET_FEATURE_BY_ID_LAYER,
     TOOL_SHOW_MAP,
 )
-from helpers import get_layer_data_urls, get_tool_call_args
 
 pytestmark = pytest.mark.skipif(
     not GEOCONTEXT_DEV, reason="gpf_get_feature_by_id_layer requires geocontext 0.10.x (GEOCONTEXT_DEV=1)"
@@ -38,13 +37,18 @@ async def test_map_commune_saint_mande(mcp_agent, tracker):
     for tool_name in required_tools:
         assert tool_name in tool_names_called, f"{tool_name} tool was not called"
 
-    layer_args = get_tool_call_args(result["messages"], TOOL_GPF_GET_FEATURE_BY_ID_LAYER)
+    layer_args = tracker.get_args(TOOL_GPF_GET_FEATURE_BY_ID_LAYER)
     assert any(args.get("typename") == EXPECTED_TYPENAME for args in layer_args), \
         f"Expected {TOOL_GPF_GET_FEATURE_BY_ID_LAYER} on {EXPECTED_TYPENAME}, got {layer_args}"
 
     # show_map must display the layer returned by gpf_get_feature_by_id_layer, not a made up URL
-    data_urls = get_layer_data_urls(result["messages"], TOOL_GPF_GET_FEATURE_BY_ID_LAYER)
-    show_map_urls = [args.get("data_url") for args in get_tool_call_args(result["messages"], TOOL_SHOW_MAP)]
+    data_urls = []
+    for output in tracker.get_outputs(TOOL_GPF_GET_FEATURE_BY_ID_LAYER):
+        try:
+            data_urls.append(json.loads(output)["data_url"])
+        except (ValueError, KeyError):
+            pass  # tool error returned as text
+    show_map_urls = [args.get("data_url") for args in tracker.get_args(TOOL_SHOW_MAP)]
     displayed_urls = [url for url in show_map_urls if url in data_urls]
     assert displayed_urls, \
         f"Expected {TOOL_SHOW_MAP} to be called with a data_url from {TOOL_GPF_GET_FEATURE_BY_ID_LAYER} {data_urls}, got {show_map_urls}"

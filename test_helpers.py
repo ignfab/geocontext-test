@@ -6,18 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
+from langchain_core.messages import AIMessage, HumanMessage
 
-from helpers import (
-    extract_numbers,
-    get_layer_data_urls,
-    get_mcp_servers_path,
-    get_tool_call_args,
-    get_tool_outputs,
-    load_mcp_servers,
-    slugify,
-    write_agent_trace,
-)
+from helpers import extract_numbers, get_mcp_servers_path, load_mcp_servers, slugify, write_agent_trace
 
 
 class TestExtractNumbers:
@@ -47,46 +38,6 @@ class TestExtractNumbers:
         """Test with empty string."""
         result = extract_numbers("")
         assert result == []
-
-
-class TestToolMessages:
-    """Test suite for get_tool_call_args, get_tool_outputs and get_layer_data_urls."""
-
-    MESSAGES = [
-        HumanMessage(content="Affiche la commune de Saint-Mandé sur une carte"),
-        AIMessage(
-            content="",
-            tool_calls=[
-                {"name": "geocode", "args": {"text": "Saint-Mandé"}, "id": "1"},
-                {"name": "gpf_get_feature_by_id_layer", "args": {"feature_id": "commune.1"}, "id": "2"},
-            ],
-        ),
-        ToolMessage(content='{"results": []}', name="geocode", tool_call_id="1"),
-        ToolMessage(
-            content=[{"type": "text", "text": '{"data_url": "http://localhost/layer.json"}'}],
-            name="gpf_get_feature_by_id_layer",
-            tool_call_id="2",
-        ),
-        ToolMessage(content="Error: invalid feature_id", name="gpf_get_feature_by_id_layer", tool_call_id="3"),
-    ]
-
-    def test_get_tool_call_args(self):
-        """Test reading the arguments of the calls to a tool."""
-        assert get_tool_call_args(self.MESSAGES, "gpf_get_feature_by_id_layer") == [{"feature_id": "commune.1"}]
-        assert get_tool_call_args(self.MESSAGES, "show_map") == []
-
-    def test_get_tool_outputs(self):
-        """Test reading the text outputs of a tool, from str or content blocks."""
-        assert get_tool_outputs(self.MESSAGES, "geocode") == ['{"results": []}']
-        assert get_tool_outputs(self.MESSAGES, "gpf_get_feature_by_id_layer") == [
-            '{"data_url": "http://localhost/layer.json"}',
-            "Error: invalid feature_id",
-        ]
-
-    def test_get_layer_data_urls(self):
-        """Test that errors and outputs without data_url are ignored."""
-        assert get_layer_data_urls(self.MESSAGES, "gpf_get_feature_by_id_layer") == ["http://localhost/layer.json"]
-        assert get_layer_data_urls(self.MESSAGES, "geocode") == []
 
 
 class TestGetMcpServersPath:
