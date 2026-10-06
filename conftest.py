@@ -8,6 +8,7 @@ from contextlib import AsyncExitStack
 
 from langchain.chat_models import init_chat_model
 from langchain_core.callbacks.base import BaseCallbackHandler
+from langchain_core.tools import tool
 from langchain.agents import create_agent
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_mcp_adapters.client import MultiServerMCPClient
@@ -16,7 +17,7 @@ from langchain_openai import ChatOpenAI
 
 from helpers import get_mcp_servers_path, load_mcp_servers, write_agent_trace
 
-from config.constants import TOOL_GPF_SEARCH_TYPES, TOOL_GPF_DESCRIBE_TYPE,TOOL_GPF_GET_FEATURES,TOOL_GPF_COUNT_FEATURES
+from config.constants import TOOL_GPF_SEARCH_TYPES, TOOL_GPF_DESCRIBE_TYPE,TOOL_GPF_GET_FEATURES,TOOL_GPF_COUNT_FEATURES,TOOL_SHOW_MAP
 
 # The model name can be set via the MODEL_NAME environment variable.
 # If not set, it defaults to "anthropic:claude-haiku-4-5".
@@ -51,11 +52,40 @@ def get_mcp_client():
     return client
 
 class ToolCallTracker(BaseCallbackHandler):
+    """Record the tool calls of the agent, with their arguments and outputs."""
+
     def __init__(self):
         self.tool_calls = []
 
-    def on_tool_start(self, serialized, input_str, **kwargs):
-        self.tool_calls.append({"name": serialized.get("name", "unknown"), "type": "start"})
+    def on_tool_start(self, serialized, input_str, *, run_id=None, inputs=None, **kwargs):
+        self.tool_calls.append({
+            "name": serialized.get("name", "unknown"),
+            "type": "start",
+            "run_id": run_id,
+            "args": inputs or {},
+            "output": None,
+        })
+
+    def on_tool_end(self, output, *, run_id=None, **kwargs):
+        for tool_call in self.tool_calls:
+            if tool_call["run_id"] == run_id:
+                tool_call["output"] = _output_text(output)
+
+    def get_args(self, tool_name: str) -> list[dict]:
+        """Return the arguments of each call to tool_name."""
+        return [c["args"] for c in self.tool_calls if c["name"] == tool_name]
+
+    def get_outputs(self, tool_name: str) -> list[str]:
+        """Return the text output of each successful call to tool_name."""
+        return [c["output"] for c in self.tool_calls if c["name"] == tool_name and c["output"] is not None]
+
+
+def _output_text(output) -> str:
+    """Return the text of a tool output (ToolMessage with str or MCP content blocks)."""
+    content = getattr(output, "content", output)
+    if isinstance(content, list):
+        return "".join(block.get("text", "") if isinstance(block, dict) else str(block) for block in content)
+    return str(content)
 
 
 def _create_model_onyxia(model_name) -> ChatOpenAI:
@@ -159,10 +189,30 @@ def tracker():
     """Per-test tool call tracker."""
     return ToolCallTracker()
 
+# Fake map display tool: a real component (MCP Carto, ...) would for example
+# produce an HTML map loading the GeoJSON layer from data_url. Here, only the
+# call and its arguments matter.
+@tool(TOOL_SHOW_MAP)
+def show_map(title: str, data_url: str) -> str:
+    """Display GeoJSON data on a map to the user.
+
+    Args:
+        title: Title of the map.
+        data_url: URL of the GeoJSON data to display.
+    """
+    return f"map displayed: {title}"
+
+
 @pytest_asyncio.fixture(scope="session")
 async def mcp_agent_session(model, mcp_tools):
-    """Session-scoped MCP agent - reuses the shared model and MCP tools."""
-    agent = create_agent(model=model, tools=mcp_tools, system_prompt=SYSTEM_PROMPT, checkpointer=MemorySaver())
+    """Session-scoped MCP agent - reuses the shared model and MCP tools.
+
+    The fake show_map tool mimics a map MCP (MCP Carto, ...) used next to
+    geocontext. It is enabled on all the tests to detect side effects
+    (see https://github.com/ignfab/geocontext-test/issues/43).
+    """
+    tools = mcp_tools + [show_map]
+    agent = create_agent(model=model, tools=tools, system_prompt=SYSTEM_PROMPT, checkpointer=MemorySaver())
     yield agent
 
 

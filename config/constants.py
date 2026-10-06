@@ -21,6 +21,9 @@ TOOL_GPF_GET_FEATURES_LAYER      = "gpf_get_features_layer"
 TOOL_GPF_GET_FEATURE_BY_ID_LAYER = "gpf_get_feature_by_id_layer"
 TOOL_DISTANCE                    = "distance"
 
+# Fake map display tool added to the agent (not exposed by the MCP server, see conftest.py)
+TOOL_SHOW_MAP = "show_map"
+
 
 EXPECTED_TOOLS = [
     TOOL_GEOCODE,

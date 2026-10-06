@@ -1,11 +1,18 @@
 import json
 import os
 import re
+import urllib.request
 from pathlib import Path
 
 
 def extract_numbers(text: str) -> list[float]:
     return [float(match) for match in re.findall(r"\d+(?:\.\d+)?", text)]
+
+
+def get_json_from_url(url: str, timeout: float = 30) -> dict:
+    """Download and parse the JSON served by url (e.g. the data_url of a _layer tool)."""
+    with urllib.request.urlopen(url, timeout=timeout) as response:
+        return json.load(response)
 
 
 def slugify(value: str) -> str:
