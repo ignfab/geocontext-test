@@ -1,11 +1,30 @@
 import json
 import os
 import re
+import urllib.request
 from pathlib import Path
 
 
 def extract_numbers(text: str) -> list[float]:
     return [float(match) for match in re.findall(r"\d+(?:\.\d+)?", text)]
+
+
+def get_json_from_layer_output(output: str, timeout: float = 30) -> dict:
+    """Download the content of a `_layer` tool output.
+
+    The `_layer` tools (gpf_get_features_layer, gpf_get_feature_by_id_layer)
+    return `{"data_url": "..."}`, an opaque URL serving a GeoJSON
+    FeatureCollection.
+
+    Raises:
+        ValueError: if the output is not a `_layer` tool output (e.g. a tool error).
+    """
+    try:
+        data_url = json.loads(output)["data_url"]
+    except (ValueError, KeyError, TypeError) as exc:
+        raise ValueError(f"Not a _layer tool output: {output[:200]}") from exc
+    with urllib.request.urlopen(data_url, timeout=timeout) as response:
+        return json.load(response)
 
 
 def slugify(value: str) -> str:

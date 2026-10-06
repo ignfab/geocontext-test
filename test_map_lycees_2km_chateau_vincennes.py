@@ -1,6 +1,3 @@
-import json
-import urllib.request
-
 import pytest
 
 from config.constants import (
@@ -11,6 +8,7 @@ from config.constants import (
     TOOL_GPF_GET_FEATURES_LAYER,
     TOOL_SHOW_MAP,
 )
+from helpers import get_json_from_layer_output
 
 pytestmark = pytest.mark.skipif(
     not GEOCONTEXT_DEV, reason="gpf_get_features_layer requires geocontext 0.10.x (GEOCONTEXT_DEV=1)"
@@ -41,20 +39,17 @@ async def test_map_lycees_2km_chateau_vincennes(mcp_agent, tracker):
         assert tool_name in tool_names_called, f"{tool_name} tool was not called"
 
     # show_map must display the layer returned by gpf_get_features_layer, not a made up URL
-    data_urls = []
-    for output in tracker.get_outputs(TOOL_GPF_GET_FEATURES_LAYER):
-        try:
-            data_urls.append(json.loads(output)["data_url"])
-        except (ValueError, KeyError):
-            pass  # tool error returned as text
+    layer_outputs = tracker.get_outputs(TOOL_GPF_GET_FEATURES_LAYER)
     show_map_urls = [args.get("data_url") for args in tracker.get_args(TOOL_SHOW_MAP)]
-    displayed_urls = [url for url in show_map_urls if url in data_urls]
-    assert displayed_urls, \
-        f"Expected {TOOL_SHOW_MAP} to be called with a data_url from {TOOL_GPF_GET_FEATURES_LAYER} {data_urls}, got {show_map_urls}"
+    displayed_outputs = [
+        output for output in layer_outputs
+        if any(url and url in output for url in show_map_urls)
+    ]
+    assert displayed_outputs, \
+        f"Expected {TOOL_SHOW_MAP} to be called with a data_url from {TOOL_GPF_GET_FEATURES_LAYER} {layer_outputs}, got {show_map_urls}"
 
-    # The displayed layer is a FeatureCollection with the high schools
-    with urllib.request.urlopen(displayed_urls[-1], timeout=30) as response:
-        feature_collection = json.load(response)
+    # Content of the displayed layer
+    feature_collection = get_json_from_layer_output(displayed_outputs[-1])
     assert feature_collection.get("type") == "FeatureCollection"
     assert len(feature_collection["features"]) == EXPECTED_FEATURE_COUNT, \
         f"Expected {EXPECTED_FEATURE_COUNT} high schools in the displayed layer, got {len(feature_collection['features'])}"

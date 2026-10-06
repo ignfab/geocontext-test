@@ -8,7 +8,7 @@ import pytest
 
 from langchain_core.messages import AIMessage, HumanMessage
 
-from helpers import extract_numbers, get_mcp_servers_path, load_mcp_servers, slugify, write_agent_trace
+from helpers import extract_numbers, get_json_from_layer_output, get_mcp_servers_path, load_mcp_servers, slugify, write_agent_trace
 
 
 class TestExtractNumbers:
@@ -38,6 +38,24 @@ class TestExtractNumbers:
         """Test with empty string."""
         result = extract_numbers("")
         assert result == []
+
+
+class TestGetJsonFromLayerOutput:
+    """Test suite for get_json_from_layer_output."""
+
+    def test_download_data_url(self, tmp_path):
+        """Test that the content of the data_url is returned."""
+        feature_collection = {"type": "FeatureCollection", "features": []}
+        layer_file = tmp_path / "layer.json"
+        layer_file.write_text(json.dumps(feature_collection))
+        output = json.dumps({"data_url": layer_file.as_uri()})
+        assert get_json_from_layer_output(output) == feature_collection
+
+    @pytest.mark.parametrize("output", ["Error: invalid feature_id", '{"results": []}', "[]"])
+    def test_not_a_layer_output(self, output):
+        """Test that a tool error or another tool output raises a ValueError."""
+        with pytest.raises(ValueError, match="Not a _layer tool output"):
+            get_json_from_layer_output(output)
 
 
 class TestGetMcpServersPath:
