@@ -132,6 +132,12 @@ uv run pytest
 | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [test_mcp_concurrency.py](test_mcp_concurrency.py) | Concurrent tool calls must not be crossed. Skipped by default until [#33](https://github.com/ignfab/geocontext-test/issues/33) is fixed (`SKIP_TEST_MCP_CONCURRENCY=0` to run it) |
 
+### Fake tools (no MCP)
+
+| Tool       | Description                                                                                                                                                                                             |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `show_map` | `show_map(title, data_url)` mimics a map MCP (MCP Carto, ...) and returns "map displayed". It is added to the agent of all the tests (see [conftest.py](conftest.py) and [#43](https://github.com/ignfab/geocontext-test/issues/43)) |
+
 ## Critical cases not covered
 
 | Case                                | Criticality | Description                                                                                       |
