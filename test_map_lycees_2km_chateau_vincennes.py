@@ -21,12 +21,12 @@ EXPECTED_FEATURE_COUNT = 14
 
 @pytest.mark.asyncio
 async def test_map_lycees_2km_chateau_vincennes(mcp_agent, tracker):
-    result = await mcp_agent.ainvoke(
+    await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     required_tools = [
         TOOL_GEOCODE,

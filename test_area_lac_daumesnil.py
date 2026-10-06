@@ -24,7 +24,7 @@ async def test_area_lac_daumesnil(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     required_tools = [
         TOOL_GPF_SEARCH_TYPES,
@@ -34,13 +34,7 @@ async def test_area_lac_daumesnil(mcp_agent, tracker):
     for tool_name in required_tools:
         assert tool_name in tool_names_called, f"{tool_name} tool was not called"
 
-    # The tracker only records tool names, arguments are read from the AI messages
-    spatial_extras = [
-        tool_call.get("args", {}).get("spatial_extras") or []
-        for message in result["messages"]
-        for tool_call in getattr(message, "tool_calls", None) or []
-        if tool_call.get("name") == TOOL_GPF_GET_FEATURES
-    ]
+    spatial_extras = [args.get("spatial_extras") or [] for args in tracker.get_args(TOOL_GPF_GET_FEATURES)]
     assert any("area" in extras for extras in spatial_extras), \
         f"Expected spatial_extras containing area, got {spatial_extras}"
 

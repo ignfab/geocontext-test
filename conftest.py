@@ -60,7 +60,6 @@ class ToolCallTracker(BaseCallbackHandler):
     def on_tool_start(self, serialized, input_str, *, run_id=None, inputs=None, **kwargs):
         self.tool_calls.append({
             "name": serialized.get("name", "unknown"),
-            "type": "start",
             "run_id": run_id,
             "args": inputs or {},
             "output": None,
@@ -70,6 +69,10 @@ class ToolCallTracker(BaseCallbackHandler):
         for tool_call in self.tool_calls:
             if tool_call["run_id"] == run_id:
                 tool_call["output"] = _output_text(output)
+
+    def get_names(self) -> set[str]:
+        """Return the names of the called tools."""
+        return {c["name"] for c in self.tool_calls}
 
     def get_args(self, tool_name: str) -> list[dict]:
         """Return the arguments of each call to tool_name."""

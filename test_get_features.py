@@ -11,12 +11,7 @@ async def test_get_features(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    wfs_calls = [
-        c
-        for c in tracker.tool_calls
-        if c.get("name") in (TOOL_GPF_GET_FEATURES, TOOL_GPF_SEARCH_TYPES)
-    ]
-    assert len(wfs_calls) > 0, "No WFS tool was called"
+    assert tracker.get_names() & {TOOL_GPF_GET_FEATURES, TOOL_GPF_SEARCH_TYPES}, "No WFS tool was called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

@@ -11,8 +11,7 @@ async def test_cadastre(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    cadastre_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_CADASTRE]
-    assert len(cadastre_calls) > 0, f"{TOOL_CADASTRE} tool was not called"
+    assert TOOL_CADASTRE in tracker.get_names(), f"{TOOL_CADASTRE} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

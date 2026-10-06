@@ -11,8 +11,7 @@ async def test_urbanisme(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    urbanisme_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_URBANISME]
-    assert len(urbanisme_calls) > 0, f"{TOOL_URBANISME} tool was not called"
+    assert TOOL_URBANISME in tracker.get_names(), f"{TOOL_URBANISME} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message)

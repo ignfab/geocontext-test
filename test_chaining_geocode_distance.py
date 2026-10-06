@@ -16,18 +16,12 @@ async def test_chaining_geocode_distance(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     assert TOOL_GEOCODE in tool_names_called, f"{TOOL_GEOCODE} tool was not called"
     assert TOOL_DISTANCE in tool_names_called, f"{TOOL_DISTANCE} tool was not called"
 
-    # The tracker only records tool names, arguments are read from the AI messages
-    distance_profiles = [
-        tool_call.get("args", {}).get("profile")
-        for message in result["messages"]
-        for tool_call in getattr(message, "tool_calls", None) or []
-        if tool_call.get("name") == TOOL_DISTANCE
-    ]
+    distance_profiles = [args.get("profile") for args in tracker.get_args(TOOL_DISTANCE)]
     assert "pedestrian" in distance_profiles, \
         f"Expected {TOOL_DISTANCE} to be called with profile=pedestrian, got {distance_profiles}"
 

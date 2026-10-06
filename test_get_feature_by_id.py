@@ -43,8 +43,7 @@ async def test_get_feature_by_id(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    get_by_id_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_GPF_GET_FEATURE_BY_ID]
-    assert len(get_by_id_calls) > 0, f"{TOOL_GPF_GET_FEATURE_BY_ID} tool was not called"
+    assert TOOL_GPF_GET_FEATURE_BY_ID in tracker.get_names(), f"{TOOL_GPF_GET_FEATURE_BY_ID} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()
