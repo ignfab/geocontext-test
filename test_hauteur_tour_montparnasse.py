@@ -15,8 +15,9 @@ pytestmark = pytest.mark.skipif(
 # Coordinates of the Tour Montparnasse (centroid of its footprint) are given to avoid
 # testing the geocode chaining (geocode only returns streets for "Tour Montparnasse")
 TOUR_LON, TOUR_LAT = 2.321983, 48.842111
+# "Selon la BDTOPO" steers small models (haiku) towards gpf_* tools rather than altitude
 USER_INPUT = (
-    "Quelle est la hauteur du bâtiment situé au point "
+    "Selon la BDTOPO, quelle est la hauteur du bâtiment situé au point "
     f"(longitude {TOUR_LON}, latitude {TOUR_LAT}) ?"
 )
 # BDTOPO_V3:batiment batiment.5799364 : hauteur = 207.4 m (ground to gutter, not the commonly cited 210 m)
