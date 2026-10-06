@@ -8,6 +8,48 @@ def extract_numbers(text: str) -> list[float]:
     return [float(match) for match in re.findall(r"\d+(?:\.\d+)?", text)]
 
 
+def get_tool_call_args(messages: list, tool_name: str) -> list[dict]:
+    """Return the arguments of each call to `tool_name` emitted by the model.
+
+    The ToolCallTracker only records tool names, the arguments are read from
+    the AI messages.
+    """
+    return [
+        tool_call.get("args", {})
+        for message in messages
+        for tool_call in getattr(message, "tool_calls", None) or []
+        if tool_call.get("name") == tool_name
+    ]
+
+
+def get_tool_outputs(messages: list, tool_name: str) -> list[str]:
+    """Return the text output of each call to `tool_name` (ToolMessage content)."""
+    outputs = []
+    for message in messages:
+        if getattr(message, "type", None) != "tool" or getattr(message, "name", None) != tool_name:
+            continue
+        content = message.content
+        if isinstance(content, list):
+            content = "".join(
+                block.get("text", "") if isinstance(block, dict) else str(block) for block in content
+            )
+        outputs.append(content)
+    return outputs
+
+
+def get_layer_data_urls(messages: list, tool_name: str) -> list[str]:
+    """Return the `data_url` returned by each call to the `_layer` tool `tool_name`."""
+    data_urls = []
+    for output in get_tool_outputs(messages, tool_name):
+        try:
+            data_url = json.loads(output).get("data_url")
+        except (ValueError, AttributeError):
+            continue
+        if data_url:
+            data_urls.append(data_url)
+    return data_urls
+
+
 def slugify(value: str) -> str:
     """Turn a model or test name into a safe file name.
 
