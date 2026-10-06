@@ -6,7 +6,7 @@ from config.constants import (
     TOOL_GPF_GET_FEATURE_BY_ID_LAYER,
     TOOL_SHOW_MAP,
 )
-from helpers import get_json_from_layer_output
+from helpers import get_json_from_url
 
 pytestmark = pytest.mark.skipif(
     not GEOCONTEXT_DEV, reason="gpf_get_feature_by_id_layer requires geocontext 0.10.x (GEOCONTEXT_DEV=1)"
@@ -42,15 +42,15 @@ async def test_map_commune_saint_mande(mcp_agent, tracker):
     # show_map must display the layer returned by gpf_get_feature_by_id_layer, not a made up URL
     layer_outputs = tracker.get_outputs(TOOL_GPF_GET_FEATURE_BY_ID_LAYER)
     show_map_urls = [args.get("data_url") for args in tracker.get_args(TOOL_SHOW_MAP)]
-    displayed_outputs = [
-        output for output in layer_outputs
-        if any(url and url in output for url in show_map_urls)
+    displayed_urls = [
+        url for url in show_map_urls
+        if url and any(url in output for output in layer_outputs)
     ]
-    assert displayed_outputs, \
+    assert displayed_urls, \
         f"Expected {TOOL_SHOW_MAP} to be called with a data_url from {TOOL_GPF_GET_FEATURE_BY_ID_LAYER} {layer_outputs}, got {show_map_urls}"
 
     # Content of the displayed layer
-    feature_collection = get_json_from_layer_output(displayed_outputs[-1])
+    feature_collection = get_json_from_url(displayed_urls[-1])
     assert feature_collection.get("type") == "FeatureCollection"
     features = feature_collection["features"]
     assert len(features) == 1, f"Expected a single commune in the displayed layer, got {len(features)}"
