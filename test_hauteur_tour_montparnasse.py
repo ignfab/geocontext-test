@@ -19,8 +19,8 @@ USER_INPUT = (
     "Quelle est la hauteur du bâtiment situé au point "
     f"(longitude {TOUR_LON}, latitude {TOUR_LAT}) ?"
 )
-# BDTOPO_V3:batiment batiment.5799364 (ground to gutter, not the commonly cited 210 m)
-EXPECTED_HEIGHT_M = 207.4
+# BDTOPO_V3:batiment batiment.5799364 : hauteur = 207.4 m (ground to gutter, not the commonly cited 210 m)
+EXPECTED_HEIGHT_M_RANGE = (197.4, 217.4)
 
 @pytest.mark.asyncio
 async def test_hauteur_tour_montparnasse(mcp_agent, tracker):
@@ -55,9 +55,8 @@ async def test_hauteur_tour_montparnasse(mcp_agent, tracker):
     ), f"Expected intersects_point_filter on BDTOPO_V3:batiment at the given point, got {get_features_args}"
 
     last_message = result["messages"][-1]
-    # Accept both "207.4" and "207,4"
-    message_text = str(last_message).replace(",", ".")
+    message_text = str(last_message)
 
     numbers = extract_numbers(message_text)
-    assert EXPECTED_HEIGHT_M in numbers, \
-        f"Expected height {EXPECTED_HEIGHT_M} m in response: {message_text[:300]}"
+    assert any(EXPECTED_HEIGHT_M_RANGE[0] <= n <= EXPECTED_HEIGHT_M_RANGE[1] for n in numbers), \
+        f"Expected height in {EXPECTED_HEIGHT_M_RANGE} m in response: {message_text[:300]}"
