@@ -31,7 +31,7 @@ async def test_nearest_lycee_chateau_vincennes(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     required_tools = [
         TOOL_GPF_SEARCH_TYPES,
@@ -41,13 +41,7 @@ async def test_nearest_lycee_chateau_vincennes(mcp_agent, tracker):
     for tool_name in required_tools:
         assert tool_name in tool_names_called, f"{tool_name} tool was not called"
 
-    # The tracker only records tool names, arguments are read from the AI messages
-    get_features_args = [
-        tool_call.get("args", {})
-        for message in result["messages"]
-        for tool_call in getattr(message, "tool_calls", None) or []
-        if tool_call.get("name") == TOOL_GPF_GET_FEATURES
-    ]
+    get_features_args = tracker.get_args(TOOL_GPF_GET_FEATURES)
     assert any(
         (args.get("dwithin_point_filter") or {})
         and abs(args["dwithin_point_filter"].get("lon", 0) - CHATEAU_LON) < 0.0001

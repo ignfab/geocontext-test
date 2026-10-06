@@ -19,12 +19,12 @@ EXPECTED_CODE_INSEE = "94067"
 
 @pytest.mark.asyncio
 async def test_map_commune_saint_mande(mcp_agent, tracker):
-    result = await mcp_agent.ainvoke(
+    await mcp_agent.ainvoke(
         {"messages": [{"role": "user", "content": USER_INPUT}]},
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     # note that geocode is not required: the model may know the coordinates of Saint-Mandé
     required_tools = [

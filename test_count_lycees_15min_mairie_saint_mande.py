@@ -29,7 +29,7 @@ async def test_count_lycees_15min_mairie_saint_mande(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     required_tools = [
         TOOL_GPF_SEARCH_TYPES,
@@ -41,12 +41,9 @@ async def test_count_lycees_15min_mairie_saint_mande(mcp_agent, tracker):
     assert {TOOL_GPF_COUNT_FEATURES, TOOL_GPF_GET_FEATURES} & tool_names_called, \
         f"Neither {TOOL_GPF_COUNT_FEATURES} nor {TOOL_GPF_GET_FEATURES} tool was called"
 
-    # The tracker only records tool names, arguments are read from the AI messages
     travel_time_filters = [
-        tool_call.get("args", {}).get("travel_time_filter")
-        for message in result["messages"]
-        for tool_call in getattr(message, "tool_calls", None) or []
-        if tool_call.get("name") in (TOOL_GPF_COUNT_FEATURES, TOOL_GPF_GET_FEATURES)
+        args.get("travel_time_filter")
+        for args in tracker.get_args(TOOL_GPF_COUNT_FEATURES) + tracker.get_args(TOOL_GPF_GET_FEATURES)
     ]
     assert any(
         f

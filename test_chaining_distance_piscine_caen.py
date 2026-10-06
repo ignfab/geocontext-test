@@ -28,7 +28,7 @@ async def test_chaining_distance_piscine_caen(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     required_tools = [
         TOOL_GEOCODE,

@@ -11,8 +11,7 @@ async def test_assiette_sup(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    assiette_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_ASSIETTE_SUP]
-    assert len(assiette_calls) > 0, f"{TOOL_ASSIETTE_SUP} tool was not called"
+    assert TOOL_ASSIETTE_SUP in tracker.get_names(), f"{TOOL_ASSIETTE_SUP} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

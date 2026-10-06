@@ -11,8 +11,7 @@ async def test_geocode(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    geocode_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_GEOCODE]
-    assert len(geocode_calls) > 0, f"{TOOL_GEOCODE} tool was not called"
+    assert TOOL_GEOCODE in tracker.get_names(), f"{TOOL_GEOCODE} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

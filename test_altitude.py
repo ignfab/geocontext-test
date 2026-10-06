@@ -14,8 +14,7 @@ async def test_altitude(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    altitude_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_ALTITUDE]
-    assert len(altitude_calls) > 0, f"{TOOL_ALTITUDE} tool was not called"
+    assert TOOL_ALTITUDE in tracker.get_names(), f"{TOOL_ALTITUDE} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message)

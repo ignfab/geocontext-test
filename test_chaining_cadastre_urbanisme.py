@@ -17,7 +17,7 @@ async def test_chaining_geocode_cadastre_urbanisme(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     assert TOOL_GEOCODE in tool_names_called, f"{TOOL_GEOCODE} tool was not called"
     assert len(tool_names_called) >= 2, f"Expected at least 2 tools chained, got: {tool_names_called}"

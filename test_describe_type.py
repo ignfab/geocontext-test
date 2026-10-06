@@ -12,8 +12,7 @@ async def test_describe_type(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    describe_calls = [c for c in tracker.tool_calls if c.get("name") == TOOL_GPF_DESCRIBE_TYPE]
-    assert len(describe_calls) > 0, f"{TOOL_GPF_DESCRIBE_TYPE} tool was not called"
+    assert TOOL_GPF_DESCRIBE_TYPE in tracker.get_names(), f"{TOOL_GPF_DESCRIBE_TYPE} tool was not called"
 
     last_message = result["messages"][-1]
     message_text = str(last_message).lower()

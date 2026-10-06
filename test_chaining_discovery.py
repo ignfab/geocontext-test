@@ -23,7 +23,7 @@ async def test_chaining_discovery(mcp_agent, tracker):
         config={"callbacks": [tracker], "thread_id": __name__},
     )
 
-    tool_names_called = {c.get("name") for c in tracker.tool_calls if c.get("type") == "start"}
+    tool_names_called = tracker.get_names()
 
     assert TOOL_GPF_SEARCH_TYPES in tool_names_called, f"{TOOL_GPF_SEARCH_TYPES} tool was not called"
     assert TOOL_GPF_DESCRIBE_TYPE in tool_names_called, f"{TOOL_GPF_DESCRIBE_TYPE} tool was not called"
