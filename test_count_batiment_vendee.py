@@ -22,7 +22,11 @@ pytestmark = [
 ]
 
 # Large administrative unit geometry, see ignfab/demo-geocontext#70 and ignfab/geocontext#130
-USER_INPUT = "Combien y a-t-il de bâtiments dans le département de la Vendée ?"
+# The precise count is requested to avoid a fallback on a bbox_filter, which overcounts (~1 111 000 buildings)
+USER_INPUT = (
+    "Combien y a-t-il de bâtiments dans le département de la Vendée ? "
+    "Je veux un comptage précis sur l'emprise exacte du département, pas une approximation."
+)
 # ~857 000 buildings (sum of the counts per commune of Vendée)
 EXPECTED_MIN = 800_000
 EXPECTED_MAX = 900_000
