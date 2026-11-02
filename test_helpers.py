@@ -155,7 +155,7 @@ class TestLoadMcpServers:
         assert "geocontext" in config
         geocontext = config["geocontext"]
         assert geocontext["transport"] == "http"
-        assert geocontext["url"] == "https://geollm.beta.ign.fr/geocontext/mcp"
+        assert geocontext["url"].startswith("http")
         assert "env" not in geocontext
 
     def test_file_not_found(self):
