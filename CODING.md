@@ -23,6 +23,15 @@ export GOOGLE_API_KEY=your_key_here
 export ONYXIA_API_KEY=your_key_here
 ```
 
+Alternatively, put them in a `.env` file at the repository root (ignored by git).
+It is loaded automatically by `conftest.py`; variables already set in the
+environment take precedence over the ones in `.env`.
+
+```bash
+cp .env.sample .env
+# then fill in your API key(s)
+```
+
 ### Proxy Configuration
 
 If you're behind a proxy, set the standard proxy variables:

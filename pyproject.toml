@@ -19,6 +19,7 @@ dependencies = [
     "pytest-rerunfailures>=16.1",
     "pytest-timeout>=2.3",
     "pytest-xdist>=3.5",
+    "python-dotenv>=1.2.4",
 ]
 
 [tool.pytest.ini_options]
