@@ -23,6 +23,15 @@ export GOOGLE_API_KEY=your_key_here
 export ONYXIA_API_KEY=your_key_here
 ```
 
+Alternatively, put them in a `.env` file at the repository root (ignored by git).
+It is loaded automatically by `conftest.py`; variables already set in the
+environment take precedence over the ones in `.env`.
+
+```bash
+cp .env.sample .env
+# then fill in your API key(s)
+```
+
 ### Proxy Configuration
 
 If you're behind a proxy, set the standard proxy variables:
@@ -101,6 +110,24 @@ uv run scripts/run_tests.py config/models-anthropic.yaml --model=claude-haiku-4-
 
 # List available models without running
 uv run scripts/run_tests.py config/models-anthropic.yaml --list
+```
+
+## Testing a geocontext Server over HTTP
+
+To test the server deployed at https://geollm.beta.ign.fr/geocontext/mcp, use
+[config/mcp-servers-http.json](config/mcp-servers-http.json):
+
+```bash
+MCP_SERVERS_PATH=config/mcp-servers-http.json uv run pytest
+```
+
+To test another URL, copy this file, edit its `url` and point `MCP_SERVERS_PATH` to the copy
+(either on the command line or in `.env`):
+
+```bash
+cp config/mcp-servers-http.json config/mcp-servers-my-server.json
+# edit "url" in config/mcp-servers-my-server.json, then:
+MCP_SERVERS_PATH=config/mcp-servers-my-server.json uv run pytest
 ```
 
 ## Testing a Local Version of geocontext

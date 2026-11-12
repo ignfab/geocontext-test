@@ -5,6 +5,12 @@ import pytest
 import pytest_asyncio
 
 from contextlib import AsyncExitStack
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+# Load .env (API keys...) without overriding variables already set.
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 from langchain.chat_models import init_chat_model
 from langchain_core.callbacks.base import BaseCallbackHandler
